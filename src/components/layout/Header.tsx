@@ -1,32 +1,42 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { Menu, X, Code2 } from 'lucide-react';
-import { Button } from '@/lib/components/Button';
+import React, { useState } from "react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/lib/components/Button";
+import Image from "next/image";
 
 const navigation = [
-  { name: 'Features', href: '#features' },
-  { name: 'Components', href: '/components' },
-  { name: 'Pricing', href: '#pricing' },
-  { name: 'Documentation', href: '/docs' },
+  { name: "Features", href: "#features" },
+  { name: "Components", href: "/components" },
+  { name: "Pricing", href: "#pricing" },
+  { name: "Documentation", href: "/docs" },
 ];
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+    <header className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+      <nav
+        className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+        aria-label="Global"
+      >
         <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <Code2 className="w-5 h-5 text-white" />
+          <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
+              <Image
+                src="/bee.png"
+                alt="Bee UI Logo"
+                width={28}
+                height={28}
+                className="object-contain"
+              />
             </div>
-            <span className="text-xl font-bold text-gray-900">UIFlow</span>
+            <span className="text-xl font-bold text-gray-900">Bee UI</span>
           </Link>
         </div>
-        
+
         <div className="flex lg:hidden">
           <button
             type="button"
@@ -36,7 +46,7 @@ export function Header() {
             <Menu className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        
+
         <div className="hidden lg:flex lg:gap-x-12">
           {navigation.map((item) => (
             <Link
@@ -48,28 +58,32 @@ export function Header() {
             </Link>
           ))}
         </div>
-        
+
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
           <Button variant="ghost" size="sm">
             Log in
           </Button>
-          <Button size="sm">
-            Get Started
-          </Button>
+          <Button size="sm">Get Started</Button>
         </div>
       </nav>
-      
+
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden">
           <div className="fixed inset-0 z-50" />
           <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
-              <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                  <Code2 className="w-5 h-5 text-white" />
+              <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
+                  <Image
+                    src="/bee.png"
+                    alt="Bee UI Logo"
+                    width={28}
+                    height={28}
+                    className="object-contain"
+                  />
                 </div>
-                <span className="text-xl font-bold text-gray-900">UIFlow</span>
+                <span className="text-xl font-bold text-gray-900">Bee UI</span>
               </Link>
               <button
                 type="button"
@@ -97,9 +111,7 @@ export function Header() {
                   <Button variant="ghost" fullWidth>
                     Log in
                   </Button>
-                  <Button fullWidth>
-                    Get Started
-                  </Button>
+                  <Button fullWidth>Get Started</Button>
                 </div>
               </div>
             </div>

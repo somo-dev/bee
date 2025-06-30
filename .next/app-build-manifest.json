@@ -20,6 +20,11 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/components/button/page.js"
+    ],
+    "/components/breadcrumb/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/components/breadcrumb/page.js"
     ]
   }
 }

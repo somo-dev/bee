@@ -1,447 +1,255 @@
 import React from "react";
 import Link from "next/link";
 import {
+  MousePointer,
+  Navigation,
+  ChevronRight,
+  ArrowRight,
   Zap,
-  Palette,
-  Moon,
   Shield,
   Code,
+  Layers,
+  Palette,
   Smartphone,
-  ArrowRight,
-  CheckCircle,
-  AlertCircle,
-  XCircle,
-  Play,
 } from "lucide-react";
 import { Button } from "@/lib/components/Button";
+import Image from "next/image";
 
-const features = [
+const components = [
   {
-    icon: Zap,
-    title: "Performance Optimized",
+    name: "Button",
     description:
-      "Our components are built with performance in mind, ensuring your application stays fast and responsive.",
-    color: "bg-yellow-100 text-yellow-600",
-  },
-  {
-    icon: Palette,
-    title: "AI-Powered Customization",
-    description:
-      "Let our AI suggest the best component variations based on your specific needs and use cases.",
-    color: "bg-purple-100 text-purple-600",
-  },
-  {
-    icon: Moon,
-    title: "Dark Mode Support",
-    description:
-      "All components come with built-in dark mode support, making theme switching seamless.",
-    color: "bg-blue-100 text-blue-600",
-  },
-  {
-    icon: Shield,
-    title: "Accessibility First",
-    description:
-      "Our components follow WCAG guidelines, ensuring your applications are accessible to everyone.",
-    color: "bg-green-100 text-green-600",
-  },
-  {
-    icon: Code,
-    title: "Framework Agnostic",
-    description:
-      "Use our components with React, Vue, Angular, or any other framework of your choice.",
-    color: "bg-indigo-100 text-indigo-600",
-  },
-  {
-    icon: Smartphone,
-    title: "Responsive by Default",
-    description:
-      "All components are designed to work flawlessly across all device sizes and orientations.",
-    color: "bg-orange-100 text-orange-600",
-  },
-];
-
-const componentCategories = [
-  {
-    title: "Buttons",
-    description: "View Documentation →",
-    components: [
+      "Interactive button component with multiple variants, sizes, loading states, and icon support.",
+    icon: MousePointer,
+    href: "/components/button",
+    color: "from-blue-500 to-blue-600",
+    features: ["5 Variants", "Loading States", "Icon Support", "Full Width"],
+    status: "Stable",
+    examples: [
       { name: "Primary", variant: "primary" },
       { name: "Secondary", variant: "secondary" },
-      { name: "Accent", variant: "outline" },
-      { name: "Default", variant: "ghost" },
-      { name: "Danger", variant: "danger" },
+      { name: "Outline", variant: "outline" },
     ],
   },
   {
-    title: "Cards",
-    description: "View Documentation →",
-    content: (
-      <div className="space-y-4">
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
-          <h4 className="font-medium text-gray-900 mb-2">Basic Card</h4>
-          <p className="text-sm text-gray-600">
-            A simple card with title and content.
-          </p>
-        </div>
-        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-          <div className="h-24 bg-gradient-to-r from-blue-400 to-purple-500"></div>
-          <div className="p-4">
-            <h4 className="font-medium text-gray-900 mb-1">Card with Image</h4>
-            <p className="text-sm text-gray-600">
-              Card with image and content.
-            </p>
-          </div>
-        </div>
-      </div>
-    ),
+    name: "Breadcrumbs",
+    description:
+      "Navigation breadcrumb component with customizable separators, icons, and collapsible items.",
+    icon: Navigation,
+    href: "/components/breadcrumbs",
+    color: "from-green-500 to-green-600",
+    features: [
+      "4 Variants",
+      "Custom Separators",
+      "Icon Support",
+      "Collapsible",
+    ],
+    status: "Stable",
   },
   {
-    title: "Form Elements",
-    description: "View Documentation →",
-    content: (
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Input
-          </label>
-          <input
-            type="text"
-            placeholder="Enter text"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Select
-          </label>
-          <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-            <option>Option 1</option>
-            <option>Option 2</option>
-            <option>Option 3</option>
-          </select>
-        </div>
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            id="remember"
-            className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
-          />
-          <label htmlFor="remember" className="ml-2 text-sm text-gray-700">
-            Remember me
-          </label>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Alerts",
-    description: "View Documentation →",
-    content: (
-      <div className="space-y-3">
-        <div className="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
-          <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-          <span className="text-sm text-green-800">Success alert message</span>
-        </div>
-        <div className="flex items-center p-3 bg-blue-50 border border-blue-200 rounded-lg">
-          <AlertCircle className="w-4 h-4 text-blue-600 mr-2" />
-          <span className="text-sm text-blue-800">Info alert message</span>
-        </div>
-        <div className="flex items-center p-3 bg-red-50 border border-red-200 rounded-lg">
-          <XCircle className="w-4 h-4 text-red-600 mr-2" />
-          <span className="text-sm text-red-800">Error alert message</span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Navigation",
-    description: "View Documentation →",
-    content: (
-      <div className="space-y-4">
-        <div className="flex border-b border-gray-200">
-          <button className="px-4 py-2 text-sm font-medium text-indigo-600 border-b-2 border-indigo-600">
-            Tab 1
-          </button>
-          <button className="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
-            Tab 2
-          </button>
-          <button className="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
-            Tab 3
-          </button>
-        </div>
-        <div className="space-y-2">
-          <div className="flex items-center justify-between p-2 bg-indigo-50 rounded">
-            <span className="text-sm font-medium text-indigo-900">
-              Segment 1
-            </span>
-          </div>
-          <div className="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
-            <span className="text-sm text-gray-700">Segment 2</span>
-          </div>
-          <div className="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
-            <span className="text-sm text-gray-700">Segment 3</span>
-          </div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Data Display",
-    description: "View Documentation →",
-    content: (
-      <div className="space-y-4">
-        <div className="overflow-hidden">
-          <table className="min-w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                  Name
-                </th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                  Email
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              <tr>
-                <td className="px-3 py-2 text-sm text-gray-900">John Doe</td>
-                <td className="px-3 py-2 text-sm text-gray-600">
-                  john@example.com
-                </td>
-              </tr>
-              <tr>
-                <td className="px-3 py-2 text-sm text-gray-900">Jane Smith</td>
-                <td className="px-3 py-2 text-sm text-gray-600">
-                  jane@example.com
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    ),
+    name: "Pagination",
+    description:
+      "Advanced pagination component with jump-to-page functionality and responsive design.",
+    icon: ChevronRight,
+    href: "/components/pagination",
+    color: "from-purple-500 to-purple-600",
+    features: ["4 Variants", "Jump to Page", "Page Info", "Responsive"],
+    status: "Stable",
   },
 ];
 
-export default function HomePage() {
+const stats = [
+  { label: "Total Components", value: "3", icon: Code },
+  { label: "Variants Available", value: "13", icon: Zap },
+  { label: "Accessibility Score", value: "100%", icon: Shield },
+];
+
+const upcomingComponents = [
+  "Input",
+  "Select",
+  "Modal",
+  "Tooltip",
+  "Card",
+  "Table",
+  "Tabs",
+  "Accordion",
+  "Dropdown",
+  "Avatar",
+];
+
+export default function ComponentsPage() {
   return (
     <div className="bg-white">
-      {/* Hero Section - Exact height for 15" laptop screen */}
-      <div className="relative isolate px-6 lg:px-8 h-screen flex items-center">
-        <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
-          <div className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" />
-        </div>
-
-        <div className="mx-auto max-w-7xl w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="text-left">
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                Build beautiful UIs faster with our AI-powered library
-              </h1>
-              <p className="mt-6 text-lg leading-8 text-gray-600">
-                Streamline your development workflow with our optimized UI
-                components. Install, copy, deploy — it's that simple.
-              </p>
-              <div className="mt-10 flex items-center gap-x-6">
-                <Button
-                  size="lg"
-                  className="bg-[#6366F1] hover:bg-[#5855EB] border-[#6366F1] hover:border-[#5855EB] focus:ring-[#6366F1]"
-                >
-                  Get Started Free
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-[#6366F1] text-[#6366F1] hover:bg-[#6366F1] hover:text-white focus:ring-[#6366F1]"
-                >
-                  View Documentation
-                </Button>
+      {/* Header */}
+      <div className="bg-gradient-to-br from-gray-50 to-blue-50 border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-6 py-16 sm:py-24 lg:px-8">
+          <div className="text-center">
+            <div className="flex justify-center mb-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
+                <Image
+                  src="/bee.png"
+                  alt="Bee UI Logo"
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                />
               </div>
             </div>
-
-            {/* Code Example */}
-            <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-r from-[#6366F1] to-purple-600 rounded-lg blur opacity-25"></div>
-              <div className="relative bg-gray-900 rounded-lg p-6 text-sm">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="flex gap-1">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  </div>
-                  <span className="text-gray-400 text-xs">
-                    Example Component
-                  </span>
-                </div>
-                <div className="font-mono text-gray-300">
-                  <div className="text-blue-400">import</div>
-                  <div className="ml-2 text-gray-300">{"{ Button, Card }"}</div>
-                  <div className="ml-2 text-blue-400">from</div>
-                  <div className="ml-2 text-green-400">'@flow/ui';</div>
-                  <br />
-                  <div className="text-purple-400">function</div>
-                  <div className="ml-2 text-yellow-400">MyComponent</div>
-                  <div className="text-gray-300">
-                    () {"{"}
-                    <div className="ml-4 text-blue-400">return</div>
-                    <div className="ml-4 text-gray-300">{"("}</div>
-                    <div className="ml-6 text-red-400">{"<Card>"}</div>
-                    <div className="ml-8 text-red-400">{"<Button"}</div>
-                    <div className="ml-10 text-green-400">variant=</div>
-                    <div className="text-yellow-400">"primary"</div>
-                    <div className="ml-8 text-red-400">{">"}</div>
-                    <div className="ml-10 text-gray-300">Click me</div>
-                    <div className="ml-8 text-red-400">{"</Button>"}</div>
-                    <div className="ml-6 text-red-400">{"</Card>"}</div>
-                    <div className="ml-4 text-gray-300">{")"}</div>
-                    <div className="text-gray-300">{"}"}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
-          <div className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]" />
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div id="features" className="py-24 sm:py-32 bg-gray-50">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Supercharge Your UI Development
-            </h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Our library offers a comprehensive set of tools to make your UI
-              development journey smooth and efficient.
+            <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl mb-6">
+              Component Library
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-12">
+              Explore our collection of accessible, customizable, and
+              production-ready React components. Each component comes with
+              extensive documentation and interactive playground.
             </p>
-          </div>
-          <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-              {features.map((feature) => {
-                const Icon = feature.icon;
+
+            {/* Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto">
+              {stats.map((stat) => {
+                const Icon = stat.icon;
                 return (
-                  <div key={feature.title} className="flex flex-col">
-                    <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                      <div className={`feature-icon ${feature.color}`}>
-                        <Icon className="h-6 w-6" aria-hidden="true" />
+                  <div
+                    key={stat.label}
+                    className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
+                  >
+                    <div className="flex items-center justify-center gap-3">
+                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <Icon className="w-5 h-5 text-blue-600" />
                       </div>
-                      {feature.title}
-                    </dt>
-                    <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
-                      <p className="flex-auto">{feature.description}</p>
-                    </dd>
+                      <div className="text-left">
+                        <div className="text-2xl font-bold text-gray-900">
+                          {stat.value}
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          {stat.label}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 );
               })}
-            </dl>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Components Section */}
-      <div className="py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Explore Our Component Library
-            </h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Browse through our extensive collection of UI components designed
-              to make your development process faster and more efficient.
-            </p>
-          </div>
+      {/* Components Grid */}
+      <div className="max-w-7xl mx-auto px-6 py-16 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {components.map((component) => {
+            const Icon = component.icon;
 
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {componentCategories.map((category, index) => (
-              <div key={category.title} className="component-card p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {category.title}
-                  </h3>
-                  <Link
-                    href="/components"
-                    className="text-sm text-[#6366F1] hover:text-[#5855EB] font-medium"
-                  >
-                    Docs
-                  </Link>
+            return (
+              <div
+                key={component.name}
+                className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-gray-200"
+              >
+                {/* Component Header */}
+                <div
+                  className={`h-40 bg-gradient-to-br ${component.color} flex items-center justify-center relative`}
+                >
+                  <Icon className="w-16 h-16 text-white" />
+                  <div className="absolute top-4 right-4">
+                    <span className="px-3 py-1 bg-white bg-opacity-20 text-white text-xs font-medium rounded-full">
+                      {component.status}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="min-h-[200px] flex items-center justify-center">
-                  {category.components ? (
-                    <div className="w-full space-y-2">
-                      {category.components.map((comp) => (
+                {/* Component Content */}
+                <div className="p-8">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-2xl font-semibold text-gray-900">
+                      {component.name}
+                    </h3>
+                  </div>
+
+                  <p className="text-gray-600 mb-6 leading-relaxed">
+                    {component.description}
+                  </p>
+
+                  {/* Features */}
+                  <div className="mb-8">
+                    <div className="flex flex-wrap gap-2">
+                      {component.features.map((feature) => (
+                        <span
+                          key={feature}
+                          className="px-3 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full"
+                        >
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Examples */}
+                  {component.examples && (
+                    <div className="mb-6 space-y-2">
+                      {component.examples.map((example) => (
                         <Button
-                          key={comp.name}
-                          variant={comp.variant as any}
+                          key={example.name}
+                          variant={example.variant as any}
                           size="sm"
                           fullWidth
-                          className={
-                            comp.variant === "primary"
-                              ? "bg-[#6366F1] hover:bg-[#5855EB] border-[#6366F1] hover:border-[#5855EB] focus:ring-[#6366F1]"
-                              : ""
-                          }
                         >
-                          {comp.name}
+                          {example.name}
                         </Button>
                       ))}
                     </div>
-                  ) : (
-                    category.content
                   )}
-                </div>
 
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  <Link
-                    href="/components"
-                    className="text-sm text-gray-600 hover:text-gray-900 font-medium flex items-center gap-1"
-                  >
-                    {category.description}
+                  {/* Action Button */}
+                  <Link href={component.href}>
+                    <Button
+                      variant="outline"
+                      rightIcon={<ArrowRight />}
+                      fullWidth
+                      className="group-hover:border-blue-500 group-hover:text-blue-600 transition-colors"
+                    >
+                      Explore Component
+                    </Button>
                   </Link>
                 </div>
               </div>
-            ))}
-          </div>
-
-          <div className="mt-12 text-center">
-            <Link href="/components">
-              <Button
-                size="lg"
-                rightIcon={<ArrowRight />}
-                className="bg-[#6366F1] hover:bg-[#5855EB] border-[#6366F1] hover:border-[#5855EB] focus:ring-[#6366F1]"
-              >
-                View All Components
-              </Button>
-            </Link>
-          </div>
+            );
+          })}
         </div>
-      </div>
 
-      {/* CTA Section */}
-      <div className="gradient-bg">
-        <div className="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Ready to transform your UI development?
+        {/* Coming Soon Section */}
+        <div className="mt-20">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              More Components Coming Soon
             </h2>
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-blue-100">
-              Join thousands of developers who are building beautiful interfaces
-              with our library.
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              We're actively working on expanding our component library. Stay
+              tuned for more exciting components!
             </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Button variant="secondary" size="lg">
-                Get Started Free
-              </Button>
-              <Button
-                variant="ghost"
-                size="lg"
-                className="text-white border-white hover:bg-white hover:text-[#6366F1]"
-              >
-                Request Demo
-              </Button>
+          </div>
+
+          <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl border-2 border-dashed border-gray-200 p-12">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                <Code className="w-10 h-10 text-gray-400" />
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+                Under Development
+              </h3>
+              <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                These components are currently in development and will be
+                available soon.
+              </p>
+              <div className="flex flex-wrap gap-3 justify-center max-w-2xl mx-auto">
+                {upcomingComponents.map((component) => (
+                  <span
+                    key={component}
+                    className="px-4 py-2 bg-white text-gray-600 font-medium rounded-lg shadow-sm border border-gray-100"
+                  >
+                    {component}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>

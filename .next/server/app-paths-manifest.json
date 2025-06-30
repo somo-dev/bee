@@ -1,5 +1,6 @@
 {
   "/page": "app/page.js",
+  "/components/page": "app/components/page.js",
   "/components/button/page": "app/components/button/page.js",
-  "/components/page": "app/components/page.js"
+  "/components/breadcrumb/page": "app/components/breadcrumb/page.js"
 }
