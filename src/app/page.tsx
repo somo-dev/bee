@@ -11,8 +11,10 @@ import {
   Layers,
   Palette,
   Smartphone,
+  Type,
 } from "lucide-react";
 import { Button } from "@/lib/components/Button";
+import { Select } from "@/lib/components/Select";
 import Image from "next/image";
 
 const components = [
@@ -30,6 +32,33 @@ const components = [
       { name: "Secondary", variant: "secondary" },
       { name: "Outline", variant: "outline" },
     ],
+  },
+  {
+    name: "Select",
+    description:
+      "Dropdown select component with search, multiple selection, grouping, and customizable options.",
+    icon: Type,
+    href: "/components/select",
+    color: "from-purple-500 to-purple-600",
+    features: ["Searchable", "Multiple Selection", "Grouping", "Icons"],
+    status: "Stable",
+    content: (
+      <div className="space-y-2">
+        <Select
+          data={["React", "Vue", "Angular"]}
+          placeholder="Choose framework"
+          size="sm"
+        />
+        <Select
+          data={[
+            { value: "js", label: "JavaScript" },
+            { value: "ts", label: "TypeScript" },
+          ]}
+          placeholder="Choose language"
+          size="sm"
+        />
+      </div>
+    ),
   },
   {
     name: "Breadcrumbs",
@@ -52,21 +81,21 @@ const components = [
       "Advanced pagination component with jump-to-page functionality and responsive design.",
     icon: ChevronRight,
     href: "/components/pagination",
-    color: "from-purple-500 to-purple-600",
+    color: "from-orange-500 to-orange-600",
     features: ["4 Variants", "Jump to Page", "Page Info", "Responsive"],
     status: "Stable",
   },
 ];
 
 const stats = [
-  { label: "Total Components", value: "3", icon: Code },
-  { label: "Variants Available", value: "13", icon: Zap },
+  { label: "Total Components", value: "4", icon: Code },
+  { label: "Variants Available", value: "16", icon: Zap },
   { label: "Accessibility Score", value: "100%", icon: Shield },
 ];
 
 const upcomingComponents = [
   "Input",
-  "Select",
+  "Textarea",
   "Modal",
   "Tooltip",
   "Card",
@@ -197,6 +226,11 @@ export default function ComponentsPage() {
                         </Button>
                       ))}
                     </div>
+                  )}
+
+                  {/* Custom Content */}
+                  {component.content && (
+                    <div className="mb-6">{component.content}</div>
                   )}
 
                   {/* Action Button */}

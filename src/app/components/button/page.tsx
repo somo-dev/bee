@@ -34,6 +34,7 @@ import {
 } from "lucide-react";
 import { HexColorPicker } from "react-colorful";
 import Image from "next/image";
+import CodeSection from "../../../components/playground/CodeSection";
 
 export default function ButtonPage() {
   // Interactive controls state
@@ -67,7 +68,6 @@ export default function ButtonPage() {
     "#84CC16",
     "#EAB308",
     "#F97316",
-    "#F59E0B",
   ];
 
   // Size labels for slider
@@ -120,42 +120,12 @@ export default function ButtonPage() {
 </Button>`;
   };
 
-  // Reusable CodeSection component
-  const CodeSection = ({
-    code,
-    title,
-    sectionKey,
-  }: {
-    code: string;
-    title: string;
-    sectionKey: string;
-  }) => {
-    const isCopied = copiedStates[sectionKey];
-
-    return (
-      <div className="bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-2 bg-white border-b border-gray-200">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-            <span className="text-sm font-medium text-gray-700">{title}</span>
-          </div>
-          <button
-            onClick={() => copyCode(code, sectionKey)}
-            className="flex items-center gap-2 px-2 py-1 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded transition-colors"
-          >
-            {isCopied ? (
-              <Check className="w-4 h-4" />
-            ) : (
-              <Copy className="w-4 h-4" />
-            )}
-          </button>
-        </div>
-        <pre className="p-4 text-xs overflow-x-auto">
-          <code className="text-gray-800">{code}</code>
-        </pre>
-      </div>
-    );
-  };
+  // Simple SyntaxHighlighter: just display code as plain text, no colors
+  const SyntaxHighlighter = ({ code }: { code: string }) => (
+    <pre className="p-4 text-sm overflow-x-auto bg-gray-50 rounded-b-lg">
+      <code className="text-gray-800 leading-relaxed">{code}</code>
+    </pre>
+  );
 
   // Custom checkbox component
   const CustomCheckbox = ({
@@ -246,11 +216,7 @@ export default function ButtonPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Preview */}
             <div className="bg-gray-50 rounded-lg border border-gray-200 p-8 flex items-center justify-center min-h-[200px]">
-              <div
-                style={
-                  { "--primary-color": primaryColor } as React.CSSProperties
-                }
-              >
+              <div className={fullWidth ? "w-full" : ""}>
                 <Button
                   variant={variant as any}
                   size={size as any}
@@ -266,16 +232,17 @@ export default function ButtonPage() {
                       borderColor: primaryColor,
                     }),
                   }}
+                  className={fullWidth ? "w-full" : ""}
                 >
                   Button
                 </Button>
               </div>
             </div>
 
-            {/* Controls */}
+            {/* Controls - Original Layout */}
             <div className="space-y-6">
-              {/* Row 1: Variant and Color */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Row 1: Variant and Size (side by side) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Variant
@@ -295,19 +262,26 @@ export default function ButtonPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Radius: {radius}px
+                    Size: {size} ({sizeLabels[sizeValues.indexOf(size)]})
                   </label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="20"
-                    value={radius}
-                    onChange={(e) => setRadius(parseInt(e.target.value))}
-                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-                  />
-                  <div className="flex justify-between text-xs text-gray-500 mt-1">
-                    <span>0px</span>
-                    <span>20px</span>
+                  <div className="relative">
+                    <input
+                      type="range"
+                      min="0"
+                      max="3"
+                      value={sizeValues.indexOf(size)}
+                      onChange={(e) =>
+                        setSize(sizeValues[parseInt(e.target.value)])
+                      }
+                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                    />
+                    <div className="flex justify-between text-xs text-gray-500 mt-1">
+                      {sizeLabels.slice(1).map((label, index) => (
+                        <span key={label} className="text-center">
+                          {label}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -354,12 +328,13 @@ export default function ButtonPage() {
                             onClick={() => setShowColorPicker(false)}
                             className="text-gray-400 hover:text-gray-600"
                           >
-                            <X className="w-4 h-4" />
+                            <X className="w-8 h-4" />
                           </button>
                         </div>
                         <HexColorPicker
                           color={primaryColor}
                           onChange={setPrimaryColor}
+                          className="w-full"
                         />
                         <input
                           type="text"
@@ -373,6 +348,7 @@ export default function ButtonPage() {
                   </div>
                 </div>
 
+                {/* Row 3: Radius (full width) */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-3">
                     Size: {size} ({sizeLabels[sizeValues.indexOf(size)]})
@@ -434,11 +410,13 @@ export default function ButtonPage() {
             </div>
           </div>
 
-          <div className="mt-8">
+          <div className="mt-5">
             <CodeSection
               code={generateCode()}
               title="Demo.tsx"
               sectionKey="interactive-demo"
+              copiedStates={copiedStates}
+              copyCode={copyCode}
             />
           </div>
         </section>
@@ -467,6 +445,8 @@ export default function ButtonPage() {
 <Button variant="danger">Default</Button>`}
             title="Demo.tsx"
             sectionKey="variants"
+            copiedStates={copiedStates}
+            copyCode={copyCode}
           />
         </section>
 
@@ -490,6 +470,8 @@ export default function ButtonPage() {
 <Button size="xl">Extra Large</Button>`}
             title="Demo.tsx"
             sectionKey="sizes"
+            copiedStates={copiedStates}
+            copyCode={copyCode}
           />
         </section>
 
@@ -536,6 +518,8 @@ import { Download, Settings, ArrowRight, Send } from 'lucide-react';
 <Button rightIcon={<Send />} variant="outline">Send</Button>`}
             title="Demo.tsx"
             sectionKey="icons"
+            copiedStates={copiedStates}
+            copyCode={copyCode}
           />
         </section>
 
@@ -570,6 +554,8 @@ import { Upload } from 'lucide-react';
 <Button loading variant="ghost" leftIcon={<Upload />}>Upload</Button>`}
             title="Demo.tsx"
             sectionKey="loading"
+            copiedStates={copiedStates}
+            copyCode={copyCode}
           />
         </section>
 
@@ -611,6 +597,8 @@ import { Save, ArrowRight } from 'lucide-react';
 </Button>`}
             title="Demo.tsx"
             sectionKey="fullwidth"
+            copiedStates={copiedStates}
+            copyCode={copyCode}
           />
         </section>
 
@@ -645,6 +633,8 @@ import { Settings } from 'lucide-react';
 <Button disabled loading variant="ghost">Disabled Loading</Button>`}
             title="Demo.tsx"
             sectionKey="disabled"
+            copiedStates={copiedStates}
+            copyCode={copyCode}
           />
         </section>
       </div>

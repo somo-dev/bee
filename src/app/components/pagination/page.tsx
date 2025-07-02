@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Pagination } from "@/lib/components/Pagination";
 import { Copy, Check } from "lucide-react";
+import CodeSection from '../../../components/playground/CodeSection';
 
 export default function PaginationPage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,35 +15,6 @@ export default function PaginationPage() {
     setTimeout(() => {
       setCopiedStates((prev) => ({ ...prev, [key]: false }));
     }, 2000);
-  };
-
-  const CodeSection = ({ code, title }: { code: string; title: string }) => {
-    const key = title.toLowerCase().replace(/\s+/g, "-");
-    const isCopied = copiedStates[key];
-
-    return (
-      <div className="bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-2 bg-white border-b border-gray-200">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-            <span className="text-sm font-medium text-gray-700">{title}</span>
-          </div>
-          <button
-            onClick={() => copyCode(code, key)}
-            className="flex items-center gap-2 px-2 py-1 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded transition-colors"
-          >
-            {isCopied ? (
-              <Check className="w-4 h-4" />
-            ) : (
-              <Copy className="w-4 h-4" />
-            )}
-          </button>
-        </div>
-        <pre className="p-4 text-sm overflow-x-auto">
-          <code className="text-gray-800">{code}</code>
-        </pre>
-      </div>
-    );
   };
 
   return (
@@ -68,8 +40,7 @@ export default function PaginationPage() {
             />
           </div>
 
-          <CodeSection
-            code={`import { Pagination } from '@mantine/core';
+          <CodeSection code={`import { Pagination } from '@mantine/core';
 import { useState } from 'react';
 
 function Demo() {
@@ -82,9 +53,7 @@ function Demo() {
       onPageChange={setCurrentPage}
     />
   );
-}`}
-            title="Demo.tsx"
-          />
+}`} title="Demo.tsx" sectionKey="demo-tsx" copiedStates={copiedStates} copyCode={copyCode} />
         </section>
 
         {/* Variants Section */}
@@ -150,13 +119,10 @@ function Demo() {
           </div>
 
           <div className="mt-6">
-            <CodeSection
-              code={`<Pagination variant="default" currentPage={3} totalPages={10} onPageChange={setPage} />
+            <CodeSection code={`<Pagination variant="default" currentPage={3} totalPages={10} onPageChange={setPage} />
 <Pagination variant="outline" currentPage={3} totalPages={10} onPageChange={setPage} />
 <Pagination variant="minimal" currentPage={3} totalPages={10} onPageChange={setPage} />
-<Pagination variant="pills" currentPage={3} totalPages={10} onPageChange={setPage} />`}
-              title="Demo.tsx"
-            />
+<Pagination variant="pills" currentPage={3} totalPages={10} onPageChange={setPage} />`} title="Demo.tsx" sectionKey="demo-tsx" copiedStates={copiedStates} copyCode={copyCode} />
           </div>
         </section>
 
@@ -203,12 +169,9 @@ function Demo() {
           </div>
 
           <div className="mt-6">
-            <CodeSection
-              code={`<Pagination size="sm" currentPage={3} totalPages={10} onPageChange={setPage} />
+            <CodeSection code={`<Pagination size="sm" currentPage={3} totalPages={10} onPageChange={setPage} />
 <Pagination size="md" currentPage={3} totalPages={10} onPageChange={setPage} />
-<Pagination size="lg" currentPage={3} totalPages={10} onPageChange={setPage} />`}
-              title="Demo.tsx"
-            />
+<Pagination size="lg" currentPage={3} totalPages={10} onPageChange={setPage} />`} title="Demo.tsx" sectionKey="demo-tsx" copiedStates={copiedStates} copyCode={copyCode} />
           </div>
         </section>
 
@@ -227,15 +190,12 @@ function Demo() {
             />
           </div>
 
-          <CodeSection
-            code={`<Pagination
+          <CodeSection code={`<Pagination
   currentPage={3}
   totalPages={10}
   onPageChange={setPage}
   showPageInfo
-/>`}
-            title="Demo.tsx"
-          />
+/>`} title="Demo.tsx" sectionKey="demo-tsx" copiedStates={copiedStates} copyCode={copyCode} />
         </section>
 
         {/* Jump to Page Section */}
@@ -254,16 +214,13 @@ function Demo() {
             />
           </div>
 
-          <CodeSection
-            code={`<Pagination
+          <CodeSection code={`<Pagination
   currentPage={3}
   totalPages={20}
   onPageChange={setPage}
   showJumpTo
   showPageInfo
-/>`}
-            title="Demo.tsx"
-          />
+/>`} title="Demo.tsx" sectionKey="demo-tsx" copiedStates={copiedStates} copyCode={copyCode} />
         </section>
       </div>
     </div>

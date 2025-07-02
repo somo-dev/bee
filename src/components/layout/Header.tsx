@@ -24,9 +24,9 @@ export function Header() {
       >
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
+            <div className="w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br  flex items-center justify-center shadow-lg">
               <Image
-                src="/bee.png"
+                src="/images/bee.png"
                 alt="Bee UI Logo"
                 width={28}
                 height={28}

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Breadcrumbs } from "@/lib/components/Breadcrumbs";
 import { Home, Folder, FileText, Copy, Check } from "lucide-react";
+import CodeSection from '../../../components/playground/CodeSection';
 
 export default function BreadcrumbsPage() {
   const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
@@ -13,35 +14,6 @@ export default function BreadcrumbsPage() {
     setTimeout(() => {
       setCopiedStates((prev) => ({ ...prev, [key]: false }));
     }, 2000);
-  };
-
-  const CodeSection = ({ code, title }: { code: string; title: string }) => {
-    const key = title.toLowerCase().replace(/\s+/g, "-");
-    const isCopied = copiedStates[key];
-
-    return (
-      <div className="bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-2 bg-white border-b border-gray-200">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-            <span className="text-sm font-medium text-gray-700">{title}</span>
-          </div>
-          <button
-            onClick={() => copyCode(code, key)}
-            className="flex items-center gap-2 px-2 py-1 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded transition-colors"
-          >
-            {isCopied ? (
-              <Check className="w-4 h-4" />
-            ) : (
-              <Copy className="w-4 h-4" />
-            )}
-          </button>
-        </div>
-        <pre className="p-4 text-sm overflow-x-auto">
-          <code className="text-gray-800">{code}</code>
-        </pre>
-      </div>
-    );
   };
 
   const basicItems = [
@@ -77,8 +49,7 @@ export default function BreadcrumbsPage() {
             <Breadcrumbs items={basicItems} />
           </div>
 
-          <CodeSection
-            code={`import { Breadcrumbs } from '@mantine/core';
+          <CodeSection code={`import { Breadcrumbs } from '@mantine/core';
 
 const items = [
   { label: 'Mantine', href: '/' },
@@ -90,6 +61,9 @@ function Demo() {
   return <Breadcrumbs items={items} />;
 }`}
             title="Demo.tsx"
+            sectionKey="demo-tsx"
+            copiedStates={copiedStates}
+            copyCode={copyCode}
           />
         </section>
 
@@ -134,12 +108,14 @@ function Demo() {
           </div>
 
           <div className="mt-6">
-            <CodeSection
-              code={`<Breadcrumbs items={items} variant="default" />
+            <CodeSection code={`<Breadcrumbs items={items} variant="default" />
 <Breadcrumbs items={items} variant="pills" />
 <Breadcrumbs items={items} variant="minimal" />
 <Breadcrumbs items={items} variant="cards" />`}
               title="Demo.tsx"
+              sectionKey="demo-tsx"
+              copiedStates={copiedStates}
+              copyCode={copyCode}
             />
           </div>
         </section>
@@ -154,8 +130,7 @@ function Demo() {
             <Breadcrumbs items={iconItems} showHomeIcon />
           </div>
 
-          <CodeSection
-            code={`import { Home, Folder, FileText } from 'lucide-react';
+          <CodeSection code={`import { Home, Folder, FileText } from 'lucide-react';
 
 const items = [
   { label: 'Home', href: '/', icon: <Home /> },
@@ -166,8 +141,12 @@ const items = [
 function Demo() {
   return <Breadcrumbs items={items} showHomeIcon />;
 }`}
-            title="Demo.tsx"
-          />
+              title="Demo.tsx"
+              sectionKey="demo-tsx"
+              copiedStates={copiedStates}
+              copyCode={copyCode}
+            />
+          </div>
         </section>
 
         {/* Separators Section */}
@@ -209,12 +188,14 @@ function Demo() {
           </div>
 
           <div className="mt-6">
-            <CodeSection
-              code={`<Breadcrumbs items={items} separator="chevron" />
+            <CodeSection code={`<Breadcrumbs items={items} separator="chevron" />
 <Breadcrumbs items={items} separator="slash" />
 <Breadcrumbs items={items} separator="arrow" />
 <Breadcrumbs items={items} separator="dot" />`}
               title="Demo.tsx"
+              sectionKey="demo-tsx"
+              copiedStates={copiedStates}
+              copyCode={copyCode}
             />
           </div>
         </section>
@@ -249,11 +230,13 @@ function Demo() {
           </div>
 
           <div className="mt-6">
-            <CodeSection
-              code={`<Breadcrumbs items={items} size="sm" />
+            <CodeSection code={`<Breadcrumbs items={items} size="sm" />
 <Breadcrumbs items={items} size="md" />
 <Breadcrumbs items={items} size="lg" />`}
               title="Demo.tsx"
+              sectionKey="demo-tsx"
+              copiedStates={copiedStates}
+              copyCode={copyCode}
             />
           </div>
         </section>

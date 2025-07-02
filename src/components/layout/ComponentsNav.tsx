@@ -131,6 +131,7 @@ const navigationSections = [
 export function ComponentsNav() {
   const pathname = usePathname();
   const [expandedSections, setExpandedSections] = useState<string[]>([
+    "Inputs",
     "Navigation",
   ]);
 
@@ -145,8 +146,9 @@ export function ComponentsNav() {
   const getItemHref = (item: string) => {
     // Handle special cases for existing pages
     if (item === "Button") return "/components/button";
-    if (item === "Breadcrumbs") return "/components/breadcrumb";
+    if (item === "Breadcrumbs") return "/components/breadcrumbs";
     if (item === "Pagination") return "/components/pagination";
+    if (item === "Select") return "/components/select";
 
     // Default conversion for other items
     return `/components/${item
