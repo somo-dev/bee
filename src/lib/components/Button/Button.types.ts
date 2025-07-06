@@ -15,6 +15,12 @@ export interface ButtonProps extends BaseComponentProps, Omit<ButtonHTMLAttribut
   size?: Size;
   
   /**
+   * Custom color for the button (hex, rgb, rgba, or CSS color name)
+   * Only applies to primary, outline, and danger variants
+   */
+  color?: string;
+  
+  /**
    * Whether the button should take the full width of its container
    * @default false
    */

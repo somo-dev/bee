@@ -9,6 +9,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     {
       variant = 'primary',
       size = 'md',
+      color,
       fullWidth = false,
       leftIcon,
       rightIcon,
@@ -31,6 +32,40 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const showRightIcon = rightIcon && !loading;
     const showLoadingIcon = loading;
 
+    // Generate custom styles based on color prop
+    const getCustomStyles = (): React.CSSProperties => {
+      if (!color) return {};
+      
+      switch (variant) {
+        case 'primary':
+          return {
+            backgroundColor: color,
+            borderColor: color,
+          };
+        case 'outline':
+          return {
+            borderColor: color,
+            color: color,
+          };
+        case 'danger':
+          return {
+            backgroundColor: color,
+            borderColor: color,
+          };
+        case 'secondary':
+          return {
+            backgroundColor: color,
+            borderColor: color,
+            color: 'white',
+          };
+        case 'ghost':
+          return {
+            color: color,
+          };
+        default:
+          return {};
+      }
+    };
     // Build class names
     const buttonClasses = cn(
       baseButtonStyles,
@@ -53,6 +88,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
         disabled={isDisabled}
         className={buttonClasses}
+        style={{ ...getCustomStyles(), ...props.style }}
         aria-busy={loading}
         aria-disabled={isDisabled}
         {...props}

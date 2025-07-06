@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useState, useRef, useEffect } from "react";
-import { Button } from "@/lib/components/Button";
-import { ColorPicker } from "@/lib/components/ColorPicker";
+import React, { useState, useRef, useEffect } from 'react';
+import { Button } from '@/lib/components/Button';
+import { ColorPicker } from '@/lib/components/ColorPicker';
 import {
   Download,
   Settings,
@@ -32,27 +32,27 @@ import {
   EyeOff,
   Palette,
   X,
-} from "lucide-react";
-import Image from "next/image";
+} from 'lucide-react';
+import Image from 'next/image';
 
 export default function ButtonPage() {
   // Interactive controls state
-  const [variant, setVariant] = useState("primary");
-  const [size, setSize] = useState("md");
+  const [variant, setVariant] = useState('primary');
+  const [size, setSize] = useState('md');
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [fullWidth, setFullWidth] = useState(false);
   const [showLeftIcon, setShowLeftIcon] = useState(false);
   const [showRightIcon, setShowRightIcon] = useState(false);
-  const [primaryColor, setPrimaryColor] = useState("#6366F1");
+  const [primaryColor, setPrimaryColor] = useState('#6366F1');
   const [radius, setRadius] = useState(6);
 
   // Copy state - individual for each code section
   const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
 
   // Size labels for slider
-  const sizeLabels = ["xs", "sm", "md", "lg", "xl"];
-  const sizeValues = ["sm", "md", "lg", "xl"];
+  const sizeLabels = ['xs', 'sm', 'md', 'lg', 'xl'];
+  const sizeValues = ['sm', 'md', 'lg', 'xl'];
 
   const copyCode = async (code: string, key: string) => {
     await navigator.clipboard.writeText(code);
@@ -64,15 +64,16 @@ export default function ButtonPage() {
 
   const generateCode = () => {
     const props = [];
-    if (variant !== "primary") props.push(`variant="${variant}"`);
-    if (size !== "md") props.push(`size="${size}"`);
-    if (loading) props.push("loading");
-    if (disabled) props.push("disabled");
-    if (fullWidth) props.push("fullWidth");
-    if (showLeftIcon) props.push("leftIcon={<Download />}");
-    if (showRightIcon) props.push("rightIcon={<ArrowRight />}");
+    if (variant !== 'primary') props.push(`variant="${variant}"`);
+    if (size !== 'md') props.push(`size="${size}"`);
+    if (primaryColor !== '#6366F1') props.push(`color="${primaryColor}"`);
+    if (loading) props.push('loading');
+    if (disabled) props.push('disabled');
+    if (fullWidth) props.push('fullWidth');
+    if (showLeftIcon) props.push('leftIcon={<Download />}');
+    if (showRightIcon) props.push('rightIcon={<ArrowRight />}');
 
-    const propsString = props.length > 0 ? " " + props.join(" ") : "";
+    const propsString = props.length > 0 ? ' ' + props.join(' ') : '';
     return `import { Button } from '@beeui';
 
 <Button${propsString}>
@@ -80,65 +81,6 @@ export default function ButtonPage() {
 </Button>`;
   };
 
-  // Enhanced syntax highlighting component
-  const SyntaxHighlighter = ({ code }: { code: string }) => {
-    const highlightCode = (code: string) => {
-      let highlighted = code;
-
-      // Keywords (purple)
-      highlighted = highlighted.replace(
-        /\b(import|from|export|const|let|var|function|return|if|else|for|while|class|extends|interface|type)\b/g,
-        '<span style="color: #8B5CF6; font-weight: 600;">$1</span>'
-      );
-
-      // Strings (green)
-      highlighted = highlighted.replace(
-        /(['"`])((?:(?!\1)[^\\]|\\.)*)(\1)/g,
-        '<span style="color: #10B981;">$1$2$3</span>'
-      );
-
-      // JSX tags (red/orange)
-      highlighted = highlighted.replace(
-        /(<\/?[A-Z][a-zA-Z0-9]*)/g,
-        '<span style="color: #EF4444; font-weight: 500;">$1</span>'
-      );
-
-      // JSX closing brackets
-      highlighted = highlighted.replace(
-        /(\/?>)/g,
-        '<span style="color: #EF4444;">$1</span>'
-      );
-
-      // Props/attributes (blue)
-      highlighted = highlighted.replace(
-        /\s([a-zA-Z][a-zA-Z0-9]*)(=)/g,
-        ' <span style="color: #3B82F6;">$1</span><span style="color: #6B7280;">$2</span>'
-      );
-
-      // Curly braces (yellow/orange)
-      highlighted = highlighted.replace(
-        /(\{[^}]*\})/g,
-        '<span style="color: #F59E0B;">$1</span>'
-      );
-
-      // Comments (gray italic)
-      highlighted = highlighted.replace(
-        /(\/\/.*$)/gm,
-        '<span style="color: #6B7280; font-style: italic;">$1</span>'
-      );
-
-      return highlighted;
-    };
-
-    return (
-      <pre className="p-4 text-sm overflow-x-auto bg-gray-50 rounded-b-lg">
-        <code
-          className="text-gray-800 leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: highlightCode(code) }}
-        />
-      </pre>
-    );
-  };
 
   // Reusable CodeSection component with enhanced styling
   const CodeSection = ({
@@ -173,11 +115,15 @@ export default function ButtonPage() {
               <Copy className="w-4 h-4" />
             )}
             <span className="hidden sm:inline">
-              {isCopied ? "Copied!" : "Copy"}
+              {isCopied ? 'Copied!' : 'Copy'}
             </span>
           </button>
         </div>
-        <SyntaxHighlighter code={code} />
+        <pre className="p-4 text-sm overflow-x-auto bg-gray-50 rounded-b-lg">
+          <code className="text-gray-800 leading-relaxed font-mono">
+            {code}
+          </code>
+        </pre>
       </div>
     );
   };
@@ -203,8 +149,8 @@ export default function ButtonPage() {
         <div
           className={`w-5 h-5 rounded border-2 transition-all duration-200 ${
             checked
-              ? "bg-blue-600 border-blue-600"
-              : "border-gray-300 group-hover:border-gray-400"
+              ? 'bg-blue-600 border-blue-600'
+              : 'border-gray-300 group-hover:border-gray-400'
           }`}
         >
           {checked && (
@@ -218,23 +164,6 @@ export default function ButtonPage() {
     </label>
   );
 
-  // Generate dynamic styles for the button based on color and variant
-  const getButtonStyles = () => {
-    const styles: React.CSSProperties = {
-      borderRadius: `${radius}px`,
-    };
-
-    // Apply color only to variants that should use it
-    if (variant === "primary") {
-      styles.backgroundColor = primaryColor;
-      styles.borderColor = primaryColor;
-    } else if (variant === "outline") {
-      styles.borderColor = primaryColor;
-      styles.color = primaryColor;
-    }
-
-    return styles;
-  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -290,20 +219,21 @@ export default function ButtonPage() {
           <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl border border-gray-200 p-8 mb-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Preview Section */}
-              <div className="order-2 lg:order-1 h-full">
-                <div className="h-full bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
+              <div className="order-2 lg:order-1">
+                <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
                   <div className="flex items-center justify-center min-h-[200px]">
-                    <div className={fullWidth ? "w-full h-full" : ""}>
+                    <div className={fullWidth ? 'w-full' : ''}>
                       <Button
                         variant={variant as any}
                         size={size as any}
+                        color={primaryColor}
                         loading={loading}
                         disabled={disabled}
                         fullWidth={fullWidth}
                         leftIcon={showLeftIcon ? <Download /> : undefined}
                         rightIcon={showRightIcon ? <ArrowRight /> : undefined}
-                        style={getButtonStyles()}
-                        className={fullWidth ? "w-full" : ""}
+                        style={{ borderRadius: `${radius}px` }}
+                        className={fullWidth ? 'w-full' : ''}
                       >
                         Button
                       </Button>
@@ -317,11 +247,9 @@ export default function ButtonPage() {
                 <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
                   <div className="flex items-center gap-2 mb-6">
                     <Settings className="w-5 h-5 text-blue-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      Interactive Controls
-                    </h3>
+                    <h3 className="text-lg font-semibold text-gray-900">Interactive Controls</h3>
                   </div>
-
+                  
                   <div className="space-y-6">
                     {/* Row 1: Variant and Size */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -369,7 +297,7 @@ export default function ButtonPage() {
                     </div>
 
                     {/* Row 2: Color */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
                       <ColorPicker
                         value={primaryColor}
                         onChange={setPrimaryColor}
@@ -377,26 +305,26 @@ export default function ButtonPage() {
                         size="md"
                         colorGridColumns={4}
                       />
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-3">
-                          Radius: {radius}px
-                        </label>
-                        <input
-                          type="range"
-                          min="0"
-                          max="20"
-                          value={radius}
-                          onChange={(e) => setRadius(parseInt(e.target.value))}
-                          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-                        />
-                        <div className="flex justify-between text-xs text-gray-500 mt-1">
-                          <span>0px</span>
-                          <span>20px</span>
-                        </div>
-                      </div>
                     </div>
 
                     {/* Row 3: Radius */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-3">
+                        Radius: {radius}px
+                      </label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="20"
+                        value={radius}
+                        onChange={(e) => setRadius(parseInt(e.target.value))}
+                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                      />
+                      <div className="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>0px</span>
+                        <span>20px</span>
+                      </div>
+                    </div>
 
                     {/* Row 4: Checkboxes */}
                     <div className="space-y-3">
@@ -577,14 +505,14 @@ import { Upload } from 'lucide-react';
             Full width
           </h2>
           <p className="text-gray-600 mb-6">
-            If{" "}
+            If{' '}
             <code className="px-2 py-1 bg-gray-100 rounded text-sm font-mono">
               fullWidth
-            </code>{" "}
-            prop is set{" "}
+            </code>{' '}
+            prop is set{' '}
             <code className="px-2 py-1 bg-gray-100 rounded text-sm font-mono">
               Button
-            </code>{" "}
+            </code>{' '}
             will take 100% of parent width:
           </p>
 
