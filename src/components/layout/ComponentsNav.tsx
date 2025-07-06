@@ -25,6 +25,7 @@ import {
   Zap,
   Layers,
   Package,
+  CheckSquare,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
@@ -146,9 +147,10 @@ export function ComponentsNav() {
   const getItemHref = (item: string) => {
     // Handle special cases for existing pages
     if (item === "Button") return "/components/button";
-    if (item === "Breadcrumbs") return "/components/breadcrumbs";
+    if (item === "Breadcrumbs") return "/components/breadcrumb";
     if (item === "Pagination") return "/components/pagination";
     if (item === "Select") return "/components/select";
+    if (item === "Checkbox") return "/components/checkbox";
 
     // Default conversion for other items
     return `/components/${item

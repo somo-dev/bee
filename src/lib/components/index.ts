@@ -10,5 +10,8 @@ export type { PaginationProps } from "./Pagination";
 export { Select } from "./Select";
 export type { SelectProps, SelectOption, SelectGroup } from "./Select";
 
-export { ColorPicker } from './ColorPicker';
-export type { ColorPickerProps } from './ColorPicker';
+export { ColorPicker } from "./ColorPicker";
+export type { ColorPickerProps } from "./ColorPicker";
+
+export { Checkbox, CheckboxGroup, CheckboxCard } from "./Checkbox";
+export type { CheckboxProps, CheckboxGroupProps } from "./Checkbox";
