@@ -2,11 +2,23 @@
 
 import React, { useState } from "react";
 import { Breadcrumbs } from "@/lib/components/Breadcrumbs";
-import { Home, Folder, FileText, Copy, Check } from "lucide-react";
-import CodeSection from '../../../components/playground/CodeSection';
+import { Select } from "@/lib/components/Select";
+import { ColorPicker } from "@/lib/components/ColorPicker";
+import { Home, Folder, FileText, Copy, Check, Settings } from "lucide-react";
 
 export default function BreadcrumbsPage() {
+  // Interactive controls state
+  const [variant, setVariant] = useState("default");
+  const [size, setSize] = useState("md");
+  const [separator, setSeparator] = useState("chevron");
+  const [showHomeIcon, setShowHomeIcon] = useState(false);
+  const [primaryColor, setPrimaryColor] = useState("#6366F1");
+  const [radius, setRadius] = useState(6);
   const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
+
+  // Size labels for slider
+  const sizeLabels = ["xs", "sm", "md", "lg", "xl"];
+  const sizeValues = ["sm", "md", "lg", "xl"];
 
   const copyCode = async (code: string, key: string) => {
     await navigator.clipboard.writeText(code);
@@ -15,6 +27,102 @@ export default function BreadcrumbsPage() {
       setCopiedStates((prev) => ({ ...prev, [key]: false }));
     }, 2000);
   };
+
+  const generateCode = () => {
+    const props = [];
+    if (variant !== "default") props.push(`variant="${variant}"`);
+    if (size !== "md") props.push(`size="${size}"`);
+    if (separator !== "chevron") props.push(`separator="${separator}"`);
+    if (showHomeIcon) props.push("showHomeIcon");
+    if (primaryColor !== "#6366F1") props.push(`color="${primaryColor}"`);
+
+    const propsString = props.length > 0 ? "\n  " + props.join("\n  ") : "";
+    return `import { Breadcrumbs } from '@beeui';
+
+const items = [
+  { label: 'Mantine', href: '/' },
+  { label: 'Core', href: '/core' },
+  { label: 'Breadcrumbs', href: '/breadcrumbs' }
+];
+
+<Breadcrumbs
+  items={items}${propsString}
+/>`;
+  };
+
+  const CodeSection = ({ code, title }: { code: string; title: string }) => {
+    const key = title.toLowerCase().replace(/\s+/g, "-");
+    const isCopied = copiedStates[key];
+
+    return (
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+        <div className="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-gray-200">
+          <div className="flex items-center gap-3">
+            <div className="flex gap-1.5">
+              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+            </div>
+            <span className="text-sm font-medium text-gray-700">{title}</span>
+          </div>
+          <button
+            onClick={() => copyCode(code, key)}
+            className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-md transition-colors"
+          >
+            {isCopied ? (
+              <Check className="w-4 h-4" />
+            ) : (
+              <Copy className="w-4 h-4" />
+            )}
+            <span className="hidden sm:inline">
+              {isCopied ? "Copied!" : "Copy"}
+            </span>
+          </button>
+        </div>
+        <pre className="p-4 text-sm overflow-x-auto bg-gray-50 rounded-b-lg">
+          <code className="text-gray-800 leading-relaxed font-mono">
+            {code}
+          </code>
+        </pre>
+      </div>
+    );
+  };
+
+  // Custom checkbox component
+  const CustomCheckbox = ({
+    checked,
+    onChange,
+    label,
+  }: {
+    checked: boolean;
+    onChange: (checked: boolean) => void;
+    label: string;
+  }) => (
+    <label className="flex items-center gap-3 cursor-pointer group">
+      <div className="relative">
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          className="sr-only"
+        />
+        <div
+          className={`w-5 h-5 rounded border-2 transition-all duration-200 ${
+            checked
+              ? "bg-blue-600 border-blue-600"
+              : "border-gray-300 group-hover:border-gray-400"
+          }`}
+        >
+          {checked && (
+            <Check className="w-3 h-3 text-white absolute top-0.5 left-0.5" />
+          )}
+        </div>
+      </div>
+      <span className="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">
+        {label}
+      </span>
+    </label>
+  );
 
   const basicItems = [
     { label: "Mantine", href: "/" },
@@ -26,6 +134,21 @@ export default function BreadcrumbsPage() {
     { label: "Home", href: "/", icon: <Home /> },
     { label: "Documents", href: "/docs", icon: <Folder /> },
     { label: "README.md", icon: <FileText /> },
+  ];
+
+  // Select data
+  const variantOptions = [
+    { value: "default", label: "Default" },
+    { value: "pills", label: "Pills" },
+    { value: "minimal", label: "Minimal" },
+    { value: "cards", label: "Cards" },
+  ];
+
+  const separatorOptions = [
+    { value: "chevron", label: "Chevron" },
+    { value: "slash", label: "Slash" },
+    { value: "arrow", label: "Arrow" },
+    { value: "dot", label: "Dot" },
   ];
 
   return (
@@ -45,26 +168,131 @@ export default function BreadcrumbsPage() {
         <section className="mb-12">
           <h2 className="text-2xl font-semibold text-gray-900 mb-8">Usage</h2>
 
-          <div className="bg-gray-50 rounded-lg border border-gray-200 p-8 mb-6">
-            <Breadcrumbs items={basicItems} />
+          {/* Enhanced Playground Layout */}
+          <div className="bg-gradient-to-br from-gray-50 to-green-50 rounded-2xl border border-gray-200 p-8 mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Preview Section */}
+              <div className="order-2 lg:order-1">
+                <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
+                  <div className="flex items-center justify-center min-h-[200px]">
+                    <Breadcrumbs
+                      items={basicItems}
+                      variant={variant as any}
+                      size={size as any}
+                      separator={separator as any}
+                      showHomeIcon={showHomeIcon}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Controls Section */}
+              <div className="order-1 lg:order-2">
+                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+                  <div className="flex items-center gap-2 mb-6">
+                    <Settings className="w-5 h-5 text-green-600" />
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      Interactive Controls
+                    </h3>
+                  </div>
+
+                  <div className="space-y-6">
+                    {/* Row 1: Variant and Size */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <Select
+                          data={variantOptions}
+                          value={variant}
+                          onChange={(value) => setVariant(value as string)}
+                          label="Variant"
+                          size="sm"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-3">
+                          Size: {size} ({sizeLabels[sizeValues.indexOf(size)]})
+                        </label>
+                        <div className="relative">
+                          <input
+                            type="range"
+                            min="0"
+                            max="3"
+                            value={sizeValues.indexOf(size)}
+                            onChange={(e) =>
+                              setSize(sizeValues[parseInt(e.target.value)])
+                            }
+                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                          />
+                          <div className="flex justify-between text-xs text-gray-500 mt-1">
+                            {sizeLabels.slice(1).map((label) => (
+                              <span key={label} className="text-center">
+                                {label}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Row 2: Separator */}
+                    <div>
+                      <Select
+                        data={separatorOptions}
+                        value={separator}
+                        onChange={(value) => setSeparator(value as string)}
+                        label="Separator"
+                        size="sm"
+                      />
+                    </div>
+
+                    {/* Row 3: Color */}
+                    <div>
+                      <ColorPicker
+                        value={primaryColor}
+                        onChange={setPrimaryColor}
+                        label="Color"
+                        size="md"
+                        colorGridColumns={4}
+                      />
+                    </div>
+
+                    {/* Row 4: Radius */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-3">
+                        Radius: {radius}px
+                      </label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="20"
+                        value={radius}
+                        onChange={(e) => setRadius(parseInt(e.target.value))}
+                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                      />
+                      <div className="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>0px</span>
+                        <span>20px</span>
+                      </div>
+                    </div>
+
+                    {/* Row 5: Checkboxes */}
+                    <div className="space-y-3">
+                      <CustomCheckbox
+                        checked={showHomeIcon}
+                        onChange={setShowHomeIcon}
+                        label="Show home icon"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <CodeSection code={`import { Breadcrumbs } from '@mantine/core';
-
-const items = [
-  { label: 'Mantine', href: '/' },
-  { label: 'Core', href: '/core' },
-  { label: 'Breadcrumbs', href: '/breadcrumbs' }
-];
-
-function Demo() {
-  return <Breadcrumbs items={items} />;
-}`}
-            title="Demo.tsx"
-            sectionKey="demo-tsx"
-            copiedStates={copiedStates}
-            copyCode={copyCode}
-          />
+          <div className="mt-8">
+            <CodeSection code={generateCode()} title="Demo.tsx" />
+          </div>
         </section>
 
         {/* Variants Section */}
@@ -108,14 +336,12 @@ function Demo() {
           </div>
 
           <div className="mt-6">
-            <CodeSection code={`<Breadcrumbs items={items} variant="default" />
+            <CodeSection
+              code={`<Breadcrumbs items={items} variant="default" />
 <Breadcrumbs items={items} variant="pills" />
 <Breadcrumbs items={items} variant="minimal" />
 <Breadcrumbs items={items} variant="cards" />`}
               title="Demo.tsx"
-              sectionKey="demo-tsx"
-              copiedStates={copiedStates}
-              copyCode={copyCode}
             />
           </div>
         </section>
@@ -130,7 +356,8 @@ function Demo() {
             <Breadcrumbs items={iconItems} showHomeIcon />
           </div>
 
-          <CodeSection code={`import { Home, Folder, FileText } from 'lucide-react';
+          <CodeSection
+            code={`import { Home, Folder, FileText } from 'lucide-react';
 
 const items = [
   { label: 'Home', href: '/', icon: <Home /> },
@@ -141,12 +368,8 @@ const items = [
 function Demo() {
   return <Breadcrumbs items={items} showHomeIcon />;
 }`}
-              title="Demo.tsx"
-              sectionKey="demo-tsx"
-              copiedStates={copiedStates}
-              copyCode={copyCode}
-            />
-          </div>
+            title="Demo.tsx"
+          />
         </section>
 
         {/* Separators Section */}
@@ -188,14 +411,12 @@ function Demo() {
           </div>
 
           <div className="mt-6">
-            <CodeSection code={`<Breadcrumbs items={items} separator="chevron" />
+            <CodeSection
+              code={`<Breadcrumbs items={items} separator="chevron" />
 <Breadcrumbs items={items} separator="slash" />
 <Breadcrumbs items={items} separator="arrow" />
 <Breadcrumbs items={items} separator="dot" />`}
               title="Demo.tsx"
-              sectionKey="demo-tsx"
-              copiedStates={copiedStates}
-              copyCode={copyCode}
             />
           </div>
         </section>
@@ -230,17 +451,38 @@ function Demo() {
           </div>
 
           <div className="mt-6">
-            <CodeSection code={`<Breadcrumbs items={items} size="sm" />
+            <CodeSection
+              code={`<Breadcrumbs items={items} size="sm" />
 <Breadcrumbs items={items} size="md" />
 <Breadcrumbs items={items} size="lg" />`}
               title="Demo.tsx"
-              sectionKey="demo-tsx"
-              copiedStates={copiedStates}
-              copyCode={copyCode}
             />
           </div>
         </section>
       </div>
+
+      <style jsx>{`
+        .slider::-webkit-slider-thumb {
+          appearance: none;
+          height: 20px;
+          width: 20px;
+          border-radius: 50%;
+          background: #3b82f6;
+          cursor: pointer;
+          border: 2px solid #ffffff;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .slider::-moz-range-thumb {
+          height: 20px;
+          width: 20px;
+          border-radius: 50%;
+          background: #3b82f6;
+          cursor: pointer;
+          border: 2px solid #ffffff;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+      `}</style>
     </div>
   );
 }

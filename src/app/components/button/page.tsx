@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState, useRef, useEffect } from 'react';
-import { Button } from '@/lib/components/Button';
-import { ColorPicker } from '@/lib/components/ColorPicker';
+import React, { useState, useRef, useEffect } from "react";
+import { Button } from "@/lib/components/Button";
+import { Select } from "@/lib/components/Select";
+import { ColorPicker } from "@/lib/components/ColorPicker";
 import {
   Download,
   Settings,
@@ -32,27 +33,27 @@ import {
   EyeOff,
   Palette,
   X,
-} from 'lucide-react';
-import Image from 'next/image';
+} from "lucide-react";
+import Image from "next/image";
 
 export default function ButtonPage() {
   // Interactive controls state
-  const [variant, setVariant] = useState('primary');
-  const [size, setSize] = useState('md');
+  const [variant, setVariant] = useState("primary");
+  const [size, setSize] = useState("md");
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [fullWidth, setFullWidth] = useState(false);
   const [showLeftIcon, setShowLeftIcon] = useState(false);
   const [showRightIcon, setShowRightIcon] = useState(false);
-  const [primaryColor, setPrimaryColor] = useState('#6366F1');
+  const [primaryColor, setPrimaryColor] = useState("#6366F1");
   const [radius, setRadius] = useState(6);
 
   // Copy state - individual for each code section
   const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
 
   // Size labels for slider
-  const sizeLabels = ['xs', 'sm', 'md', 'lg', 'xl'];
-  const sizeValues = ['sm', 'md', 'lg', 'xl'];
+  const sizeLabels = ["xs", "sm", "md", "lg", "xl"];
+  const sizeValues = ["sm", "md", "lg", "xl"];
 
   const copyCode = async (code: string, key: string) => {
     await navigator.clipboard.writeText(code);
@@ -64,23 +65,22 @@ export default function ButtonPage() {
 
   const generateCode = () => {
     const props = [];
-    if (variant !== 'primary') props.push(`variant="${variant}"`);
-    if (size !== 'md') props.push(`size="${size}"`);
-    if (primaryColor !== '#6366F1') props.push(`color="${primaryColor}"`);
-    if (loading) props.push('loading');
-    if (disabled) props.push('disabled');
-    if (fullWidth) props.push('fullWidth');
-    if (showLeftIcon) props.push('leftIcon={<Download />}');
-    if (showRightIcon) props.push('rightIcon={<ArrowRight />}');
+    if (variant !== "primary") props.push(`variant="${variant}"`);
+    if (size !== "md") props.push(`size="${size}"`);
+    if (loading) props.push("loading");
+    if (disabled) props.push("disabled");
+    if (fullWidth) props.push("fullWidth");
+    if (showLeftIcon) props.push("leftIcon={<Download />}");
+    if (showRightIcon) props.push("rightIcon={<ArrowRight />}");
+    if (primaryColor !== "#6366F1") props.push(`color="${primaryColor}"`);
 
-    const propsString = props.length > 0 ? ' ' + props.join(' ') : '';
+    const propsString = props.length > 0 ? " " + props.join(" ") : "";
     return `import { Button } from '@beeui';
 
 <Button${propsString}>
   Button
 </Button>`;
   };
-
 
   // Reusable CodeSection component with enhanced styling
   const CodeSection = ({
@@ -115,7 +115,7 @@ export default function ButtonPage() {
               <Copy className="w-4 h-4" />
             )}
             <span className="hidden sm:inline">
-              {isCopied ? 'Copied!' : 'Copy'}
+              {isCopied ? "Copied!" : "Copy"}
             </span>
           </button>
         </div>
@@ -149,8 +149,8 @@ export default function ButtonPage() {
         <div
           className={`w-5 h-5 rounded border-2 transition-all duration-200 ${
             checked
-              ? 'bg-blue-600 border-blue-600'
-              : 'border-gray-300 group-hover:border-gray-400'
+              ? "bg-blue-600 border-blue-600"
+              : "border-gray-300 group-hover:border-gray-400"
           }`}
         >
           {checked && (
@@ -164,6 +164,14 @@ export default function ButtonPage() {
     </label>
   );
 
+  // Select data
+  const variantOptions = [
+    { value: "primary", label: "Filled" },
+    { value: "secondary", label: "Light" },
+    { value: "outline", label: "Outline" },
+    { value: "ghost", label: "Subtle" },
+    { value: "danger", label: "Default" },
+  ];
 
   return (
     <div className="min-h-screen bg-white">
@@ -176,37 +184,6 @@ export default function ButtonPage() {
           <p className="text-gray-600 mb-6">
             Button component to render button or link
           </p>
-
-          <div className="flex items-center gap-6 text-sm">
-            <div className="flex items-center gap-2">
-              <Github className="w-4 h-4" />
-              <span className="text-blue-600 hover:underline cursor-pointer">
-                View source code
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <ExternalLink className="w-4 h-4" />
-              <span className="text-red-600 hover:underline cursor-pointer">
-                Edit this page
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-red-500 rounded"></div>
-              <span className="text-gray-600">@beeui</span>
-            </div>
-          </div>
-
-          <div className="flex gap-2 mt-6">
-            <button className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-md">
-              Documentation
-            </button>
-            <button className="px-4 py-2 text-gray-600 text-sm font-medium hover:bg-gray-100 rounded-md">
-              Props
-            </button>
-            <button className="px-4 py-2 text-gray-600 text-sm font-medium hover:bg-gray-100 rounded-md">
-              Styles API
-            </button>
-          </div>
         </div>
       </div>
 
@@ -220,20 +197,22 @@ export default function ButtonPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Preview Section */}
               <div className="order-2 lg:order-1">
-                <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
-                  <div className="flex items-center justify-center min-h-[200px]">
-                    <div className={fullWidth ? 'w-full' : ''}>
+                <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm h-full">
+                  <div className="flex items-center justify-center h-full min-h-[300px]">
+                    <div className={fullWidth ? "w-full" : ""}>
                       <Button
                         variant={variant as any}
                         size={size as any}
-                        color={primaryColor}
                         loading={loading}
                         disabled={disabled}
                         fullWidth={fullWidth}
                         leftIcon={showLeftIcon ? <Download /> : undefined}
                         rightIcon={showRightIcon ? <ArrowRight /> : undefined}
-                        style={{ borderRadius: `${radius}px` }}
-                        className={fullWidth ? 'w-full' : ''}
+                        color={primaryColor}
+                        style={{
+                          borderRadius: `${radius}px`,
+                        }}
+                        className={fullWidth ? "w-full" : ""}
                       >
                         Button
                       </Button>
@@ -244,30 +223,25 @@ export default function ButtonPage() {
 
               {/* Controls Section */}
               <div className="order-1 lg:order-2">
-                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm h-full">
                   <div className="flex items-center gap-2 mb-6">
                     <Settings className="w-5 h-5 text-blue-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">Interactive Controls</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      Interactive Controls
+                    </h3>
                   </div>
-                  
+
                   <div className="space-y-6">
                     {/* Row 1: Variant and Size */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Variant
-                        </label>
-                        <select
+                        <Select
+                          data={variantOptions}
                           value={variant}
-                          onChange={(e) => setVariant(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
-                        >
-                          <option value="primary">Filled</option>
-                          <option value="secondary">Light</option>
-                          <option value="outline">Outline</option>
-                          <option value="ghost">Subtle</option>
-                          <option value="danger">Default</option>
-                        </select>
+                          onChange={(value) => setVariant(value as string)}
+                          label="Variant"
+                          size="sm"
+                        />
                       </div>
 
                       <div>
@@ -296,63 +270,66 @@ export default function ButtonPage() {
                       </div>
                     </div>
 
-                    {/* Row 2: Color */}
-                    <div>
-                      <ColorPicker
-                        value={primaryColor}
-                        onChange={setPrimaryColor}
-                        label="Color"
-                        size="md"
-                        colorGridColumns={4}
-                      />
-                    </div>
-
-                    {/* Row 3: Radius */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-3">
-                        Radius: {radius}px
-                      </label>
-                      <input
-                        type="range"
-                        min="0"
-                        max="20"
-                        value={radius}
-                        onChange={(e) => setRadius(parseInt(e.target.value))}
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-                      />
-                      <div className="flex justify-between text-xs text-gray-500 mt-1">
-                        <span>0px</span>
-                        <span>20px</span>
-                      </div>
-                    </div>
-
                     {/* Row 4: Checkboxes */}
-                    <div className="space-y-3">
-                      <CustomCheckbox
-                        checked={loading}
-                        onChange={setLoading}
-                        label="Loading state"
-                      />
-                      <CustomCheckbox
-                        checked={disabled}
-                        onChange={setDisabled}
-                        label="Disabled"
-                      />
-                      <CustomCheckbox
-                        checked={fullWidth}
-                        onChange={setFullWidth}
-                        label="Full width"
-                      />
-                      <CustomCheckbox
-                        checked={showLeftIcon}
-                        onChange={setShowLeftIcon}
-                        label="Left icon"
-                      />
-                      <CustomCheckbox
-                        checked={showRightIcon}
-                        onChange={setShowRightIcon}
-                        label="Right icon"
-                      />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-3">
+                        <CustomCheckbox
+                          checked={loading}
+                          onChange={setLoading}
+                          label="Loading state"
+                        />
+                        <CustomCheckbox
+                          checked={disabled}
+                          onChange={setDisabled}
+                          label="Disabled"
+                        />
+                        <CustomCheckbox
+                          checked={fullWidth}
+                          onChange={setFullWidth}
+                          label="Full width"
+                        />
+                        <CustomCheckbox
+                          checked={showLeftIcon}
+                          onChange={setShowLeftIcon}
+                          label="Left icon"
+                        />
+                        <CustomCheckbox
+                          checked={showRightIcon}
+                          onChange={setShowRightIcon}
+                          label="Right icon"
+                        />
+                      </div>
+
+                      {/* Row 2: Color */}
+                      <div className="space-y-3">
+                        <ColorPicker
+                          value={primaryColor}
+                          onChange={setPrimaryColor}
+                          label="Color"
+                          size="md"
+                          colorGridColumns={4}
+                        />
+                        {/* Row 3: Radius */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-3">
+                            Radius: {radius}px
+                          </label>
+                          <input
+                            type="range"
+                            min="0"
+                            max="20"
+                            value={radius}
+                            onChange={(e) =>
+                              setRadius(parseInt(e.target.value))
+                            }
+                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                          />
+                          <div className="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>0px</span>
+                            <span>20px</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -416,6 +393,33 @@ export default function ButtonPage() {
 <Button size="xl">Extra Large</Button>`}
             title="Demo.tsx"
             sectionKey="sizes"
+          />
+        </section>
+
+        {/* Colors Section */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Colors</h2>
+
+          <div className="flex flex-wrap gap-4 mb-6">
+            <Button color="#6366F1">Indigo</Button>
+            <Button color="#EF4444">Red</Button>
+            <Button color="#10B981">Green</Button>
+            <Button color="#F59E0B">Yellow</Button>
+            <Button color="#8B5CF6">Purple</Button>
+            <Button color="#EC4899">Pink</Button>
+          </div>
+
+          <CodeSection
+            code={`import { Button } from '@beeui';
+
+<Button color="#6366F1">Indigo</Button>
+<Button color="#EF4444">Red</Button>
+<Button color="#10B981">Green</Button>
+<Button color="#F59E0B">Yellow</Button>
+<Button color="#8B5CF6">Purple</Button>
+<Button color="#EC4899">Pink</Button>`}
+            title="Demo.tsx"
+            sectionKey="colors"
           />
         </section>
 
@@ -505,14 +509,14 @@ import { Upload } from 'lucide-react';
             Full width
           </h2>
           <p className="text-gray-600 mb-6">
-            If{' '}
+            If{" "}
             <code className="px-2 py-1 bg-gray-100 rounded text-sm font-mono">
               fullWidth
-            </code>{' '}
-            prop is set{' '}
+            </code>{" "}
+            prop is set{" "}
             <code className="px-2 py-1 bg-gray-100 rounded text-sm font-mono">
               Button
-            </code>{' '}
+            </code>{" "}
             will take 100% of parent width:
           </p>
 
