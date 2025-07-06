@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { Breadcrumbs } from "@/lib/components/Breadcrumbs";
 import { Select } from "@/lib/components/Select";
-import { ColorPicker } from "@/lib/components/ColorPicker";
 import { Home, Folder, FileText, Copy, Check, Settings } from "lucide-react";
 
 export default function BreadcrumbsPage() {
@@ -12,8 +11,6 @@ export default function BreadcrumbsPage() {
   const [size, setSize] = useState("md");
   const [separator, setSeparator] = useState("chevron");
   const [showHomeIcon, setShowHomeIcon] = useState(false);
-  const [primaryColor, setPrimaryColor] = useState("#6366F1");
-  const [radius, setRadius] = useState(6);
   const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
 
   // Size labels for slider
@@ -34,7 +31,6 @@ export default function BreadcrumbsPage() {
     if (size !== "md") props.push(`size="${size}"`);
     if (separator !== "chevron") props.push(`separator="${separator}"`);
     if (showHomeIcon) props.push("showHomeIcon");
-    if (primaryColor !== "#6366F1") props.push(`color="${primaryColor}"`);
 
     const propsString = props.length > 0 ? "\n  " + props.join("\n  ") : "";
     return `import { Breadcrumbs } from '@beeui';
@@ -50,9 +46,16 @@ const items = [
 />`;
   };
 
-  const CodeSection = ({ code, title }: { code: string; title: string }) => {
-    const key = title.toLowerCase().replace(/\s+/g, "-");
-    const isCopied = copiedStates[key];
+  const CodeSection = ({
+    code,
+    title,
+    sectionKey,
+  }: {
+    code: string;
+    title: string;
+    sectionKey: string;
+  }) => {
+    const isCopied = copiedStates[sectionKey];
 
     return (
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
@@ -66,7 +69,7 @@ const items = [
             <span className="text-sm font-medium text-gray-700">{title}</span>
           </div>
           <button
-            onClick={() => copyCode(code, key)}
+            onClick={() => copyCode(code, sectionKey)}
             className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-md transition-colors"
           >
             {isCopied ? (
@@ -173,8 +176,8 @@ const items = [
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Preview Section */}
               <div className="order-2 lg:order-1">
-                <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
-                  <div className="flex items-center justify-center min-h-[200px]">
+                <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm h-full">
+                  <div className="flex items-center justify-center h-full min-h-[300px]">
                     <Breadcrumbs
                       items={basicItems}
                       variant={variant as any}
@@ -188,7 +191,7 @@ const items = [
 
               {/* Controls Section */}
               <div className="order-1 lg:order-2">
-                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm h-full">
                   <div className="flex items-center gap-2 mb-6">
                     <Settings className="w-5 h-5 text-green-600" />
                     <h3 className="text-lg font-semibold text-gray-900">
@@ -246,37 +249,7 @@ const items = [
                       />
                     </div>
 
-                    {/* Row 3: Color */}
-                    <div>
-                      <ColorPicker
-                        value={primaryColor}
-                        onChange={setPrimaryColor}
-                        label="Color"
-                        size="md"
-                        colorGridColumns={4}
-                      />
-                    </div>
-
-                    {/* Row 4: Radius */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-3">
-                        Radius: {radius}px
-                      </label>
-                      <input
-                        type="range"
-                        min="0"
-                        max="20"
-                        value={radius}
-                        onChange={(e) => setRadius(parseInt(e.target.value))}
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-                      />
-                      <div className="flex justify-between text-xs text-gray-500 mt-1">
-                        <span>0px</span>
-                        <span>20px</span>
-                      </div>
-                    </div>
-
-                    {/* Row 5: Checkboxes */}
+                    {/* Row 3: Checkboxes */}
                     <div className="space-y-3">
                       <CustomCheckbox
                         checked={showHomeIcon}
@@ -291,7 +264,11 @@ const items = [
           </div>
 
           <div className="mt-8">
-            <CodeSection code={generateCode()} title="Demo.tsx" />
+            <CodeSection
+              code={generateCode()}
+              title="Demo.tsx"
+              sectionKey="interactive-demo"
+            />
           </div>
         </section>
 
@@ -342,6 +319,7 @@ const items = [
 <Breadcrumbs items={items} variant="minimal" />
 <Breadcrumbs items={items} variant="cards" />`}
               title="Demo.tsx"
+              sectionKey="variants"
             />
           </div>
         </section>
@@ -369,6 +347,7 @@ function Demo() {
   return <Breadcrumbs items={items} showHomeIcon />;
 }`}
             title="Demo.tsx"
+            sectionKey="icons"
           />
         </section>
 
@@ -417,6 +396,7 @@ function Demo() {
 <Breadcrumbs items={items} separator="arrow" />
 <Breadcrumbs items={items} separator="dot" />`}
               title="Demo.tsx"
+              sectionKey="separators"
             />
           </div>
         </section>
@@ -456,6 +436,7 @@ function Demo() {
 <Breadcrumbs items={items} size="md" />
 <Breadcrumbs items={items} size="lg" />`}
               title="Demo.tsx"
+              sectionKey="sizes"
             />
           </div>
         </section>

@@ -227,7 +227,7 @@ const data = [
                     <div className="w-full max-w-sm">
                       <Select
                         data={basicData}
-                        value={selectedValue}
+                        value={selectedValue || undefined}
                         onChange={setSelectedValue}
                         placeholder="Your favorite library"
                         variant={variant as any}

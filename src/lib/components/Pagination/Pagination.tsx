@@ -1,31 +1,31 @@
-import React, { useState, useMemo } from 'react';
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  ChevronsLeft, 
+import React, { useState, useMemo } from "react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
   ChevronsRight,
-  MoreHorizontal
-} from 'lucide-react';
-import { PaginationProps } from './Pagination.types';
-import { 
-  paginationVariants, 
-  paginationSizes, 
+  MoreHorizontal,
+} from "lucide-react";
+import { PaginationProps } from "./Pagination.types";
+import {
+  paginationVariants,
+  paginationSizes,
   ellipsisStyles,
   pageInfoStyles,
-  jumpToStyles
-} from './Pagination.styles';
-import { cn } from '../../utils/cn';
+  jumpToStyles,
+} from "./Pagination.styles";
+import { cn } from "../../utils/cn";
 
-const DOTS = '...';
+const DOTS = "...";
 
 export const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
   onPageChange,
-  variant = 'default',
-  size = 'md',
-  siblingCount = 2,
-  showFirstLast = true,
+  variant = "default",
+  size = "md",
+  siblingCount = 1,
+  showFirstLast = false,
   showPrevNext = true,
   showPageInfo = false,
   showJumpTo = false,
@@ -36,17 +36,17 @@ export const Pagination: React.FC<PaginationProps> = ({
   className,
   ...props
 }) => {
-  const [jumpToValue, setJumpToValue] = useState('');
+  const [jumpToValue, setJumpToValue] = useState("");
 
   // Default labels
   const defaultLabels = {
-    previous: 'Previous',
-    next: 'Next',
-    first: 'First',
-    last: 'Last',
-    jumpTo: 'Go to page',
-    pageInfo: 'Page {current} of {total}',
-    ...labels
+    previous: "Previous",
+    next: "Next",
+    first: "First",
+    last: "Last",
+    jumpTo: "Go to page",
+    pageInfo: "Page {current} of {total}",
+    ...labels,
   };
 
   // Default icons
@@ -55,15 +55,13 @@ export const Pagination: React.FC<PaginationProps> = ({
     next: <ChevronRight />,
     first: <ChevronsLeft />,
     last: <ChevronsRight />,
-    ...icons
+    ...icons,
   };
 
-  // Generate page range
+  // Generate page range with improved logic
   const paginationRange = useMemo(() => {
-    const totalPageNumbers = siblingCount + 5; // siblingCount + firstPage + lastPage + currentPage + 2*DOTS
-
-    // Case 1: If the number of pages is less than the page numbers we want to show
-    if (totalPageNumbers >= totalPages) {
+    // If total pages is small, show all pages
+    if (totalPages <= 7) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 
@@ -71,35 +69,39 @@ export const Pagination: React.FC<PaginationProps> = ({
     const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPages);
 
     const shouldShowLeftDots = leftSiblingIndex > 2;
-    const shouldShowRightDots = rightSiblingIndex < totalPages - 2;
+    const shouldShowRightDots = rightSiblingIndex < totalPages - 1;
 
     const firstPageIndex = 1;
     const lastPageIndex = totalPages;
 
-    // Case 2: No left dots to show, but rights dots to be shown
+    // Case 1: No left dots, but right dots
     if (!shouldShowLeftDots && shouldShowRightDots) {
-      const leftItemCount = 3 + 2 * siblingCount;
+      const leftItemCount = 2 + 2 * siblingCount;
       const leftRange = Array.from({ length: leftItemCount }, (_, i) => i + 1);
-      return showEllipsis ? [...leftRange, DOTS, totalPages] : [...leftRange, totalPages];
+      return showEllipsis
+        ? [...leftRange, DOTS, totalPages]
+        : [...leftRange, totalPages];
     }
 
-    // Case 3: No right dots to show, but left dots to be shown
+    // Case 2: Left dots, but no right dots
     if (shouldShowLeftDots && !shouldShowRightDots) {
-      const rightItemCount = 3 + 2 * siblingCount;
+      const rightItemCount = 2 + 2 * siblingCount;
       const rightRange = Array.from(
         { length: rightItemCount },
         (_, i) => totalPages - rightItemCount + i + 1
       );
-      return showEllipsis ? [firstPageIndex, DOTS, ...rightRange] : [firstPageIndex, ...rightRange];
+      return showEllipsis
+        ? [firstPageIndex, DOTS, ...rightRange]
+        : [firstPageIndex, ...rightRange];
     }
 
-    // Case 4: Both left and right dots to be shown
+    // Case 3: Both left and right dots
     if (shouldShowLeftDots && shouldShowRightDots) {
       const middleRange = Array.from(
         { length: rightSiblingIndex - leftSiblingIndex + 1 },
         (_, i) => leftSiblingIndex + i
       );
-      return showEllipsis 
+      return showEllipsis
         ? [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex]
         : [firstPageIndex, ...middleRange, lastPageIndex];
     }
@@ -118,12 +120,12 @@ export const Pagination: React.FC<PaginationProps> = ({
     const page = parseInt(jumpToValue, 10);
     if (!isNaN(page) && page >= 1 && page <= totalPages) {
       handlePageChange(page);
-      setJumpToValue('');
+      setJumpToValue("");
     }
   };
 
   const handleJumpToKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleJumpTo();
     }
   };
@@ -138,7 +140,7 @@ export const Pagination: React.FC<PaginationProps> = ({
     ariaLabel?: string
   ) => {
     const isDisabled = disabled || page === null || page === currentPage;
-    
+
     let buttonStyles = styles.button;
     if (isActive) {
       buttonStyles = styles.activeButton;
@@ -150,7 +152,7 @@ export const Pagination: React.FC<PaginationProps> = ({
     const buttonClasses = cn(
       buttonStyles,
       sizeStyles.button,
-      variant === 'pills' ? 'rounded-full' : ''
+      variant === "pills" ? "rounded-full" : ""
     );
 
     return (
@@ -159,7 +161,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         onClick={() => page && handlePageChange(page)}
         disabled={isDisabled}
         aria-label={ariaLabel}
-        aria-current={isActive ? 'page' : undefined}
+        aria-current={isActive ? "page" : undefined}
         className={buttonClasses}
       >
         {content}
@@ -169,10 +171,10 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   const renderPageInfo = () => {
     if (!showPageInfo) return null;
-    
+
     const pageInfoText = defaultLabels.pageInfo
-      .replace('{current}', currentPage.toString())
-      .replace('{total}', totalPages.toString());
+      .replace("{current}", currentPage.toString())
+      .replace("{total}", totalPages.toString());
 
     return (
       <span className={cn(pageInfoStyles, sizeStyles.text)}>
@@ -196,7 +198,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           onKeyPress={handleJumpToKeyPress}
           className={cn(
             sizeStyles.input,
-            'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+            "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           )}
           placeholder="1"
           disabled={disabled}
@@ -207,7 +209,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           className={cn(
             styles.button,
             sizeStyles.button,
-            variant === 'pills' ? 'rounded-full' : ''
+            variant === "pills" ? "rounded-full" : ""
           )}
         >
           Go
@@ -216,39 +218,51 @@ export const Pagination: React.FC<PaginationProps> = ({
     );
   };
 
+  // Don't render if there's only one page or no pages
   if (totalPages <= 1) {
     return null;
   }
 
+  // Determine which navigation buttons to show
+  const showPrev = showPrevNext && currentPage > 1;
+  const showNext = showPrevNext && currentPage < totalPages;
+  const showFirst = showFirstLast && currentPage > 2;
+  const showLast = showFirstLast && currentPage < totalPages - 1;
+
   return (
-    <div className={cn('flex flex-col sm:flex-row items-center gap-4', className)} {...props}>
+    <div
+      className={cn("flex flex-col sm:flex-row items-center gap-4", className)}
+      {...props}
+    >
       {/* Main pagination */}
       <nav aria-label="Pagination" className={styles.container}>
-        {/* First page button */}
-        {showFirstLast && (
+        {/* First page button - only show if we're far from the beginning */}
+        {showFirst &&
           renderButton(
             <span className="flex items-center gap-1">
-              {React.cloneElement(defaultIcons.first, { className: sizeStyles.icon })}
+              {React.cloneElement(defaultIcons.first, {
+                className: sizeStyles.icon,
+              })}
               <span className="hidden sm:inline">{defaultLabels.first}</span>
             </span>,
-            currentPage > 1 ? 1 : null,
+            1,
             false,
             `Go to first page`
-          )
-        )}
+          )}
 
         {/* Previous page button */}
-        {showPrevNext && (
+        {showPrev &&
           renderButton(
             <span className="flex items-center gap-1">
-              {React.cloneElement(defaultIcons.previous, { className: sizeStyles.icon })}
+              {React.cloneElement(defaultIcons.previous, {
+                className: sizeStyles.icon,
+              })}
               <span className="hidden sm:inline">{defaultLabels.previous}</span>
             </span>,
-            currentPage > 1 ? currentPage - 1 : null,
+            currentPage - 1,
             false,
             `Go to previous page`
-          )
-        )}
+          )}
 
         {/* Page numbers */}
         {paginationRange.map((pageNumber, index) => {
@@ -273,30 +287,32 @@ export const Pagination: React.FC<PaginationProps> = ({
         })}
 
         {/* Next page button */}
-        {showPrevNext && (
+        {showNext &&
           renderButton(
             <span className="flex items-center gap-1">
               <span className="hidden sm:inline">{defaultLabels.next}</span>
-              {React.cloneElement(defaultIcons.next, { className: sizeStyles.icon })}
+              {React.cloneElement(defaultIcons.next, {
+                className: sizeStyles.icon,
+              })}
             </span>,
-            currentPage < totalPages ? currentPage + 1 : null,
+            currentPage + 1,
             false,
             `Go to next page`
-          )
-        )}
+          )}
 
-        {/* Last page button */}
-        {showFirstLast && (
+        {/* Last page button - only show if we're far from the end */}
+        {showLast &&
           renderButton(
             <span className="flex items-center gap-1">
               <span className="hidden sm:inline">{defaultLabels.last}</span>
-              {React.cloneElement(defaultIcons.last, { className: sizeStyles.icon })}
+              {React.cloneElement(defaultIcons.last, {
+                className: sizeStyles.icon,
+              })}
             </span>,
-            currentPage < totalPages ? totalPages : null,
+            totalPages,
             false,
             `Go to last page`
-          )
-        )}
+          )}
       </nav>
 
       {/* Page info and jump to */}
@@ -308,4 +324,4 @@ export const Pagination: React.FC<PaginationProps> = ({
   );
 };
 
-Pagination.displayName = 'Pagination';
+Pagination.displayName = "Pagination";
