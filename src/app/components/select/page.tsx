@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Select } from "@/lib/components/Select";
 import {
   Copy,
@@ -359,7 +359,7 @@ const data = [
                   Color
                 </label>
                 <div className="space-y-3">
-                  <div className="grid grid-cols-4 gap-2">
+                  <div className="grid grid-cols-6 gap-1">
                     {predefinedColors.map((color) => (
                       <button
                         key={color}

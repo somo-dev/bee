@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/lib/components/Button";
+import { ColorPicker } from "@/lib/components/ColorPicker";
 import {
   Download,
   Settings,
@@ -32,9 +33,7 @@ import {
   Palette,
   X,
 } from "lucide-react";
-import { HexColorPicker } from "react-colorful";
 import Image from "next/image";
-import CodeSection from "../../../components/playground/CodeSection";
 
 export default function ButtonPage() {
   // Interactive controls state
@@ -47,52 +46,13 @@ export default function ButtonPage() {
   const [showRightIcon, setShowRightIcon] = useState(false);
   const [primaryColor, setPrimaryColor] = useState("#6366F1");
   const [radius, setRadius] = useState(6);
-  const [showColorPicker, setShowColorPicker] = useState(false);
 
   // Copy state - individual for each code section
   const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
 
-  // Color picker popup ref
-  const colorPickerRef = useRef<HTMLDivElement>(null);
-
-  // Predefined colors
-  const predefinedColors = [
-    "#6B7280",
-    "#EF4444",
-    "#EC4899",
-    "#A855F7",
-    "#8B5CF6",
-    "#3B82F6",
-    "#06B6D4",
-    "#10B981",
-    "#84CC16",
-    "#EAB308",
-    "#F97316",
-  ];
-
   // Size labels for slider
   const sizeLabels = ["xs", "sm", "md", "lg", "xl"];
   const sizeValues = ["sm", "md", "lg", "xl"];
-
-  // Close color picker when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        colorPickerRef.current &&
-        !colorPickerRef.current.contains(event.target as Node)
-      ) {
-        setShowColorPicker(false);
-      }
-    };
-
-    if (showColorPicker) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showColorPicker]);
 
   const copyCode = async (code: string, key: string) => {
     await navigator.clipboard.writeText(code);
@@ -120,12 +80,107 @@ export default function ButtonPage() {
 </Button>`;
   };
 
-  // Simple SyntaxHighlighter: just display code as plain text, no colors
-  const SyntaxHighlighter = ({ code }: { code: string }) => (
-    <pre className="p-4 text-sm overflow-x-auto bg-gray-50 rounded-b-lg">
-      <code className="text-gray-800 leading-relaxed">{code}</code>
-    </pre>
-  );
+  // Enhanced syntax highlighting component
+  const SyntaxHighlighter = ({ code }: { code: string }) => {
+    const highlightCode = (code: string) => {
+      let highlighted = code;
+
+      // Keywords (purple)
+      highlighted = highlighted.replace(
+        /\b(import|from|export|const|let|var|function|return|if|else|for|while|class|extends|interface|type)\b/g,
+        '<span style="color: #8B5CF6; font-weight: 600;">$1</span>'
+      );
+
+      // Strings (green)
+      highlighted = highlighted.replace(
+        /(['"`])((?:(?!\1)[^\\]|\\.)*)(\1)/g,
+        '<span style="color: #10B981;">$1$2$3</span>'
+      );
+
+      // JSX tags (red/orange)
+      highlighted = highlighted.replace(
+        /(<\/?[A-Z][a-zA-Z0-9]*)/g,
+        '<span style="color: #EF4444; font-weight: 500;">$1</span>'
+      );
+
+      // JSX closing brackets
+      highlighted = highlighted.replace(
+        /(\/?>)/g,
+        '<span style="color: #EF4444;">$1</span>'
+      );
+
+      // Props/attributes (blue)
+      highlighted = highlighted.replace(
+        /\s([a-zA-Z][a-zA-Z0-9]*)(=)/g,
+        ' <span style="color: #3B82F6;">$1</span><span style="color: #6B7280;">$2</span>'
+      );
+
+      // Curly braces (yellow/orange)
+      highlighted = highlighted.replace(
+        /(\{[^}]*\})/g,
+        '<span style="color: #F59E0B;">$1</span>'
+      );
+
+      // Comments (gray italic)
+      highlighted = highlighted.replace(
+        /(\/\/.*$)/gm,
+        '<span style="color: #6B7280; font-style: italic;">$1</span>'
+      );
+
+      return highlighted;
+    };
+
+    return (
+      <pre className="p-4 text-sm overflow-x-auto bg-gray-50 rounded-b-lg">
+        <code
+          className="text-gray-800 leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: highlightCode(code) }}
+        />
+      </pre>
+    );
+  };
+
+  // Reusable CodeSection component with enhanced styling
+  const CodeSection = ({
+    code,
+    title,
+    sectionKey,
+  }: {
+    code: string;
+    title: string;
+    sectionKey: string;
+  }) => {
+    const isCopied = copiedStates[sectionKey];
+
+    return (
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+        <div className="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-gray-200">
+          <div className="flex items-center gap-3">
+            <div className="flex gap-1.5">
+              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+            </div>
+            <span className="text-sm font-medium text-gray-700">{title}</span>
+          </div>
+          <button
+            onClick={() => copyCode(code, sectionKey)}
+            className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-md transition-colors"
+          >
+            {isCopied ? (
+              <Check className="w-4 h-4" />
+            ) : (
+              <Copy className="w-4 h-4" />
+            )}
+            <span className="hidden sm:inline">
+              {isCopied ? "Copied!" : "Copy"}
+            </span>
+          </button>
+        </div>
+        <SyntaxHighlighter code={code} />
+      </div>
+    );
+  };
 
   // Custom checkbox component
   const CustomCheckbox = ({
@@ -162,6 +217,24 @@ export default function ButtonPage() {
       </span>
     </label>
   );
+
+  // Generate dynamic styles for the button based on color and variant
+  const getButtonStyles = () => {
+    const styles: React.CSSProperties = {
+      borderRadius: `${radius}px`,
+    };
+
+    // Apply color only to variants that should use it
+    if (variant === "primary") {
+      styles.backgroundColor = primaryColor;
+      styles.borderColor = primaryColor;
+    } else if (variant === "outline") {
+      styles.borderColor = primaryColor;
+      styles.color = primaryColor;
+    }
+
+    return styles;
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -213,210 +286,157 @@ export default function ButtonPage() {
         <section className="mb-12">
           <h2 className="text-2xl font-semibold text-gray-900 mb-8">Usage</h2>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Preview */}
-            <div className="bg-gray-50 rounded-lg border border-gray-200 p-8 flex items-center justify-center min-h-[200px]">
-              <div className={fullWidth ? "w-full" : ""}>
-                <Button
-                  variant={variant as any}
-                  size={size as any}
-                  loading={loading}
-                  disabled={disabled}
-                  fullWidth={fullWidth}
-                  leftIcon={showLeftIcon ? <Download /> : undefined}
-                  rightIcon={showRightIcon ? <ArrowRight /> : undefined}
-                  style={{
-                    borderRadius: `${radius}px`,
-                    ...(variant === "primary" && {
-                      backgroundColor: primaryColor,
-                      borderColor: primaryColor,
-                    }),
-                  }}
-                  className={fullWidth ? "w-full" : ""}
-                >
-                  Button
-                </Button>
-              </div>
-            </div>
-
-            {/* Controls - Original Layout */}
-            <div className="space-y-6">
-              {/* Row 1: Variant and Size (side by side) */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Variant
-                  </label>
-                  <select
-                    value={variant}
-                    onChange={(e) => setVariant(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
-                  >
-                    <option value="primary">Filled</option>
-                    <option value="secondary">Light</option>
-                    <option value="outline">Outline</option>
-                    <option value="ghost">Subtle</option>
-                    <option value="danger">Default</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Size: {size} ({sizeLabels[sizeValues.indexOf(size)]})
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="range"
-                      min="0"
-                      max="3"
-                      value={sizeValues.indexOf(size)}
-                      onChange={(e) =>
-                        setSize(sizeValues[parseInt(e.target.value)])
-                      }
-                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-                    />
-                    <div className="flex justify-between text-xs text-gray-500 mt-1">
-                      {sizeLabels.slice(1).map((label, index) => (
-                        <span key={label} className="text-center">
-                          {label}
-                        </span>
-                      ))}
+          {/* Enhanced Playground Layout */}
+          <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl border border-gray-200 p-8 mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Preview Section */}
+              <div className="order-2 lg:order-1 h-full">
+                <div className="h-full bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
+                  <div className="flex items-center justify-center min-h-[200px]">
+                    <div className={fullWidth ? "w-full h-full" : ""}>
+                      <Button
+                        variant={variant as any}
+                        size={size as any}
+                        loading={loading}
+                        disabled={disabled}
+                        fullWidth={fullWidth}
+                        leftIcon={showLeftIcon ? <Download /> : undefined}
+                        rightIcon={showRightIcon ? <ArrowRight /> : undefined}
+                        style={getButtonStyles()}
+                        className={fullWidth ? "w-full" : ""}
+                      >
+                        Button
+                      </Button>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Row 2: Size and Radius */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Color
-                  </label>
-                  <div className="space-y-3">
-                    <div className="grid grid-cols-4 gap-2">
-                      {predefinedColors.map((color) => (
-                        <button
-                          key={color}
-                          onClick={() => setPrimaryColor(color)}
-                          className={`w-8 h-8 rounded border-2 transition-all ${
-                            primaryColor === color
-                              ? "border-gray-800 scale-110"
-                              : "border-gray-200 hover:border-gray-400"
-                          }`}
-                          style={{ backgroundColor: color }}
-                        />
-                      ))}
-                      <button
-                        onClick={() => setShowColorPicker(!showColorPicker)}
-                        className="w-8 h-8 rounded border-2 border-gray-200 hover:border-gray-400 transition-colors bg-white flex items-center justify-center"
-                      >
-                        <Palette className="w-4 h-4 text-gray-600" />
-                      </button>
-                    </div>
+              {/* Controls Section */}
+              <div className="order-1 lg:order-2">
+                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+                  <div className="flex items-center gap-2 mb-6">
+                    <Settings className="w-5 h-5 text-blue-600" />
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      Interactive Controls
+                    </h3>
+                  </div>
 
-                    {/* Color Picker Popup */}
-                    {showColorPicker && (
-                      <div
-                        ref={colorPickerRef}
-                        className="absolute top-full left-0 mt-2 p-4 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[280px]"
-                      >
-                        <div className="flex items-center justify-between mb-3">
-                          <span className="text-sm font-medium text-gray-700">
-                            Custom Color
-                          </span>
-                          <button
-                            onClick={() => setShowColorPicker(false)}
-                            className="text-gray-400 hover:text-gray-600"
-                          >
-                            <X className="w-8 h-4" />
-                          </button>
-                        </div>
-                        <HexColorPicker
-                          color={primaryColor}
-                          onChange={setPrimaryColor}
-                          className="w-full"
-                        />
-                        <input
-                          type="text"
-                          value={primaryColor}
-                          onChange={(e) => setPrimaryColor(e.target.value)}
-                          className="w-full mt-3 px-3 py-2 border border-gray-300 rounded-md text-xs font-mono focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          placeholder="#000000"
-                        />
+                  <div className="space-y-6">
+                    {/* Row 1: Variant and Size */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Variant
+                        </label>
+                        <select
+                          value={variant}
+                          onChange={(e) => setVariant(e.target.value)}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                        >
+                          <option value="primary">Filled</option>
+                          <option value="secondary">Light</option>
+                          <option value="outline">Outline</option>
+                          <option value="ghost">Subtle</option>
+                          <option value="danger">Default</option>
+                        </select>
                       </div>
-                    )}
-                  </div>
-                </div>
 
-                {/* Row 3: Radius (full width) */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Size: {size} ({sizeLabels[sizeValues.indexOf(size)]})
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="range"
-                      min="0"
-                      max="3"
-                      value={sizeValues.indexOf(size)}
-                      onChange={(e) =>
-                        setSize(sizeValues[parseInt(e.target.value)])
-                      }
-                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-                    />
-                    <div className="flex justify-between text-xs text-gray-500 mt-1">
-                      {sizeLabels.slice(1).map((label, index) => (
-                        <span key={label} className="text-center">
-                          {label}
-                        </span>
-                      ))}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-3">
+                          Size: {size} ({sizeLabels[sizeValues.indexOf(size)]})
+                        </label>
+                        <div className="relative">
+                          <input
+                            type="range"
+                            min="0"
+                            max="3"
+                            value={sizeValues.indexOf(size)}
+                            onChange={(e) =>
+                              setSize(sizeValues[parseInt(e.target.value)])
+                            }
+                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                          />
+                          <div className="flex justify-between text-xs text-gray-500 mt-1">
+                            {sizeLabels.slice(1).map((label, index) => (
+                              <span key={label} className="text-center">
+                                {label}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Row 2: Color */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <ColorPicker
+                        value={primaryColor}
+                        onChange={setPrimaryColor}
+                        label="Color"
+                        size="md"
+                        colorGridColumns={4}
+                      />
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-3">
+                          Radius: {radius}px
+                        </label>
+                        <input
+                          type="range"
+                          min="0"
+                          max="20"
+                          value={radius}
+                          onChange={(e) => setRadius(parseInt(e.target.value))}
+                          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                        />
+                        <div className="flex justify-between text-xs text-gray-500 mt-1">
+                          <span>0px</span>
+                          <span>20px</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Row 3: Radius */}
+
+                    {/* Row 4: Checkboxes */}
+                    <div className="space-y-3">
+                      <CustomCheckbox
+                        checked={loading}
+                        onChange={setLoading}
+                        label="Loading state"
+                      />
+                      <CustomCheckbox
+                        checked={disabled}
+                        onChange={setDisabled}
+                        label="Disabled"
+                      />
+                      <CustomCheckbox
+                        checked={fullWidth}
+                        onChange={setFullWidth}
+                        label="Full width"
+                      />
+                      <CustomCheckbox
+                        checked={showLeftIcon}
+                        onChange={setShowLeftIcon}
+                        label="Left icon"
+                      />
+                      <CustomCheckbox
+                        checked={showRightIcon}
+                        onChange={setShowRightIcon}
+                        label="Right icon"
+                      />
                     </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Row 3: Checkboxes */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <CustomCheckbox
-                    checked={loading}
-                    onChange={setLoading}
-                    label="Loading state"
-                  />
-                  <CustomCheckbox
-                    checked={disabled}
-                    onChange={setDisabled}
-                    label="Disabled"
-                  />
-                  <CustomCheckbox
-                    checked={fullWidth}
-                    onChange={setFullWidth}
-                    label="Full width"
-                  />
-                </div>
-                <div className="space-y-4">
-                  <CustomCheckbox
-                    checked={showLeftIcon}
-                    onChange={setShowLeftIcon}
-                    label="Left icon"
-                  />
-                  <CustomCheckbox
-                    checked={showRightIcon}
-                    onChange={setShowRightIcon}
-                    label="Right icon"
-                  />
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-5">
+          <div className="mt-8">
             <CodeSection
               code={generateCode()}
               title="Demo.tsx"
               sectionKey="interactive-demo"
-              copiedStates={copiedStates}
-              copyCode={copyCode}
             />
           </div>
         </section>
@@ -445,8 +465,6 @@ export default function ButtonPage() {
 <Button variant="danger">Default</Button>`}
             title="Demo.tsx"
             sectionKey="variants"
-            copiedStates={copiedStates}
-            copyCode={copyCode}
           />
         </section>
 
@@ -470,8 +488,6 @@ export default function ButtonPage() {
 <Button size="xl">Extra Large</Button>`}
             title="Demo.tsx"
             sectionKey="sizes"
-            copiedStates={copiedStates}
-            copyCode={copyCode}
           />
         </section>
 
@@ -518,8 +534,6 @@ import { Download, Settings, ArrowRight, Send } from 'lucide-react';
 <Button rightIcon={<Send />} variant="outline">Send</Button>`}
             title="Demo.tsx"
             sectionKey="icons"
-            copiedStates={copiedStates}
-            copyCode={copyCode}
           />
         </section>
 
@@ -554,8 +568,6 @@ import { Upload } from 'lucide-react';
 <Button loading variant="ghost" leftIcon={<Upload />}>Upload</Button>`}
             title="Demo.tsx"
             sectionKey="loading"
-            copiedStates={copiedStates}
-            copyCode={copyCode}
           />
         </section>
 
@@ -597,8 +609,6 @@ import { Save, ArrowRight } from 'lucide-react';
 </Button>`}
             title="Demo.tsx"
             sectionKey="fullwidth"
-            copiedStates={copiedStates}
-            copyCode={copyCode}
           />
         </section>
 
@@ -633,8 +643,6 @@ import { Settings } from 'lucide-react';
 <Button disabled loading variant="ghost">Disabled Loading</Button>`}
             title="Demo.tsx"
             sectionKey="disabled"
-            copiedStates={copiedStates}
-            copyCode={copyCode}
           />
         </section>
       </div>
