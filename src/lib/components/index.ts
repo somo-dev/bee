@@ -18,3 +18,10 @@ export type { PasswordInputProps, OTPInputProps } from "./PasswordInput";
 
 export { Checkbox, CheckboxGroup, CheckboxCard } from "./Checkbox";
 export type { CheckboxProps, CheckboxGroupProps } from "./Checkbox";
+
+export { TransferList } from "./TransferList";
+export type {
+  TransferListProps,
+  TransferListItem,
+  TransferListGroup,
+} from "./TransferList";

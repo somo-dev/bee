@@ -152,6 +152,7 @@ export function ComponentsNav() {
     if (item === "Select") return "/components/select";
     if (item === "Checkbox") return "/components/checkbox";
     if (item === "PasswordInput") return "/components/password-input";
+    if (item === "TransferList") return "/components/transfer-list";
 
     // Default conversion for other items
     return `/components/${item

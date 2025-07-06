@@ -10,7 +10,8 @@ import {
   Code,
   Layers,
   Palette,
-  Smartphone
+  Smartphone,
+  ArrowLeftRight
 } from 'lucide-react';
 import { Button } from '@/lib/components/Button';
 
@@ -46,17 +47,26 @@ const components = [
     color: 'from-purple-500 to-purple-600',
     features: ['4 Variants', 'Jump to Page', 'Page Info', 'Responsive'],
     status: 'Stable'
+  },
+  {
+    name: 'Transfer List',
+    description: 'Advanced transfer list component with search, sort, drag-and-drop, and grouping capabilities.',
+    icon: ArrowLeftRight,
+    href: '/components/transfer-list',
+    color: 'from-orange-500 to-orange-600',
+    features: ['3 Variants', 'Search & Sort', 'Drag & Drop', 'Grouping'],
+    status: 'Stable'
   }
 ];
 
 const stats = [
-  { label: 'Total Components', value: '3', icon: Code },
-  { label: 'Variants Available', value: '13', icon: Zap },
+  { label: 'Total Components', value: '4', icon: Code },
+  { label: 'Variants Available', value: '16', icon: Zap },
   { label: 'Accessibility Score', value: '100%', icon: Shield }
 ];
 
 const upcomingComponents = [
-  'Input', 'Select', 'Modal', 'Tooltip', 'Card', 'Table', 'Tabs', 'Accordion', 'Dropdown', 'Avatar'
+  'Input', 'Select', 'Modal', 'Tooltip', 'Card', 'Table', 'Tabs', 'Accordion', 'Dropdown', 'Avatar', 'Checkbox', 'ColorPicker'
 ];
 
 export default function ComponentsPage() {
