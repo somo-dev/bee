@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Breadcrumbs } from "@/lib/components/Breadcrumbs";
 import { Select } from "@/lib/components/Select";
 import { Home, Folder, FileText, Copy, Check, Settings } from "lucide-react";
+import { Checkbox } from "@/lib/components/Checkbox";
 
 export default function BreadcrumbsPage() {
   // Interactive controls state
@@ -90,42 +91,6 @@ const items = [
       </div>
     );
   };
-
-  // Custom checkbox component
-  const CustomCheckbox = ({
-    checked,
-    onChange,
-    label,
-  }: {
-    checked: boolean;
-    onChange: (checked: boolean) => void;
-    label: string;
-  }) => (
-    <label className="flex items-center gap-3 cursor-pointer group">
-      <div className="relative">
-        <input
-          type="checkbox"
-          checked={checked}
-          onChange={(e) => onChange(e.target.checked)}
-          className="sr-only"
-        />
-        <div
-          className={`w-5 h-5 rounded border-2 transition-all duration-200 ${
-            checked
-              ? "bg-blue-600 border-blue-600"
-              : "border-gray-300 group-hover:border-gray-400"
-          }`}
-        >
-          {checked && (
-            <Check className="w-3 h-3 text-white absolute top-0.5 left-0.5" />
-          )}
-        </div>
-      </div>
-      <span className="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">
-        {label}
-      </span>
-    </label>
-  );
 
   const basicItems = [
     { label: "Mantine", href: "/" },
@@ -251,7 +216,7 @@ const items = [
 
                     {/* Row 3: Checkboxes */}
                     <div className="space-y-3">
-                      <CustomCheckbox
+                      <Checkbox
                         checked={showHomeIcon}
                         onChange={setShowHomeIcon}
                         label="Show home icon"

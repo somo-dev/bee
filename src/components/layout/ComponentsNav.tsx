@@ -151,6 +151,7 @@ export function ComponentsNav() {
     if (item === "Pagination") return "/components/pagination";
     if (item === "Select") return "/components/select";
     if (item === "Checkbox") return "/components/checkbox";
+    if (item === "PasswordInput") return "/components/password-input";
 
     // Default conversion for other items
     return `/components/${item

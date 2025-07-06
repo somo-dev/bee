@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/lib/components/Button";
 import { Select } from "@/lib/components/Select";
+import { Checkbox } from "@/lib/components/Checkbox";
 import { ColorPicker } from "@/lib/components/ColorPicker";
 import {
   Download,
@@ -128,42 +129,6 @@ export default function ButtonPage() {
     );
   };
 
-  // Custom checkbox component
-  const CustomCheckbox = ({
-    checked,
-    onChange,
-    label,
-  }: {
-    checked: boolean;
-    onChange: (checked: boolean) => void;
-    label: string;
-  }) => (
-    <label className="flex items-center gap-3 cursor-pointer group">
-      <div className="relative">
-        <input
-          type="checkbox"
-          checked={checked}
-          onChange={(e) => onChange(e.target.checked)}
-          className="sr-only"
-        />
-        <div
-          className={`w-5 h-5 rounded border-2 transition-all duration-200 ${
-            checked
-              ? "bg-blue-600 border-blue-600"
-              : "border-gray-300 group-hover:border-gray-400"
-          }`}
-        >
-          {checked && (
-            <Check className="w-3 h-3 text-white absolute top-0.5 left-0.5" />
-          )}
-        </div>
-      </div>
-      <span className="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">
-        {label}
-      </span>
-    </label>
-  );
-
   // Select data
   const variantOptions = [
     { value: "primary", label: "Filled" },
@@ -269,37 +234,35 @@ export default function ButtonPage() {
                         </div>
                       </div>
                     </div>
-
-                    {/* Row 4: Checkboxes */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Row 4: Checkboxes */}
                       <div className="space-y-3">
-                        <CustomCheckbox
+                        <Checkbox
                           checked={loading}
                           onChange={setLoading}
                           label="Loading state"
                         />
-                        <CustomCheckbox
+                        <Checkbox
                           checked={disabled}
                           onChange={setDisabled}
                           label="Disabled"
                         />
-                        <CustomCheckbox
+                        <Checkbox
                           checked={fullWidth}
                           onChange={setFullWidth}
                           label="Full width"
                         />
-                        <CustomCheckbox
+                        <Checkbox
                           checked={showLeftIcon}
                           onChange={setShowLeftIcon}
                           label="Left icon"
                         />
-                        <CustomCheckbox
+                        <Checkbox
                           checked={showRightIcon}
                           onChange={setShowRightIcon}
                           label="Right icon"
                         />
                       </div>
-
                       {/* Row 2: Color */}
                       <div className="space-y-3">
                         <ColorPicker

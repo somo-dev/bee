@@ -12,6 +12,8 @@ import {
   Palette,
   Smartphone,
   Type,
+  Eye,
+  CheckSquare,
 } from "lucide-react";
 import { Button } from "@/lib/components/Button";
 import { Select } from "@/lib/components/Select";
@@ -74,6 +76,55 @@ const components = [
       "Collapsible",
     ],
     status: "Stable",
+  },
+  {
+    name: "Checkbox",
+    description:
+      "Capture boolean input from user with optional indeterminate state and custom styling.",
+    icon: CheckSquare,
+    href: "/components/checkbox",
+    color: "from-indigo-500 to-indigo-600",
+    features: ["3 Variants", "Custom Icons", "Indeterminate", "Group Support"],
+    status: "Stable",
+  },
+  {
+    name: "PasswordInput",
+    description:
+      "Secure password input with visibility toggle, strength meter, and OTP support for authentication.",
+    icon: Shield,
+    href: "/components/password-input",
+    color: "from-red-500 to-red-600",
+    features: [
+      "Show/Hide Toggle",
+      "Strength Meter",
+      "OTP Support",
+      "3 Variants",
+    ],
+    status: "Stable",
+    content: (
+      <div className="space-y-4">
+        <div className="relative">
+          <input
+            type="password"
+            placeholder="Enter password"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+          />
+          <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <Eye className="w-4 h-4" />
+          </button>
+        </div>
+        <div className="flex gap-2 justify-center">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div
+              key={i}
+              className="w-8 h-8 border-2 border-gray-300 rounded text-center text-sm flex items-center justify-center font-mono"
+            >
+              {i <= 3 ? "•" : ""}
+            </div>
+          ))}
+        </div>
+      </div>
+    ),
   },
   {
     name: "Pagination",
