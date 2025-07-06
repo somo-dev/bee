@@ -105,6 +105,8 @@ export const TransferList: React.FC<TransferListProps> = ({
   const [dragOverList, setDragOverList] = useState<
     "available" | "selected" | null
   >(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const [dragOverItem, setDragOverItem] = useState<TransferListItem | null>(null);
 
   const dragCounter = useRef(0);
 
@@ -287,6 +289,8 @@ export const TransferList: React.FC<TransferListProps> = ({
   const handleDragEnd = useCallback(() => {
     setDraggedItem(null);
     setDragOverList(null);
+    setDragOverIndex(null);
+    setDragOverItem(null);
     dragCounter.current = 0;
   }, []);
 
@@ -304,6 +308,8 @@ export const TransferList: React.FC<TransferListProps> = ({
     dragCounter.current--;
     if (dragCounter.current === 0) {
       setDragOverList(null);
+      setDragOverIndex(null);
+      setDragOverItem(null);
     }
   }, [sortable, disabled]);
 
@@ -322,11 +328,32 @@ export const TransferList: React.FC<TransferListProps> = ({
         } else {
           handleTransfer([draggedItem.value], "toAvailable");
         }
+      } else {
+        // Reorder within the same list
+        const currentItems = currentList === "selected" ? selectedItemsList : availableItems;
+        const draggedIndex = currentItems.findIndex(item => item.value === draggedItem.value);
+        
+        if (dragOverIndex !== null && draggedIndex !== dragOverIndex) {
+          const newItems = [...currentItems];
+          const [removed] = newItems.splice(draggedIndex, 1);
+          const targetIndex = dragOverIndex > draggedIndex ? dragOverIndex - 1 : dragOverIndex;
+          newItems.splice(targetIndex, 0, removed);
+          
+          // Update the appropriate list
+          if (currentList === "selected") {
+            const newValue = newItems.map(item => item.value);
+            onChange?.(newValue);
+          } else {
+            // For available items, we need to update the data structure
+            // This is more complex as we need to maintain the original data structure
+            onReorder?.(newItems, currentList);
+          }
+        }
       }
 
       handleDragEnd();
     },
-    [sortable, disabled, draggedItem, value, handleTransfer, handleDragEnd]
+    [sortable, disabled, draggedItem, value, handleTransfer, handleDragEnd, selectedItemsList, availableItems, dragOverIndex, onChange, onReorder]
   );
 
   const styles = transferListVariants[variant];
@@ -373,10 +400,12 @@ export const TransferList: React.FC<TransferListProps> = ({
 
   const renderItem = (
     item: TransferListItem,
-    listType: "available" | "selected"
+    listType: "available" | "selected",
+    itemIndex: number
   ) => {
     const isSelected = selectedItems[listType].has(item.value);
     const isDragging = draggedItem?.value === item.value;
+    const isDragOver = dragOverItem?.value === item.value && dragOverList === listType;
 
     return (
       <div
@@ -390,24 +419,45 @@ export const TransferList: React.FC<TransferListProps> = ({
             [draggingItemStyles]: isDragging,
             "opacity-50 cursor-not-allowed": item.disabled,
             "cursor-pointer": !item.disabled,
+            "border-t-2 border-blue-400 bg-blue-50/50": isDragOver,
           },
           fadeInAnimation
         )}
         draggable={sortable && !disabled && !item.disabled}
         onDragStart={() => handleDragStart(item)}
         onDragEnd={handleDragEnd}
+        onDragOver={(e) => {
+          if (sortable && !disabled && draggedItem && draggedItem.value !== item.value) {
+            e.preventDefault();
+            setDragOverItem(item);
+            setDragOverIndex(itemIndex);
+          }
+        }}
+        onDragLeave={(e) => {
+          if (sortable && !disabled) {
+            // Only clear if we're leaving the item (not entering a child)
+            if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+              setDragOverItem(null);
+              setDragOverIndex(null);
+            }
+          }
+        }}
         onClick={() => {
           if (!item.disabled) {
             handleItemSelect(item.value, listType, !isSelected);
           }
         }}
       >
-        {/* Drag Handle */}
-        {sortable && !disabled && !item.disabled && (
-          <div className={cn(dragHandleStyles, sizeStyles.icon)}>
+        {/* Drag Handle - Always reserve space */}
+        <div className={cn(
+          dragHandleStyles, 
+          sizeStyles.icon,
+          isDragging && "opacity-100"
+        )}>
+          {sortable && !disabled && !item.disabled && (
             <GripVertical className={sizeStyles.icon} />
-          </div>
-        )}
+          )}
+        </div>
 
         {/* Checkbox */}
         {showCheckboxes && (
@@ -538,16 +588,53 @@ export const TransferList: React.FC<TransferListProps> = ({
               </p>
             </div>
           ) : (
-            groups.map((group) => (
-              <div key={group.id}>
-                {showGroups && group.label && (
-                  <div className={cn(groupHeaderStyles, sizeStyles.text)}>
-                    {group.label}
+            <>
+              {groups.map((group, groupIndex) => {
+                let globalIndex = 0;
+                // Calculate global index by summing items from previous groups
+                for (let i = 0; i < groupIndex; i++) {
+                  globalIndex += groups[i].items.length;
+                }
+                
+                return (
+                  <div key={group.id}>
+                    {showGroups && group.label && (
+                      <div className={cn(groupHeaderStyles, sizeStyles.text)}>
+                        {group.label}
+                      </div>
+                    )}
+                    {group.items.map((item, localIndex) => 
+                      renderItem(item, listType, globalIndex + localIndex)
+                    )}
                   </div>
-                )}
-                {group.items.map((item) => renderItem(item, listType))}
-              </div>
-            ))
+                );
+              })}
+              
+              {/* Drop zone for end of list */}
+              {sortable && !disabled && (
+                <div
+                  className={cn(
+                    "h-2 transition-all duration-200",
+                    dragOverList === listType && dragOverIndex === totalItems
+                      ? "bg-blue-200 border-t-2 border-blue-400"
+                      : "bg-transparent"
+                  )}
+                  onDragOver={(e) => {
+                    if (sortable && !disabled && draggedItem) {
+                      e.preventDefault();
+                      setDragOverItem(null);
+                      setDragOverIndex(totalItems);
+                    }
+                  }}
+                  onDragLeave={() => {
+                    if (sortable && !disabled) {
+                      setDragOverItem(null);
+                      setDragOverIndex(null);
+                    }
+                  }}
+                />
+              )}
+            </>
           )}
         </div>
       </div>

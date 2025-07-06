@@ -362,134 +362,134 @@ const data = [
 
           {/* Enhanced Playground Layout */}
           <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl border border-gray-200 p-8 mb-8">
-            <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
-              {/* Preview Section */}
-              <div className="xl:col-span-3 order-2 xl:order-1">
-                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm h-full">
-                  <TransferList
-                    data={sampleData}
-                    value={selectedItems}
-                    onChange={setSelectedItems}
-                    titles={["Available Technologies", "Selected Technologies"]}
-                    descriptions={[
-                      "Choose from available options",
-                      "Your selected technologies",
-                    ]}
-                    variant={variant as any}
-                    size={size as any}
-                    searchable={searchable}
-                    sortable={sortable}
-                    showCounts={showCounts}
-                    showTransferAll={showTransferAll}
-                    showGroups={showGroups}
-                    showCheckboxes={showCheckboxes}
-                    disabled={disabled}
-                    preserveOrder={preserveOrder}
-                    listHeight={350}
-                  />
-                </div>
+            {/* Component Preview - Full Width */}
+            <div className="mb-8">
+              <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+                <TransferList
+                  data={sampleData}
+                  value={selectedItems}
+                  onChange={setSelectedItems}
+                  titles={["Available Technologies", "Selected Technologies"]}
+                  descriptions={[
+                    "Choose from available options",
+                    "Your selected technologies",
+                  ]}
+                  variant={variant as any}
+                  size={size as any}
+                  searchable={searchable}
+                  sortable={sortable}
+                  showCounts={showCounts}
+                  showTransferAll={showTransferAll}
+                  showGroups={showGroups}
+                  showCheckboxes={showCheckboxes}
+                  disabled={disabled}
+                  preserveOrder={preserveOrder}
+                  listHeight={400}
+                />
+              </div>
+            </div>
+
+            {/* Controls Section - Separate Row */}
+            <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+              <div className="flex items-center gap-2 mb-6">
+                <Settings className="w-5 h-5 text-blue-600" />
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Component Controls
+                </h3>
               </div>
 
-              {/* Controls Section */}
-              <div className="order-1 xl:order-2">
-                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm h-full">
-                  <div className="flex items-center gap-2 mb-6">
-                    <Settings className="w-5 h-5 text-blue-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      Controls
-                    </h3>
-                  </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Variant Control */}
+                <div>
+                  <Select
+                    data={variantOptions}
+                    value={variant}
+                    onChange={(value) => setVariant(value as string)}
+                    label="Variant"
+                    size="sm"
+                  />
+                </div>
 
-                  <div className="space-y-6">
-                    {/* Row 1: Variant */}
-                    <div>
-                      <Select
-                        data={variantOptions}
-                        value={variant}
-                        onChange={(value) => setVariant(value as string)}
-                        label="Variant"
-                        size="sm"
-                      />
-                    </div>
-
-                    {/* Row 2: Size */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-3">
-                        Size: {size} ({sizeLabels[sizeValues.indexOf(size)]})
-                      </label>
-                      <div className="relative">
-                        <input
-                          type="range"
-                          min="0"
-                          max="3"
-                          value={sizeValues.indexOf(size)}
-                          onChange={(e) =>
-                            setSize(sizeValues[parseInt(e.target.value)])
-                          }
-                          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-                        />
-                        <div className="flex justify-between text-xs text-gray-500 mt-1">
-                          {sizeLabels.slice(1).map((label) => (
-                            <span key={label} className="text-center">
-                              {label}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Row 3: Feature Toggles */}
-                    <div className="space-y-3">
-                      <Checkbox
-                        checked={searchable}
-                        onChange={setSearchable}
-                        label="Searchable"
-                        size="sm"
-                      />
-                      <Checkbox
-                        checked={sortable}
-                        onChange={setSortable}
-                        label="Sortable"
-                        size="sm"
-                      />
-                      <Checkbox
-                        checked={showCounts}
-                        onChange={setShowCounts}
-                        label="Show counts"
-                        size="sm"
-                      />
-                      <Checkbox
-                        checked={showTransferAll}
-                        onChange={setShowTransferAll}
-                        label="Transfer all"
-                        size="sm"
-                      />
-                      <Checkbox
-                        checked={showGroups}
-                        onChange={setShowGroups}
-                        label="Show groups"
-                        size="sm"
-                      />
-                      <Checkbox
-                        checked={showCheckboxes}
-                        onChange={setShowCheckboxes}
-                        label="Checkboxes"
-                        size="sm"
-                      />
-                      <Checkbox
-                        checked={preserveOrder}
-                        onChange={setPreserveOrder}
-                        label="Preserve order"
-                        size="sm"
-                      />
-                      <Checkbox
-                        checked={disabled}
-                        onChange={setDisabled}
-                        label="Disabled"
-                        size="sm"
-                      />
+                {/* Size Control */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    Size: {size} ({sizeLabels[sizeValues.indexOf(size)]})
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="range"
+                      min="0"
+                      max="3"
+                      value={sizeValues.indexOf(size)}
+                      onChange={(e) =>
+                        setSize(sizeValues[parseInt(e.target.value)])
+                      }
+                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                    />
+                    <div className="flex justify-between text-xs text-gray-500 mt-1">
+                      {sizeLabels.slice(1).map((label) => (
+                        <span key={label} className="text-center">
+                          {label}
+                        </span>
+                      ))}
                     </div>
                   </div>
+                </div>
+
+                {/* Feature Toggles - Column 1 */}
+                <div className="space-y-3">
+                  <Checkbox
+                    checked={searchable}
+                    onChange={setSearchable}
+                    label="Searchable"
+                    size="sm"
+                  />
+                  <Checkbox
+                    checked={sortable}
+                    onChange={setSortable}
+                    label="Sortable"
+                    size="sm"
+                  />
+                  <Checkbox
+                    checked={showCounts}
+                    onChange={setShowCounts}
+                    label="Show counts"
+                    size="sm"
+                  />
+                  <Checkbox
+                    checked={showTransferAll}
+                    onChange={setShowTransferAll}
+                    label="Transfer all"
+                    size="sm"
+                  />
+                </div>
+
+                {/* Feature Toggles - Column 2 */}
+                <div className="space-y-3">
+                  <Checkbox
+                    checked={showGroups}
+                    onChange={setShowGroups}
+                    label="Show groups"
+                    size="sm"
+                  />
+                  <Checkbox
+                    checked={showCheckboxes}
+                    onChange={setShowCheckboxes}
+                    label="Checkboxes"
+                    size="sm"
+                  />
+                  <Checkbox
+                    checked={preserveOrder}
+                    onChange={setPreserveOrder}
+                    label="Preserve order"
+                    size="sm"
+                  />
+                  <Checkbox
+                    checked={disabled}
+                    onChange={setDisabled}
+                    label="Disabled"
+                    size="sm"
+                  />
                 </div>
               </div>
             </div>
