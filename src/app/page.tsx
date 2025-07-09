@@ -12,8 +12,10 @@ import {
   Palette,
   Smartphone,
   Type,
-  Eye,
   CheckSquare,
+  ChevronLeft,
+  Eye,
+  List,
 } from "lucide-react";
 import { Button } from "@/lib/components/Button";
 import { Select } from "@/lib/components/Select";
@@ -122,6 +124,58 @@ const components = [
               {i <= 3 ? "•" : ""}
             </div>
           ))}
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: "TransferList",
+    description:
+      "Move items between two lists with search, sort, drag-and-drop, and multi-selection capabilities.",
+    icon: List,
+    href: "/components/transfer-list",
+    color: "from-teal-500 to-teal-600",
+    features: ["Drag & Drop", "Search & Filter", "Multi-Select", "Grouping"],
+    status: "Stable",
+    content: (
+      <div className="space-y-3">
+        <div className="grid grid-cols-2 gap-2">
+          <div className="bg-gray-50 border border-gray-200 rounded p-2">
+            <div className="text-xs font-medium text-gray-600 mb-2">
+              Available
+            </div>
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 p-1 bg-white rounded text-xs">
+                <div className="w-2 h-2 bg-blue-500 rounded"></div>
+                React
+              </div>
+              <div className="flex items-center gap-2 p-1 bg-white rounded text-xs">
+                <div className="w-2 h-2 bg-green-500 rounded"></div>
+                Vue.js
+              </div>
+            </div>
+          </div>
+          <div className="bg-gray-50 border border-gray-200 rounded p-2">
+            <div className="text-xs font-medium text-gray-600 mb-2">
+              Selected
+            </div>
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 p-1 bg-blue-50 border border-blue-200 rounded text-xs">
+                <div className="w-2 h-2 bg-purple-500 rounded"></div>
+                Angular
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-center">
+          <div className="flex gap-1">
+            <div className="w-6 h-6 bg-blue-100 rounded flex items-center justify-center">
+              <ChevronRight className="w-3 h-3 text-blue-600" />
+            </div>
+            <div className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center">
+              <ChevronLeft className="w-3 h-3 text-gray-600" />
+            </div>
+          </div>
         </div>
       </div>
     ),

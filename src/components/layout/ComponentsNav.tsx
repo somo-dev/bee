@@ -101,7 +101,7 @@ const navigationSections = [
   },
   {
     title: "Feedback",
-    icon: Bell,
+    icon: Grid3X3,
     items: [
       "Alert",
       "Loader",
@@ -113,7 +113,7 @@ const navigationSections = [
   },
   {
     title: "Overlay",
-    icon: Layers,
+    icon: Bell,
     items: [
       "Affix",
       "Dialog",
@@ -153,6 +153,7 @@ export function ComponentsNav() {
     if (item === "Checkbox") return "/components/checkbox";
     if (item === "PasswordInput") return "/components/password-input";
     if (item === "TransferList") return "/components/transfer-list";
+    if (item === "Timeline") return "/components/timeline";
 
     // Default conversion for other items
     return `/components/${item
