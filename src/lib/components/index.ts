@@ -31,3 +31,6 @@ export type { AccordionProps, AccordionItem } from "./Accordion";
 
 export { Timeline } from "./Timeline";
 export type { TimelineProps, TimelineItem } from "./Timeline";
+
+export { Image } from "./Image";
+export type { ImageProps } from "./Image";

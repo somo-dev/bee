@@ -57,17 +57,17 @@ export const Timeline: React.FC<TimelineProps> = ({
   variant = "default",
   size = "md",
   align = "left",
-  lineColor = "#e5e7eb",
+  lineColor = "#3b82f6",
   lineWidth = 2,
   lineType = "solid",
-  bulletColor = "#6366f1",
-  bulletSize = 12,
+  bulletColor = "#3b82f6",
+  bulletSize = 32,
   showLine = true,
   showTimestamp = true,
   interactive = false,
   showNumbers = false,
   reverse = false,
-  itemSpacing = 24,
+  itemSpacing = 32,
   animateOnScroll = false,
   onItemClick,
   styles,
@@ -78,8 +78,10 @@ export const Timeline: React.FC<TimelineProps> = ({
   ...props
 }) => {
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
-  const timelineRef = useRef<HTMLDivElement>(null);
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  // Change timelineRef to RefObject<HTMLUListElement> if needed
+  const timelineRef = useRef<HTMLUListElement>(null);
+  // Change itemRefs type to HTMLLIElement | null
+  const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
 
   // Handle scroll animations
   useEffect(() => {
@@ -168,7 +170,7 @@ export const Timeline: React.FC<TimelineProps> = ({
 
   // Render timeline item
   const renderItem = (item: TimelineItem, index: number) => {
-    const isVisible = visibleItems.has(index);
+    const isVisible = Array.from(visibleItems).includes(index);
     const isLast = index === items.length - 1;
     const itemColor = getBulletColor(item);
     const icon = getItemIcon(item);
@@ -196,107 +198,50 @@ export const Timeline: React.FC<TimelineProps> = ({
       styles_variant.bullet,
       sizeStyles.bullet,
       {
-        [scaleInAnimation]: animateOnScroll && isVisible,
-        [pulseAnimation]: item.active,
+        [completedItemStyles]: item.completed,
+        [activeItemStyles]: item.active && !item.completed,
+        [disabledItemStyles]: item.disabled,
       },
       styles?.bullet
     );
 
+    // Determine icon color
+    let iconColor = "#6b7280"; // default gray
+    if (item.completed) iconColor = "#fff";
+    else if (item.active) iconColor = "#3b82f6";
+
     return (
-      <div
+      <li
         key={item.id}
-        ref={(el) => (itemRefs.current[index] = el)}
+        ref={(el) => { itemRefs.current[index] = el; }}
         data-index={index}
         className={itemClasses}
         onClick={() => handleItemClick(item, index)}
         style={{
-          paddingBottom: isLast ? 0 : `${itemSpacing}px`,
           opacity: animateOnScroll && !isVisible ? 0 : 1,
         }}
       >
-        {/* Timeline Line */}
-        {showLine && !isLast && (
-          <div
-            className={cn(
-              styles_variant.line,
-              sizeStyles.lineOffset,
-              {
-                [drawLineAnimation]: animateOnScroll && isVisible,
-              },
-              styles?.line
-            )}
-            style={{
-              backgroundColor: lineColor,
-              width: `${lineWidth}px`,
-              borderStyle: lineType,
-              transform: `translateX(${
-                (sizeStyles.bulletSize - lineWidth) / 2
-              }px)`,
-            }}
-          />
-        )}
-
         {/* Bullet */}
-        <div className="relative">
-          <div
-            className={bulletClasses}
-            style={{
-              backgroundColor: variant === "filled" ? itemColor : "white",
-              borderColor: itemColor,
-              width: item.bulletSize || bulletSize,
-              height: item.bulletSize || bulletSize,
-            }}
-          >
-            {React.cloneElement(icon, {
-              className: cn(
-                sizeStyles.icon,
-                variant === "filled" ? "text-white" : "",
-                icon.props.className
-              ),
-              style: { color: variant !== "filled" ? itemColor : undefined },
-            })}
-          </div>
-
-          {/* Number Badge */}
-          {showNumbers && <div className={numberBadgeStyles}>{index + 1}</div>}
-        </div>
-
-        {/* Content */}
-        <div
-          className={cn(
-            styles_variant.content,
-            alignmentStyles.content,
-            styles?.content
-          )}
-        >
-          {/* Title */}
-          <div className={cn(titleStyles, sizeStyles.title)}>{item.title}</div>
-
-          {/* Description */}
-          {item.description && (
-            <div className={cn(descriptionStyles, sizeStyles.description)}>
-              {item.description}
-            </div>
-          )}
-
+        <span className={bulletClasses}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5 text-white">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+          </svg>
+        </span>
+        <div className={styles_variant.content}>
           {/* Timestamp */}
           {showTimestamp && item.timestamp && (
-            <div
-              className={cn(
-                timestampStyles,
-                sizeStyles.timestamp,
-                "mt-2",
-                styles?.timestamp
-              )}
-            >
-              {item.timestamp}
-            </div>
+            <time className={timestampStyles}>{item.timestamp}</time>
           )}
-
+          {/* Title */}
+          <div className={titleStyles}>{item.title}</div>
+          {/* Description */}
+          {item.description && (
+            <div className={descriptionStyles}>{item.description}</div>
+          )}
           {/* Additional Content */}
           {item.children && <div className="mt-3">{item.children}</div>}
         </div>
-      </div>
+      </li>
     );
   };
 
@@ -331,7 +276,7 @@ export const Timeline: React.FC<TimelineProps> = ({
   }
 
   return (
-    <div
+    <ul
       ref={timelineRef}
       className={cn(
         styles_variant.root,
@@ -345,7 +290,7 @@ export const Timeline: React.FC<TimelineProps> = ({
       <style jsx>{`
         ${timelineAnimations}
       `}</style>
-    </div>
+    </ul>
   );
 };
 

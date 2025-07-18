@@ -147,12 +147,10 @@ export function ComponentsNav() {
   const getItemHref = (item: string) => {
     // Handle special cases for existing pages
     if (item === "Button") return "/components/button";
-    if (item === "Breadcrumbs") return "/components/breadcrumb";
+    if (item === "Breadcrumbs") return "/components/breadcrumbs";
     if (item === "Pagination") return "/components/pagination";
     if (item === "Select") return "/components/select";
     if (item === "Checkbox") return "/components/checkbox";
-    if (item === "PasswordInput") return "/components/password-input";
-    if (item === "TransferList") return "/components/transfer-list";
     if (item === "Timeline") return "/components/timeline";
 
     // Default conversion for other items

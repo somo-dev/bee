@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import { ChevronDown, X, Search, Check } from "lucide-react";
 import { SelectProps, SelectOption, SelectGroup } from "./Select.types";

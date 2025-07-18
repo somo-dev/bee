@@ -165,7 +165,6 @@ const items = [
       description: "You've created new branch fix-notifications from master",
       timestamp: "2 hours ago",
       icon: <GitBranch />,
-      active: true,
       color: "#3b82f6",
     },
     {
@@ -183,7 +182,7 @@ const items = [
         "You've submitted a pull request Fix incorrect notification message (#187)",
       timestamp: "34 minutes ago",
       icon: <GitPullRequest />,
-      color: "#8b5cf6",
+      color: "#d1d5db",
     },
     {
       id: "code-review",
@@ -191,7 +190,7 @@ const items = [
       description: "Robert Gluesticker left a code review on your pull request",
       timestamp: "12 minutes ago",
       icon: <MessageSquare />,
-      color: "#06b6d4",
+      color: "#d1d5db",
     },
   ];
 
@@ -603,8 +602,9 @@ const items = [
           <div className="bg-gray-50 rounded-lg border border-gray-200 p-8 mb-6">
             <Timeline
               items={gitTimelineItems}
-              variant="default"
-              bulletColor="#3b82f6"
+              variant="filled"
+              bulletColor="#d1d5db"
+              lineColor="#3b82f6"
               interactive
               onItemClick={(item) => console.log("Clicked:", item.title)}
             />
@@ -633,8 +633,9 @@ const items = [
 
 <Timeline
   items={gitItems}
-  variant="default"
-  bulletColor="#3b82f6"
+  variant="filled"
+  bulletColor="#d1d5db"
+  lineColor="#3b82f6"
   interactive
   onItemClick={(item) => console.log('Clicked:', item.title)}
 />`}
