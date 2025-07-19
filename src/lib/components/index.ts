@@ -40,3 +40,6 @@ export type {
 
 export { Image } from "./Image";
 export type { ImageProps } from "./Image";
+
+export { JSONInput } from "./JSONInput";
+export type { JSONInputProps } from "./JSONInput";

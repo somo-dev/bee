@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { ImageIcon, AlertCircle, Loader2, Eye } from "lucide-react";
 import { ImageProps } from "./Image.types";

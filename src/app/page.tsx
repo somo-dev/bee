@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
 import {
@@ -14,6 +12,7 @@ import {
   Palette,
   Smartphone,
   Type,
+  Camera,
   CheckSquare,
   ChevronLeft,
   Eye,
@@ -21,7 +20,9 @@ import {
 } from "lucide-react";
 import { Button } from "@/lib/components/Button";
 import { Select } from "@/lib/components/Select";
-import Image from "next/image";
+import { SegmentedControl } from "@/lib/components/SegmentedControl";
+import { Image } from "@/lib/components/Image";
+import { JSONInput } from "@/lib/components/JSONInput";
 
 const components = [
   {
@@ -67,6 +68,38 @@ const components = [
     ),
   },
   {
+    name: "SegmentedControl",
+    description:
+      "Linear set of segments, each functioning as a mutually exclusive button with smooth animations.",
+    icon: Type,
+    href: "/components/segmented-control",
+    color: "from-cyan-500 to-cyan-600",
+    features: [
+      "4 Variants",
+      "Icon Support",
+      "Vertical Layout",
+      "Custom Colors",
+    ],
+    status: "Stable",
+    content: (
+      <div className="space-y-4">
+        <SegmentedControl
+          data={["React", "Vue", "Angular"]}
+          value="React"
+          onChange={() => {}}
+          size="sm"
+        />
+        <SegmentedControl
+          data={["Mobile", "Desktop"]}
+          value="Mobile"
+          onChange={() => {}}
+          variant="pills"
+          size="sm"
+        />
+      </div>
+    ),
+  },
+  {
     name: "Breadcrumbs",
     description:
       "Navigation breadcrumb component with customizable separators, icons, and collapsible items.",
@@ -90,6 +123,79 @@ const components = [
     color: "from-indigo-500 to-indigo-600",
     features: ["3 Variants", "Custom Icons", "Indeterminate", "Group Support"],
     status: "Stable",
+  },
+  {
+    name: "Image",
+    description:
+      "Highly optimized image component with advanced effects, overlays, filters, and performance features.",
+    icon: Camera,
+    href: "/components/image",
+    color: "from-pink-500 to-pink-600",
+    features: ["5 Variants", "Advanced Filters", "Overlays", "Lazy Loading"],
+    status: "Stable",
+    content: (
+      <div className="space-y-3">
+        <Image
+          src="https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg"
+          alt="Sample image"
+          width={180}
+          height={120}
+          variant="rounded"
+          radius={8}
+        />
+        <div className="flex gap-2">
+          <Image
+            src="https://images.pexels.com/photos/1029604/pexels-photo-1029604.jpeg"
+            alt="Circular"
+            width={40}
+            height={40}
+            variant="circular"
+          />
+          <Image
+            src="https://images.pexels.com/photos/1366919/pexels-photo-1366919.jpeg"
+            alt="Thumbnail"
+            width={40}
+            height={40}
+            variant="thumbnail"
+          />
+          <Image
+            src="https://images.pexels.com/photos/1287145/pexels-photo-1287145.jpeg"
+            alt="Grayscale"
+            width={40}
+            height={40}
+            variant="rounded"
+            grayscale={1}
+          />
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: "JSONInput",
+    description:
+      "Advanced JSON editor with VS Code-like features, syntax highlighting, validation, and keyboard shortcuts.",
+    icon: Code,
+    href: "/components/json-input",
+    color: "from-emerald-500 to-emerald-600",
+    features: [
+      "Syntax Highlighting",
+      "Real-time Validation",
+      "Auto-formatting",
+      "Keyboard Shortcuts",
+    ],
+    status: "Stable",
+    content: (
+      <div className="space-y-3">
+        <JSONInput
+          value='{\n  "name": "Demo",\n  "active": true\n}'
+          onChange={() => {}}
+          height={120}
+          showLineNumbers={false}
+          showValidationStatus={false}
+          size="sm"
+        />
+      </div>
+    ),
   },
   {
     name: "PasswordInput",

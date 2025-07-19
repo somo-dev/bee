@@ -152,6 +152,7 @@ export function ComponentsNav() {
     if (item === "Select") return "/components/select";
     if (item === "Checkbox") return "/components/checkbox";
     if (item === "Timeline") return "/components/timeline";
+    if (item === "JsonInput") return "/components/json-input";
 
     // Default conversion for other items
     return `/components/${item
