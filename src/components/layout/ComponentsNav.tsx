@@ -80,6 +80,7 @@ const navigationSections = [
       "Pagination",
       "Stepper",
       "Tabs",
+      "TableOfContents"
     ],
   },
   {
@@ -154,6 +155,8 @@ export function ComponentsNav() {
     if (item === "Timeline") return "/components/timeline";
     if (item === "JsonInput") return "/components/json-input";
     if (item === "ColorPicker") return "/components/color-picker";
+    if (item === "TableOfContents") return "/components/table-of-contents";
+    if (item === "TransferList") return "/components/transfer-list";
 
     // Default conversion for other items
     return `/components/${item

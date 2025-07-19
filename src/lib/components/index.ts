@@ -43,3 +43,9 @@ export type { ImageProps } from "./Image";
 
 export { JSONInput } from "./JSONInput";
 export type { JSONInputProps } from "./JSONInput";
+
+export { TableOfContents } from "./TableOfContents";
+export type {
+  TableOfContentsProps,
+  TableOfContentsItem,
+} from "./TableOfContents";
