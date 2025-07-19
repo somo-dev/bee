@@ -153,6 +153,7 @@ export function ComponentsNav() {
     if (item === "Checkbox") return "/components/checkbox";
     if (item === "Timeline") return "/components/timeline";
     if (item === "JsonInput") return "/components/json-input";
+    if (item === "ColorPicker") return "/components/color-picker";
 
     // Default conversion for other items
     return `/components/${item

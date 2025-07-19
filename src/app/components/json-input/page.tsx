@@ -248,7 +248,7 @@ export default function JSONInputPage() {
 
           {/* Enhanced Playground Layout */}
           <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl border border-gray-200 p-8 mb-8">
-            <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 xl:grid-cols-4 gap-3">
               {/* Preview Section */}
               <div className="xl:col-span-3 order-2 xl:order-1">
                 <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm h-full">
@@ -285,7 +285,7 @@ export default function JSONInputPage() {
 
               {/* Controls Section */}
               <div className="order-1 xl:order-2">
-                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm h-full">
+                <div className="bg-white rounded-xl border border-gray-200 pl-4 pt-6 pb-4 pr-2 shadow-sm h-full">
                   <div className="flex items-center gap-2 mb-6">
                     <Settings className="w-5 h-5 text-blue-600" />
                     <h3 className="text-lg font-semibold text-gray-900">
@@ -293,7 +293,7 @@ export default function JSONInputPage() {
                     </h3>
                   </div>
 
-                  <div className="space-y-6 max-h-[600px] overflow-y-auto">
+                  <div className="space-y-6 max-h-[600px] overflow-y-auto p-2">
                     {/* Row 1: Variant */}
                     <div>
                       <Select
