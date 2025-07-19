@@ -32,5 +32,11 @@ export type { AccordionProps, AccordionItem } from "./Accordion";
 export { Timeline } from "./Timeline";
 export type { TimelineProps, TimelineItem } from "./Timeline";
 
+export { SegmentedControl } from "./SegmentedControl";
+export type {
+  SegmentedControlProps,
+  SegmentedControlItem,
+} from "./SegmentedControl";
+
 export { Image } from "./Image";
 export type { ImageProps } from "./Image";
