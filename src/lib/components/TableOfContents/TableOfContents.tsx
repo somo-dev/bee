@@ -84,7 +84,7 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
   items = [],
   activeId,
   onItemClick,
-  variant = "default",
+  variant = "minimal",
   size = "md",
   position = "left",
   height = "auto",
@@ -109,9 +109,7 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
 }) => {
   const [internalActiveId, setInternalActiveId] = useState<string | null>(null);
   const [collapsedItems, setCollapsedItems] = useState<Set<string>>(new Set());
-  const [isScrolling, setIsScrolling] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const observerRef = useRef<IntersectionObserver | null>(null);
 
   // Use controlled or internal active state
   const currentActiveId = activeId !== undefined ? activeId : internalActiveId;
@@ -128,8 +126,6 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
     if (!autoDetectActive || activeId !== undefined) return;
 
     const handleScroll = () => {
-      if (isScrolling) return;
-
       const scrollContainer = document.documentElement || document.body;
       const scrollTop = scrollContainer.scrollTop;
 
@@ -181,7 +177,6 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
     flatItems,
     scrollOffset,
     internalActiveId,
-    isScrolling,
   ]);
 
   // Handle item click
@@ -189,9 +184,7 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
     (item: TableOfContentsItem) => {
       if (item.disabled) return;
 
-      // Set scrolling state to prevent auto-detection conflicts
-      setIsScrolling(true);
-      setTimeout(() => setIsScrolling(false), 1000);
+      
 
       // Update active state
       if (activeId === undefined) {
@@ -251,14 +244,14 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
 
   // Generate item number
   const getItemNumber = useCallback(
-    (item: TableOfContentsItem & { level: number }, index: number): string => {
+    (item: TableOfContentsItem & { level: number }): string => {
       if (!showNumbers) return "";
 
       // Simple numbering for now - could be enhanced for hierarchical numbering
       const sameLevel = flatItems.filter((i) => i.level === item.level);
       const itemIndex = sameLevel.findIndex((i) => i.id === item.id) + 1;
 
-      return item.level === 0 ? `${itemIndex}` : `${itemIndex}`;
+      return `${itemIndex}`;
     },
     [flatItems, showNumbers]
   );
@@ -295,7 +288,7 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
     const isCollapsed = collapsedItems.has(item.id);
     const hasChildren = item.children && item.children.length > 0;
     const isVisible = isItemVisible(item);
-    const itemNumber = getItemNumber(item, index);
+    const itemNumber = getItemNumber(item);
 
     if (!isVisible) return null;
 
@@ -328,12 +321,7 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
           role="button"
           tabIndex={item.disabled ? -1 : 0}
           aria-current={isActive ? "location" : undefined}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              handleItemClick(item);
-            }
-          }}
+
         >
           {/* Nested indicator line */}
           {item.level > 0 && (

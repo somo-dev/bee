@@ -44,7 +44,7 @@ import {
 
 export default function TableOfContentsPage() {
   // Interactive controls state
-  const [variant, setVariant] = useState("default");
+  const [variant, setVariant] = useState("minimal");
   const [size, setSize] = useState("md");
   const [position, setPosition] = useState("left");
   const [disabled, setDisabled] = useState(false);
@@ -80,7 +80,7 @@ export default function TableOfContentsPage() {
 
   const generateCode = () => {
     const props = [];
-    if (variant !== "default") props.push(`variant="${variant}"`);
+    if (variant !== "minimal") props.push(`variant="${variant}"`);
     if (size !== "md") props.push(`size="${size}"`);
     if (position !== "left") props.push(`position="${position}"`);
     if (!smoothScroll) props.push("smoothScroll={false}");
@@ -323,7 +323,6 @@ const tocItems = [
 
   // Select data
   const variantOptions = [
-    { value: "default", label: "Default" },
     { value: "minimal", label: "Minimal" },
     { value: "sidebar", label: "Sidebar" },
     { value: "floating", label: "Floating" },
@@ -612,7 +611,7 @@ const tocItems = [
                 <TableOfContents
                   items={minimalTocItems}
                   activeId="usage"
-                  variant="default"
+                  variant="minimal"
                   height={300}
                   showTitle={false}
                 />
@@ -667,8 +666,7 @@ const tocItems = [
 
           <div className="mt-6">
             <CodeSection
-              code={`<TableOfContents variant="default" items={items} />
-<TableOfContents variant="minimal" items={items} />
+              code={`<TableOfContents variant="minimal" items={items} />
 <TableOfContents variant="sidebar" items={items} />
 <TableOfContents variant="floating" items={items} />`}
               title="Demo.tsx"
@@ -684,15 +682,15 @@ const tocItems = [
           </h2>
 
           <div className="bg-gray-50 rounded-lg border border-gray-200 p-8 mb-6">
-            <TableOfContents
-              items={nestedTocItems}
-              activeId="button-variants"
-              variant="default"
-              height={400}
-              showNested
-              collapsible
-              maxLevel={3}
-            />
+                            <TableOfContents
+                  items={nestedTocItems}
+                  activeId="button-variants"
+                  variant="minimal"
+                  height={400}
+                  showNested
+                  collapsible
+                  maxLevel={3}
+                />
           </div>
 
           <CodeSection
@@ -842,7 +840,7 @@ const tocItems = [
                 <TableOfContents
                   items={sampleTocItems.slice(0, 6)}
                   activeId="thumb-icon"
-                  variant="default"
+                  variant="minimal"
                   height={200}
                   showTitle={false}
                 />

@@ -41,7 +41,6 @@ export interface TableOfContentsItem {
 }
 
 export type TableOfContentsVariant =
-  | "default"
   | "minimal"
   | "sidebar"
   | "floating";
@@ -65,7 +64,7 @@ export interface TableOfContentsProps extends BaseComponentProps {
 
   /**
    * Visual variant of the table of contents
-   * @default 'default'
+   * @default 'minimal'
    */
   variant?: TableOfContentsVariant;
 

@@ -13,27 +13,6 @@ export const tableOfContentsVariants: Record<
     nestedItem: string;
   }
 > = {
-  default: {
-    container: `
-      bg-gray-900 text-white rounded-lg border border-gray-700
-      shadow-lg overflow-hidden
-    `,
-    item: `
-      flex items-center gap-3 px-4 py-2.5 text-gray-300
-      hover:bg-gray-800 hover:text-white
-      transition-all duration-200 ease-out
-      cursor-pointer border-l-2 border-transparent
-      group relative
-    `,
-    activeItem: `
-      bg-blue-900 text-white border-l-blue-500
-      hover:bg-blue-800
-    `,
-    nestedItem: `
-      pl-8 text-gray-400 text-sm
-      hover:text-gray-200
-    `,
-  },
   minimal: {
     container: `
       bg-white border border-gray-200 rounded-lg
@@ -158,7 +137,6 @@ export const baseTocStyles = `
 export const tocItemStyles = `
   relative flex items-center
   transition-all duration-200 ease-out
-  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
   select-none
 `;
 
