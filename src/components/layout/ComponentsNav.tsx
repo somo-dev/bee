@@ -126,6 +126,20 @@ const navigationSections = [
       "Overlay",
       "Popover",
       "Tooltip",
+      "Toaster",
+    ],
+  },
+  {
+    title: "Feedback",
+    icon: Bell,
+    items: [
+      "Alert",
+      "Loader",
+      "Notification",
+      "Progress",
+      "RingProgress",
+      "Skeleton",
+      "Toaster",
     ],
   },
 ];
@@ -157,6 +171,7 @@ export function ComponentsNav() {
     if (item === "ColorPicker") return "/components/color-picker";
     if (item === "TableOfContents") return "/components/table-of-contents";
     if (item === "TransferList") return "/components/transfer-list";
+    if (item === "Toaster") return "/components/toaster";
 
     // Default conversion for other items
     return `/components/${item
