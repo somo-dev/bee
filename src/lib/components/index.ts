@@ -50,6 +50,9 @@ export type {
   TableOfContentsItem,
 } from "./TableOfContents";
 
+export { Drawer } from "./Drawer";
+export type { DrawerProps } from "./Drawer";
+
 export { Toaster, ToastProvider, useToast, useToastHelpers } from "./Toaster";
 export type {
   ToasterProps,

@@ -302,7 +302,7 @@ function Demo() {
 
               {/* Controls Section */}
               <div className="order-1 xl:order-2">
-                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm h-full">
+                <div className="bg-white rounded-xl border border-gray-200 pl-4 pt-6 pb-4 pr-2 shadow-sm h-full">
                   <div className="flex items-center gap-2 mb-6">
                     <Settings className="w-5 h-5 text-blue-600" />
                     <h3 className="text-lg font-semibold text-gray-900">
@@ -310,7 +310,7 @@ function Demo() {
                     </h3>
                   </div>
 
-                  <div className="space-y-6 max-h-[600px] overflow-y-auto">
+                  <div className="space-y-6 max-h-[600px] overflow-y-auto p-2">
                     {/* Row 1: Position */}
                     <div>
                       <Select
