@@ -2,7 +2,6 @@ import { ReactNode, ReactElement } from "react";
 import { BaseComponentProps, Size } from "../../types/common";
 
 export type DrawerPosition = "left" | "right" | "top" | "bottom";
-export type DrawerVariant = "default" | "overlay" | "push" | "mini";
 
 export interface DrawerProps extends BaseComponentProps {
   /**
@@ -26,12 +25,6 @@ export interface DrawerProps extends BaseComponentProps {
    * @default 'md'
    */
   size?: Size | number;
-
-  /**
-   * Visual variant of the drawer
-   * @default 'default'
-   */
-  variant?: DrawerVariant;
 
   /**
    * Custom color for the drawer

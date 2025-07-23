@@ -1,50 +1,5 @@
 import { Size } from "../../types/common";
-import { DrawerPosition, DrawerVariant } from "./Drawer.types";
-
-export const drawerVariants: Record<
-  DrawerVariant,
-  {
-    content: string;
-    overlay: string;
-  }
-> = {
-  default: {
-    content: `
-      bg-white border-r border-gray-200
-      shadow-xl
-    `,
-    overlay: `
-      bg-purple-900 bg-opacity-20 backdrop-blur-sm
-    `,
-  },
-  overlay: {
-    content: `
-      bg-white/95 backdrop-blur-md border-gray-200/50
-      shadow-2xl
-    `,
-    overlay: `
-      bg-purple-900 bg-opacity-30 backdrop-blur-md
-    `,
-  },
-  push: {
-    content: `
-      bg-white border-gray-200
-      shadow-xl
-    `,
-    overlay: `
-      bg-transparent
-    `,
-  },
-  mini: {
-    content: `
-      bg-white border-gray-200
-      shadow-lg
-    `,
-    overlay: `
-      bg-purple-900 bg-opacity-15 backdrop-blur-sm
-    `,
-  },
-};
+import { DrawerPosition } from "./Drawer.types";
 
 export const drawerSizes: Record<
   Size,
@@ -58,14 +13,22 @@ export const drawerSizes: Record<
   }
 > = {
   sm: {
+    width: "w-72",
+    height: "h-48",
+    padding: "p-0",
+    header: "px-4 py-3",
+    title: "text-base font-semibold text-gray-900",
+    closeButton: "w-8 h-8",
+  },
+  md: {
     width: "w-80",
     height: "h-64",
     padding: "p-0",
-    header: "px-6 py-4",
+    header: "px-5 py-4",
     title: "text-lg font-semibold text-gray-900",
-    closeButton: "w-10 h-10",
+    closeButton: "w-9 h-9",
   },
-  md: {
+  lg: {
     width: "w-96",
     height: "h-80",
     padding: "p-0",
@@ -73,21 +36,13 @@ export const drawerSizes: Record<
     title: "text-xl font-semibold text-gray-900",
     closeButton: "w-10 h-10",
   },
-  lg: {
-    width: "w-[26rem]",
+  xl: {
+    width: "w-[28rem]",
     height: "h-96",
     padding: "p-0",
-    header: "px-6 py-6",
-    title: "text-xl font-semibold text-gray-900",
+    header: "px-7 py-6",
+    title: "text-2xl font-semibold text-gray-900",
     closeButton: "w-12 h-12",
-  },
-  xl: {
-    width: "w-[30rem]",
-    height: "h-[28rem]",
-    padding: "p-0",
-    header: "px-6 py-6",
-    title: "text-xl font-semibold text-gray-900",
-    closeButton: "w-14 h-14",
   },
 };
 
@@ -143,11 +98,13 @@ export const baseDrawerStyles = `
 
 export const overlayStyles = `
   absolute inset-0
+  bg-black bg-opacity-20 backdrop-blur-sm
   transition-all duration-300 ease-out
 `;
 
 export const contentStyles = `
   absolute flex flex-col
+  bg-white border-gray-200 shadow-xl
   transition-all duration-300 ease-out
   transform-gpu
 `;

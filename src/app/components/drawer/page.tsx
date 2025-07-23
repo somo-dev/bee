@@ -22,12 +22,13 @@ import {
   X,
   ChevronDown,
 } from "lucide-react";
+import { drawerSizes } from "@/lib/components/Drawer/Drawer.styles";
+import { cn } from "@/lib/utils/cn";
 
 export default function DrawerPage() {
   // Interactive controls state
   const [position, setPosition] = useState("left");
   const [size, setSize] = useState("lg");
-  const [variant, setVariant] = useState("default");
   const [withOverlay, setWithOverlay] = useState(true);
   const [closeOnClickOutside, setCloseOnClickOutside] = useState(true);
   const [closeOnEscape, setCloseOnEscape] = useState(true);
@@ -52,7 +53,6 @@ export default function DrawerPage() {
     const props = [];
     if (position !== "left") props.push(`position="${position}"`);
     if (size !== "lg") props.push(`size="${size}"`);
-    if (variant !== "default") props.push(`variant="${variant}"`);
     if (!withOverlay) props.push("withOverlay={false}");
     if (!closeOnClickOutside) props.push("closeOnClickOutside={false}");
     if (!closeOnEscape) props.push("closeOnEscape={false}");
@@ -133,17 +133,19 @@ export default function DrawerPage() {
     { value: "xl", label: "Extra Large" },
   ];
 
-  const variantOptions = [
-    { value: "default", label: "Default" },
-    { value: "overlay", label: "Overlay" },
-    { value: "push", label: "Push" },
-    { value: "mini", label: "Mini" },
-  ];
+  // Get current size styles for dynamic sizing
+  const sizeStyles =
+    drawerSizes[size as keyof typeof drawerSizes] || drawerSizes.md;
 
   const DrawerContent = () => (
     <>
       {/* User Profile Section */}
-      <div className="flex items-center gap-4 px-6 py-5 border-b border-gray-100 bg-white flex-shrink-0">
+      <div
+        className={cn(
+          "flex items-center gap-4 border-b border-gray-100 bg-white flex-shrink-0",
+          sizeStyles.header
+        )}
+      >
         <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0 shadow-sm">
           SA
         </div>
@@ -159,55 +161,293 @@ export default function DrawerPage() {
       </div>
 
       {/* Navigation Items - Scrollable */}
-      <div className="flex-1 overflow-y-auto px-3 py-4">
+      <div
+        className={cn(
+          "flex-1 overflow-y-auto",
+          size === "sm"
+            ? "px-2 py-2"
+            : size === "md"
+            ? "px-3 py-3"
+            : size === "lg"
+            ? "px-4 py-4"
+            : "px-5 py-5"
+        )}
+      >
         <div className="space-y-1">
-          <div className="flex items-center gap-4 mx-3 px-3 py-3 rounded-xl bg-purple-50 text-purple-700 border border-purple-200 group relative">
+          <div
+            className={cn(
+              "flex items-center rounded-xl bg-purple-50 text-purple-700 border border-purple-200 group relative",
+              size === "sm"
+                ? "gap-2 mx-2 px-2 py-2"
+                : size === "md"
+                ? "gap-3 mx-2 px-3 py-2.5"
+                : size === "lg"
+                ? "gap-4 mx-3 px-3 py-3"
+                : "gap-4 mx-4 px-4 py-4"
+            )}
+          >
             <Folder className="w-5 h-5 text-purple-600 flex-shrink-0" />
-            <span className="font-medium text-sm">My Files</span>
+            <span
+              className={cn(
+                "font-medium",
+                size === "sm"
+                  ? "text-xs"
+                  : size === "md"
+                  ? "text-sm"
+                  : size === "lg"
+                  ? "text-sm"
+                  : "text-base"
+              )}
+            >
+              My Files
+            </span>
           </div>
 
-          <div className="flex items-center gap-4 mx-3 px-3 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer group relative">
+          <div
+            className={cn(
+              "flex items-center rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer group relative",
+              size === "sm"
+                ? "gap-2 mx-2 px-2 py-2"
+                : size === "md"
+                ? "gap-3 mx-2 px-3 py-2.5"
+                : size === "lg"
+                ? "gap-4 mx-3 px-3 py-3"
+                : "gap-4 mx-4 px-4 py-4"
+            )}
+          >
             <Share2 className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors duration-200 flex-shrink-0" />
-            <span className="font-medium text-sm">Shared with me</span>
+            <span
+              className={cn(
+                "font-medium",
+                size === "sm"
+                  ? "text-xs"
+                  : size === "md"
+                  ? "text-sm"
+                  : size === "lg"
+                  ? "text-sm"
+                  : "text-base"
+              )}
+            >
+              Shared with me
+            </span>
           </div>
 
-          <div className="flex items-center gap-4 mx-3 px-3 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer group relative">
+          <div
+            className={cn(
+              "flex items-center rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer group relative",
+              size === "sm"
+                ? "gap-2 mx-2 px-2 py-2"
+                : size === "md"
+                ? "gap-3 mx-2 px-3 py-2.5"
+                : size === "lg"
+                ? "gap-4 mx-3 px-3 py-3"
+                : "gap-4 mx-4 px-4 py-4"
+            )}
+          >
             <Star className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors duration-200 flex-shrink-0" />
-            <span className="font-medium text-sm">Starred</span>
+            <span
+              className={cn(
+                "font-medium",
+                size === "sm"
+                  ? "text-xs"
+                  : size === "md"
+                  ? "text-sm"
+                  : size === "lg"
+                  ? "text-sm"
+                  : "text-base"
+              )}
+            >
+              Starred
+            </span>
           </div>
 
-          <div className="flex items-center gap-4 mx-3 px-3 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer group relative">
+          <div
+            className={cn(
+              "flex items-center rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer group relative",
+              size === "sm"
+                ? "gap-2 mx-2 px-2 py-2"
+                : size === "md"
+                ? "gap-3 mx-2 px-3 py-2.5"
+                : size === "lg"
+                ? "gap-4 mx-3 px-3 py-3"
+                : "gap-4 mx-4 px-4 py-4"
+            )}
+          >
             <Clock className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors duration-200 flex-shrink-0" />
-            <span className="font-medium text-sm">Recent</span>
+            <span
+              className={cn(
+                "font-medium",
+                size === "sm"
+                  ? "text-xs"
+                  : size === "md"
+                  ? "text-sm"
+                  : size === "lg"
+                  ? "text-sm"
+                  : "text-base"
+              )}
+            >
+              Recent
+            </span>
           </div>
 
-          <div className="flex items-center gap-4 mx-3 px-3 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer group relative">
+          <div
+            className={cn(
+              "flex items-center rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer group relative",
+              size === "sm"
+                ? "gap-2 mx-2 px-2 py-2"
+                : size === "md"
+                ? "gap-3 mx-2 px-3 py-2.5"
+                : size === "lg"
+                ? "gap-4 mx-3 px-3 py-3"
+                : "gap-4 mx-4 px-4 py-4"
+            )}
+          >
             <Download className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors duration-200 flex-shrink-0" />
-            <span className="font-medium text-sm">Offline</span>
+            <span
+              className={cn(
+                "font-medium",
+                size === "sm"
+                  ? "text-xs"
+                  : size === "md"
+                  ? "text-sm"
+                  : size === "lg"
+                  ? "text-sm"
+                  : "text-base"
+              )}
+            >
+              Offline
+            </span>
           </div>
 
-          <div className="flex items-center gap-4 mx-3 px-3 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer group relative">
+          <div
+            className={cn(
+              "flex items-center rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer group relative",
+              size === "sm"
+                ? "gap-2 mx-2 px-2 py-2"
+                : size === "md"
+                ? "gap-3 mx-2 px-3 py-2.5"
+                : size === "lg"
+                ? "gap-4 mx-3 px-3 py-3"
+                : "gap-4 mx-4 px-4 py-4"
+            )}
+          >
             <Upload className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors duration-200 flex-shrink-0" />
-            <span className="font-medium text-sm">Uploads</span>
+            <span
+              className={cn(
+                "font-medium",
+                size === "sm"
+                  ? "text-xs"
+                  : size === "md"
+                  ? "text-sm"
+                  : size === "lg"
+                  ? "text-sm"
+                  : "text-base"
+              )}
+            >
+              Uploads
+            </span>
           </div>
 
-          <div className="flex items-center gap-4 mx-3 px-3 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer group relative">
+          <div
+            className={cn(
+              "flex items-center rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer group relative",
+              size === "sm"
+                ? "gap-2 mx-2 px-2 py-2"
+                : size === "md"
+                ? "gap-3 mx-2 px-3 py-2.5"
+                : size === "lg"
+                ? "gap-4 mx-3 px-3 py-3"
+                : "gap-4 mx-4 px-4 py-4"
+            )}
+          >
             <Archive className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors duration-200 flex-shrink-0" />
-            <span className="font-medium text-sm">Backups</span>
+            <span
+              className={cn(
+                "font-medium",
+                size === "sm"
+                  ? "text-xs"
+                  : size === "md"
+                  ? "text-sm"
+                  : size === "lg"
+                  ? "text-sm"
+                  : "text-base"
+              )}
+            >
+              Backups
+            </span>
           </div>
 
-          <div className="flex items-center gap-4 mx-3 px-3 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer group relative">
+          <div
+            className={cn(
+              "flex items-center rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer group relative",
+              size === "sm"
+                ? "gap-2 mx-2 px-2 py-2"
+                : size === "md"
+                ? "gap-3 mx-2 px-3 py-2.5"
+                : size === "lg"
+                ? "gap-4 mx-3 px-3 py-3"
+                : "gap-4 mx-4 px-4 py-4"
+            )}
+          >
             <Trash2 className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors duration-200 flex-shrink-0" />
-            <span className="font-medium text-sm">Trash</span>
+            <span
+              className={cn(
+                "font-medium",
+                size === "sm"
+                  ? "text-xs"
+                  : size === "md"
+                  ? "text-sm"
+                  : size === "lg"
+                  ? "text-sm"
+                  : "text-base"
+              )}
+            >
+              Trash
+            </span>
           </div>
         </div>
       </div>
 
       {/* Settings Section - Fixed Bottom */}
-      <div className="px-6 py-4 border-t border-gray-100 bg-white flex-shrink-0">
-        <div className="flex items-center gap-4 px-3 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer">
+      <div
+        className={cn(
+          "border-t border-gray-100 bg-white flex-shrink-0",
+          size === "sm"
+            ? "px-4 py-3"
+            : size === "md"
+            ? "px-5 py-4"
+            : size === "lg"
+            ? "px-6 py-4"
+            : "px-7 py-5"
+        )}
+      >
+        <div
+          className={cn(
+            "flex items-center rounded-xl text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 cursor-pointer",
+            size === "sm"
+              ? "gap-2 px-2 py-2"
+              : size === "md"
+              ? "gap-3 px-3 py-2.5"
+              : size === "lg"
+              ? "gap-4 px-3 py-3"
+              : "gap-4 px-4 py-4"
+          )}
+        >
           <Settings className="w-5 h-5 text-gray-500 group-hover:text-gray-700 transition-colors duration-200 flex-shrink-0" />
-          <span className="font-medium text-sm">Settings & account</span>
+          <span
+            className={cn(
+              "font-medium",
+              size === "sm"
+                ? "text-xs"
+                : size === "md"
+                ? "text-sm"
+                : size === "lg"
+                ? "text-sm"
+                : "text-base"
+            )}
+          >
+            Settings & account
+          </span>
         </div>
       </div>
     </>
@@ -277,17 +517,6 @@ export default function DrawerPage() {
                         value={size}
                         onChange={(value) => setSize(value as string)}
                         label="Size"
-                        size="sm"
-                      />
-                    </div>
-
-                    {/* Variant */}
-                    <div>
-                      <Select
-                        data={variantOptions}
-                        value={variant}
-                        onChange={(value) => setVariant(value as string)}
-                        label="Variant"
                         size="sm"
                       />
                     </div>
@@ -394,31 +623,29 @@ export default function DrawerPage() {
           </div>
         </section>
 
-        {/* Variants Section */}
+        {/* Sizes Section */}
         <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-            Variants
-          </h2>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Sizes</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {variantOptions.map((variant) => (
+            {sizeOptions.map((sizeOption) => (
               <div
-                key={variant.value}
+                key={sizeOption.value}
                 className="bg-gray-50 rounded-lg border border-gray-200 p-6"
               >
                 <h3 className="text-lg font-medium text-gray-900 mb-3">
-                  {variant.label}
+                  {sizeOption.label}
                 </h3>
                 <Button
                   variant="outline"
                   size="sm"
                   fullWidth
                   onClick={() => {
-                    setVariant(variant.value);
+                    setSize(sizeOption.value);
                     setOpened(true);
                   }}
                 >
-                  Open {variant.label} Drawer
+                  Open {sizeOption.label} Drawer
                 </Button>
               </div>
             ))}
@@ -426,12 +653,12 @@ export default function DrawerPage() {
 
           <div className="mt-6">
             <CodeSection
-              code={`<Drawer variant="default" opened={opened} onClose={() => setOpened(false)} />
-<Drawer variant="overlay" opened={opened} onClose={() => setOpened(false)} />
-<Drawer variant="push" opened={opened} onClose={() => setOpened(false)} />
-<Drawer variant="mini" opened={opened} onClose={() => setOpened(false)} />`}
+              code={`<Drawer size="sm" opened={opened} onClose={() => setOpened(false)} />
+<Drawer size="md" opened={opened} onClose={() => setOpened(false)} />
+<Drawer size="lg" opened={opened} onClose={() => setOpened(false)} />
+<Drawer size="xl" opened={opened} onClose={() => setOpened(false)} />`}
               title="Demo.tsx"
-              sectionKey="variants"
+              sectionKey="sizes"
             />
           </div>
         </section>
@@ -443,7 +670,6 @@ export default function DrawerPage() {
         onClose={() => setOpened(false)}
         position={position as any}
         size={size as any}
-        variant={variant as any}
         title="File Manager"
         withOverlay={withOverlay}
         closeOnClickOutside={closeOnClickOutside}

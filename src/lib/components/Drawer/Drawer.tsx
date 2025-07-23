@@ -3,7 +3,6 @@ import { createPortal } from "react-dom";
 import { X, GripVertical } from "lucide-react";
 import { DrawerProps } from "./Drawer.types";
 import {
-  drawerVariants,
   drawerSizes,
   drawerPositions,
   baseDrawerStyles,
@@ -99,7 +98,6 @@ export const Drawer: React.FC<DrawerProps> = ({
   onClose,
   position = "left",
   size = "md",
-  variant = "default",
   color,
   title,
   withCloseButton = true,
@@ -276,7 +274,6 @@ export const Drawer: React.FC<DrawerProps> = ({
 
   if (!opened) return null;
 
-  const variantStyles = drawerVariants[variant];
   const sizeStyles =
     typeof size === "string" ? drawerSizes[size] : drawerSizes.md;
   const positionStyles = drawerPositions[position];
@@ -286,21 +283,15 @@ export const Drawer: React.FC<DrawerProps> = ({
     if (!color) return {};
 
     return {
-      ["--drawer-color" as string]: color,
+      "--drawer-color": color,
       backgroundColor: color,
     };
   };
 
-  const overlayClasses = cn(
-    overlayStyles,
-    variantStyles.overlay,
-    fadeInAnimation,
-    styles?.overlay
-  );
+  const overlayClasses = cn(overlayStyles, fadeInAnimation, styles?.overlay);
 
   const contentClasses = cn(
     contentStyles,
-    variantStyles.content,
     positionStyles.content,
     {
       "shadow-2xl": withShadow,
@@ -360,6 +351,7 @@ export const Drawer: React.FC<DrawerProps> = ({
               : undefined,
           borderRadius: radius ? `${radius}px` : undefined,
           transitionDuration: `${transitionDuration}ms`,
+          ...getCustomStyles(),
         }}
       >
         {/* Resize Handle */}
