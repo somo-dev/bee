@@ -172,6 +172,8 @@ export function ComponentsNav() {
     if (item === "TableOfContents") return "/components/table-of-contents";
     if (item === "TransferList") return "/components/transfer-list";
     if (item === "Toaster") return "/components/toaster";
+    if (item === "Skeleton") return "/components/skeleton";
+    if (item === "Progress") return "/components/progress-bar";
 
     // Default conversion for other items
     return `/components/${item
