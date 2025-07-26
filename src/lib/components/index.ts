@@ -62,3 +62,6 @@ export type {
   ToastContextValue,
   ToastProviderProps,
 } from "./Toaster";
+
+export { Skeleton, SkeletonGroup } from "./Skeleton";
+export type { SkeletonProps, SkeletonGroupProps } from "./Skeleton";
