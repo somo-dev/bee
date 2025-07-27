@@ -66,5 +66,8 @@ export type {
 export { Skeleton, SkeletonGroup } from "./Skeleton";
 export type { SkeletonProps, SkeletonGroupProps } from "./Skeleton";
 
+export { Input } from "./Input";
+export type { InputProps } from "./Input";
+
 export { ProgressBar } from "./ProgressBar";
 export type { ProgressBarProps } from "./ProgressBar";
