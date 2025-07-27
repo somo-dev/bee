@@ -3,6 +3,49 @@ import { BaseComponentProps, Size } from "../../types/common";
 
 export type FileInputVariant = "button" | "dropzone";
 
+// Predefined accept types for common use cases
+export const FILE_ACCEPT_PRESETS = {
+  // Image presets
+  images: [
+    "image/*",
+    ".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg", ".bmp", ".tiff", ".tif", 
+    ".avif", ".heic", ".heif", ".ico"
+  ],
+  imagesBasic: [".jpg", ".jpeg", ".png", ".gif", ".webp"],
+  imagesAdvanced: [
+    "image/jpeg", "image/png", "image/gif", "image/webp", "image/svg+xml",
+    "image/bmp", "image/tiff", "image/avif", "image/heic", "image/heif"
+  ],
+  
+  // Video presets
+  videos: [
+    "video/*",
+    ".mp4", ".avi", ".mov", ".wmv", ".flv", ".webm", ".mkv", ".3gp", ".ogv", ".m4v"
+  ],
+  videosBasic: [".mp4", ".avi", ".mov", ".webm"],
+  
+  // Audio presets
+  audio: [
+    "audio/*",
+    ".mp3", ".wav", ".ogg", ".aac", ".flac", ".m4a", ".wma"
+  ],
+  audioBasic: [".mp3", ".wav", ".ogg"],
+  
+  // Document presets
+  documents: [
+    ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".txt", ".csv", ".json", ".xml", ".rtf"
+  ],
+  documentsBasic: [".pdf", ".doc", ".docx", ".txt"],
+  
+  // Archive presets
+  archives: [
+    ".zip", ".rar", ".7z", ".tar", ".gz", ".bz2"
+  ],
+  
+  // All files
+  all: ["*/*"]
+};
+
 export interface FileInputProps
   extends BaseComponentProps,
     Omit<
@@ -70,6 +113,7 @@ export interface FileInputProps
 
   /**
    * Accepted file types (MIME types or extensions)
+   * You can also use predefined presets from FILE_ACCEPT_PRESETS
    */
   accept?: string[];
 
@@ -118,11 +162,6 @@ export interface FileInputProps
   showProgress?: boolean;
 
   /**
-   * Upload progress percentage (0-100)
-   */
-  progress?: number;
-
-  /**
    * Custom icon for the file input
    */
   icon?: ReactElement;
@@ -158,6 +197,31 @@ export interface FileInputProps
   onRemove?: (file: File, index?: number) => void;
 
   /**
+   * Callback when upload starts (automatically called when files are selected)
+   */
+  onUploadStart?: (files: File[]) => void;
+
+  /**
+   * Callback when upload progress updates (automatically called during upload)
+   */
+  onUploadProgress?: (progress: number, files: File[]) => void;
+
+  /**
+   * Callback when upload completes
+   */
+  onUploadComplete?: (files: File[]) => void;
+
+  /**
+   * Callback when upload fails
+   */
+  onUploadError?: (error: string, files: File[]) => void;
+
+  /**
+   * Custom upload function (if not provided, uses default behavior)
+   */
+  uploadFunction?: (files: File[], onProgress: (progress: number) => void) => Promise<void>;
+
+  /**
    * Custom styles for different parts
    */
   styles?: {
@@ -179,4 +243,36 @@ export interface FileInputProps
    * Custom loading text
    */
   loadingText?: string;
+
+  /**
+   * Whether to enable image optimization features
+   * @default false
+   */
+  enableImageOptimization?: boolean;
+
+  /**
+   * Maximum image dimensions (width x height) for optimization
+   */
+  maxImageDimensions?: {
+    width: number;
+    height: number;
+  };
+
+  /**
+   * Image quality for optimization (0-100)
+   * @default 80
+   */
+  imageQuality?: number;
+
+  /**
+   * Whether to auto-rotate images based on EXIF data
+   * @default true
+   */
+  autoRotateImages?: boolean;
+
+  /**
+   * Whether to strip EXIF data from images
+   * @default false
+   */
+  stripExifData?: boolean;
 }

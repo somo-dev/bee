@@ -71,3 +71,6 @@ export type { InputProps } from "./Input";
 
 export { ProgressBar } from "./ProgressBar";
 export type { ProgressBarProps } from "./ProgressBar";
+
+export { FileInput } from "./FileInput";
+export type { FileInputProps } from "./FileInput";
