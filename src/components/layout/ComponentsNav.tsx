@@ -175,6 +175,7 @@ export function ComponentsNav() {
     if (item === "Skeleton") return "/components/skeleton";
     if (item === "Progress") return "/components/progress-bar";
     if (item === "FileInput") return "/components/file-input";
+    if (item === "SegmentedControl") return "/components/segmented-control";
 
     // Default conversion for other items
     return `/components/${item

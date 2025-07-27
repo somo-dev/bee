@@ -74,3 +74,6 @@ export type { ProgressBarProps } from "./ProgressBar";
 
 export { FileInput } from "./FileInput";
 export type { FileInputProps } from "./FileInput";
+
+export { Radio, RadioGroup } from "./Radio";
+export type { RadioProps, RadioGroupProps } from "./Radio";
