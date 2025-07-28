@@ -280,17 +280,15 @@ export default function RadioPage() {
                         size="sm"
                         colorGridColumns={4}
                       />
-                      <div className="h-[120px]">
-                        {variant === "filled" && (
-                          <ColorPicker
-                            value={dotColor}
-                            onChange={setDotColor}
-                            label="Dot Color"
-                            size="sm"
-                            colorGridColumns={4}
-                          />
-                        )}
-                      </div>
+                      {variant === "filled" && (
+                        <ColorPicker
+                          value={dotColor}
+                          onChange={setDotColor}
+                          label="Dot Color"
+                          size="sm"
+                          colorGridColumns={4}
+                        />
+                      )}
                     </div>
 
                     {/* Row 6: Feature Toggles */}

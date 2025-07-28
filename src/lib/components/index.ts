@@ -77,3 +77,9 @@ export type { FileInputProps } from "./FileInput";
 
 export { Radio, RadioGroup } from "./Radio";
 export type { RadioProps, RadioGroupProps } from "./Radio";
+
+export { Slider } from "./Slider";
+export type { SliderProps, SliderMark } from "./Slider";
+
+export { Switch } from "./Switch";
+export type { SwitchProps } from "./Switch";
