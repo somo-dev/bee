@@ -90,9 +90,9 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
     const handleSwitchClick = (event: React.MouseEvent) => {
       event.preventDefault();
       event.stopPropagation();
-      
+
       if (disabled) return;
-      
+
       if (inputRef.current) {
         inputRef.current.click();
       }
@@ -244,19 +244,22 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
           {/* Inner Labels */}
           {showInnerLabels && (
             <>
-              {/* ON Label */}
+              {/* ON Label - positioned on the right side when checked */}
               {onLabel && (
                 <div
                   className={cn(
                     innerLabelStyles,
-                    onLabelStyles,
                     sizeStyles.innerLabel,
                     {
-                      "opacity-100": checked,
-                      "opacity-0": !checked,
+                      "opacity-100 scale-100 translate-x-0": checked,
+                      "opacity-0 scale-75 -translate-x-1": !checked,
                     },
                     styles?.innerLabel
                   )}
+                  style={{
+                    left: size === "sm" ? "6px" : size === "md" ? "8px" : size === "lg" ? "10px" : "12px",
+                    right: "auto",
+                  }}
                 >
                   {React.cloneElement(onLabel, {
                     className: cn("w-3 h-3", onLabel.props.className),
@@ -264,19 +267,22 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
                 </div>
               )}
 
-              {/* OFF Label */}
+              {/* OFF Label - positioned on the left side when unchecked */}
               {offLabel && (
                 <div
                   className={cn(
                     innerLabelStyles,
-                    offLabelStyles,
                     sizeStyles.innerLabel,
                     {
-                      "opacity-100": !checked,
-                      "opacity-0": checked,
+                      "opacity-100 scale-100 translate-x-0": !checked,
+                      "opacity-0 scale-75 translate-x-1": checked,
                     },
                     styles?.innerLabel
                   )}
+                  style={{
+                    right: size === "sm" ? "6px" : size === "md" ? "8px" : size === "lg" ? "10px" : "12px",
+                    left: "auto",
+                  }}
                 >
                   {React.cloneElement(offLabel, {
                     className: cn("w-3 h-3", offLabel.props.className),

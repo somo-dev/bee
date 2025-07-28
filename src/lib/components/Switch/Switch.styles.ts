@@ -15,13 +15,13 @@ export const switchStyles = {
       bg-gray-100 cursor-not-allowed opacity-50
     `,
   },
-      thumb: {
-      base: `
-        absolute left-0.5 right-0.5 bg-white rounded-full shadow-md
-        transition-all duration-200 ease-in-out transform
-        flex items-center justify-center cursor-pointer
-        select-none
-      `,
+  thumb: {
+    base: `
+      absolute left-0.5 right-0.5 bg-white rounded-full shadow-md
+      transition-all duration-200 ease-in-out transform
+      flex items-center justify-center cursor-pointer
+      select-none
+    `,
     checked: `
       translate-x-full
     `,
@@ -89,16 +89,16 @@ export const requiredIndicatorStyles = `
 
 export const innerLabelStyles = `
   absolute inset-0 flex items-center justify-center
-  font-medium transition-opacity duration-200 ease-in-out
+  font-medium transition-all duration-200 ease-in-out
   pointer-events-none select-none
 `;
 
 export const onLabelStyles = `
-  left-1 justify-start pl-1
+  left-2 justify-start
 `;
 
 export const offLabelStyles = `
-  right-1 justify-end pr-1
+  right-2 justify-end
 `;
 
 // Animation keyframes
