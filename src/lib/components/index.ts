@@ -83,3 +83,6 @@ export type { SliderProps, SliderMark } from "./Slider";
 
 export { Switch } from "./Switch";
 export type { SwitchProps } from "./Switch";
+
+export { Card } from "./Card";
+export type { CardProps, CardAction, CardBadge, CardImage } from "./Card";

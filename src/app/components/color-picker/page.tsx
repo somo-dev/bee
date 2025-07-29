@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { ColorPicker } from '@/lib/components/ColorPicker';
-import { Select } from '@/lib/components/Select';
-import { Checkbox } from '@/lib/components/Checkbox';
-import { 
-  Copy, 
-  Check, 
+import React, { useState } from "react";
+import { ColorPicker } from "@/lib/components/ColorPicker";
+import { Select } from "@/lib/components/Select";
+import { Checkbox } from "@/lib/components/Checkbox";
+import {
+  Copy,
+  Check,
   Settings,
   Palette,
   Paintbrush,
@@ -15,42 +15,43 @@ import {
   Zap,
   Star,
   Heart,
-  Shield
-} from 'lucide-react';
+  Shield,
+} from "lucide-react";
 
 export default function ColorPickerPage() {
   // Interactive controls state
-  const [size, setSize] = useState('md');
+  const [size, setSize] = useState("md");
   const [disabled, setDisabled] = useState(false);
   const [showCustomPicker, setShowCustomPicker] = useState(true);
   const [showPredefinedColors, setShowPredefinedColors] = useState(true);
   const [colorGridColumns, setColorGridColumns] = useState(6);
 
   // Demo state
-  const [selectedColor, setSelectedColor] = useState('#6366F1');
+  const [selectedColor, setSelectedColor] = useState("#6366F1");
   const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
 
   // Size labels for slider
-  const sizeLabels = ['xs', 'sm', 'md', 'lg', 'xl'];
-  const sizeValues = ['sm', 'md', 'lg', 'xl'];
+  const sizeLabels = ["xs", "sm", "md", "lg", "xl"];
+  const sizeValues = ["sm", "md", "lg", "xl"];
 
   const copyCode = async (code: string, key: string) => {
     await navigator.clipboard.writeText(code);
-    setCopiedStates(prev => ({ ...prev, [key]: true }));
+    setCopiedStates((prev) => ({ ...prev, [key]: true }));
     setTimeout(() => {
-      setCopiedStates(prev => ({ ...prev, [key]: false }));
+      setCopiedStates((prev) => ({ ...prev, [key]: false }));
     }, 2000);
   };
 
   const generateCode = () => {
     const props = [];
-    if (size !== 'md') props.push(`size="${size}"`);
-    if (disabled) props.push('disabled');
-    if (!showCustomPicker) props.push('showCustomPicker={false}');
-    if (!showPredefinedColors) props.push('showPredefinedColors={false}');
-    if (colorGridColumns !== 6) props.push(`colorGridColumns={${colorGridColumns}}`);
+    if (size !== "md") props.push(`size="${size}"`);
+    if (disabled) props.push("disabled");
+    if (!showCustomPicker) props.push("showCustomPicker={false}");
+    if (!showPredefinedColors) props.push("showPredefinedColors={false}");
+    if (colorGridColumns !== 6)
+      props.push(`colorGridColumns={${colorGridColumns}}`);
 
-    const propsString = props.length > 0 ? '\n  ' + props.join('\n  ') : '';
+    const propsString = props.length > 0 ? "\n  " + props.join("\n  ") : "";
     return `import { ColorPicker } from '@beeui';
 
 <ColorPicker
@@ -92,7 +93,7 @@ export default function ColorPickerPage() {
               <Copy className="w-4 h-4" />
             )}
             <span className="hidden sm:inline">
-              {isCopied ? 'Copied!' : 'Copy'}
+              {isCopied ? "Copied!" : "Copy"}
             </span>
           </button>
         </div>
@@ -107,19 +108,54 @@ export default function ColorPickerPage() {
 
   // Predefined color sets
   const brandColors = [
-    '#6366F1', '#8B5CF6', '#EC4899', '#EF4444', '#F97316', '#F59E0B',
-    '#84CC16', '#22C55E', '#10B981', '#06B6D4', '#0EA5E9', '#3B82F6'
+    "#6366F1",
+    "#8B5CF6",
+    "#EC4899",
+    "#EF4444",
+    "#F97316",
+    "#F59E0B",
+    "#84CC16",
+    "#22C55E",
+    "#10B981",
+    "#06B6D4",
+    "#0EA5E9",
+    "#3B82F6",
   ];
 
   const materialColors = [
-    '#F44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3',
-    '#03A9F4', '#00BCD4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39',
-    '#FFEB3B', '#FFC107', '#FF9800', '#FF5722', '#795548', '#9E9E9E'
+    "#F44336",
+    "#E91E63",
+    "#9C27B0",
+    "#673AB7",
+    "#3F51B5",
+    "#2196F3",
+    "#03A9F4",
+    "#00BCD4",
+    "#009688",
+    "#4CAF50",
+    "#8BC34A",
+    "#CDDC39",
+    "#FFEB3B",
+    "#FFC107",
+    "#FF9800",
+    "#FF5722",
+    "#795548",
+    "#9E9E9E",
   ];
 
   const pastelColors = [
-    '#FFB3BA', '#FFDFBA', '#FFFFBA', '#BAFFC9', '#BAE1FF', '#D4BAFF',
-    '#FFB3E6', '#C9BAFF', '#BAFFFF', '#FFBABA', '#FFCABA', '#FFEBBA'
+    "#FFB3BA",
+    "#FFDFBA",
+    "#FFFFBA",
+    "#BAFFC9",
+    "#BAE1FF",
+    "#D4BAFF",
+    "#FFB3E6",
+    "#C9BAFF",
+    "#BAFFFF",
+    "#FFBABA",
+    "#FFCABA",
+    "#FFEBBA",
   ];
 
   return (
@@ -127,8 +163,13 @@ export default function ColorPickerPage() {
       {/* Header */}
       <div className="border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-6 py-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Color Picker</h1>
-          <p className="text-gray-600">Advanced color picker with predefined colors, custom picker, and flexible configuration</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            Color Picker
+          </h1>
+          <p className="text-gray-600">
+            Advanced color picker with predefined colors, custom picker, and
+            flexible configuration
+          </p>
         </div>
       </div>
 
@@ -154,15 +195,19 @@ export default function ColorPickerPage() {
                       showPredefinedColors={showPredefinedColors}
                       colorGridColumns={colorGridColumns}
                     />
-                    
+
                     {/* Color Preview */}
                     <div className="text-center">
-                      <div 
+                      <div
                         className="w-24 h-24 rounded-lg border-2 border-gray-200 shadow-sm mx-auto mb-3"
                         style={{ backgroundColor: selectedColor }}
                       />
-                      <p className="text-sm font-mono text-gray-600">{selectedColor}</p>
-                      <p className="text-xs text-gray-500 mt-1">Selected Color</p>
+                      <p className="text-sm font-mono text-gray-600">
+                        {selectedColor}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Selected Color
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -173,9 +218,11 @@ export default function ColorPickerPage() {
                 <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm h-full">
                   <div className="flex items-center gap-2 mb-6">
                     <Settings className="w-5 h-5 text-purple-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">Interactive Controls</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      Interactive Controls
+                    </h3>
                   </div>
-                  
+
                   <div className="space-y-6">
                     {/* Row 1: Size */}
                     <div>
@@ -213,7 +260,9 @@ export default function ColorPickerPage() {
                         min="3"
                         max="12"
                         value={colorGridColumns}
-                        onChange={(e) => setColorGridColumns(parseInt(e.target.value))}
+                        onChange={(e) =>
+                          setColorGridColumns(parseInt(e.target.value))
+                        }
                         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                       />
                       <div className="flex justify-between text-xs text-gray-500 mt-1">
@@ -261,7 +310,7 @@ export default function ColorPickerPage() {
         {/* Sizes Section */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold text-gray-900 mb-6">Sizes</h2>
-          
+
           <div className="space-y-6">
             <div>
               <h3 className="text-lg font-medium text-gray-900 mb-3">Small</h3>
@@ -300,7 +349,9 @@ export default function ColorPickerPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-3">Extra Large</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-3">
+                Extra Large
+              </h3>
               <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
                 <ColorPicker
                   label="Extra Large Color Picker"
@@ -313,12 +364,12 @@ export default function ColorPickerPage() {
           </div>
 
           <div className="mt-6">
-            <CodeSection 
+            <CodeSection
               code={`<ColorPicker size="sm" label="Small" value={color} onChange={setColor} />
 <ColorPicker size="md" label="Medium" value={color} onChange={setColor} />
 <ColorPicker size="lg" label="Large" value={color} onChange={setColor} />
 <ColorPicker size="xl" label="Extra Large" value={color} onChange={setColor} />`}
-              title="Demo.tsx" 
+              title="Demo.tsx"
               sectionKey="sizes"
             />
           </div>
@@ -326,11 +377,15 @@ export default function ColorPickerPage() {
 
         {/* Custom Color Sets Section */}
         <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Custom Color Sets</h2>
-          
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+            Custom Color Sets
+          </h2>
+
           <div className="space-y-8">
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Brand Colors</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                Brand Colors
+              </h3>
               <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
                 <ColorPicker
                   label="Brand Color Palette"
@@ -343,7 +398,9 @@ export default function ColorPickerPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Material Design Colors</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                Material Design Colors
+              </h3>
               <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
                 <ColorPicker
                   label="Material Design Palette"
@@ -356,7 +413,9 @@ export default function ColorPickerPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Pastel Colors</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                Pastel Colors
+              </h3>
               <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
                 <ColorPicker
                   label="Pastel Color Palette"
@@ -370,7 +429,7 @@ export default function ColorPickerPage() {
           </div>
 
           <div className="mt-6">
-            <CodeSection 
+            <CodeSection
               code={`const brandColors = [
   '#6366F1', '#8B5CF6', '#EC4899', '#EF4444', '#F97316', '#F59E0B',
   '#84CC16', '#22C55E', '#10B981', '#06B6D4', '#0EA5E9', '#3B82F6'
@@ -383,7 +442,7 @@ export default function ColorPickerPage() {
   predefinedColors={brandColors}
   colorGridColumns={6}
 />`}
-              title="Demo.tsx" 
+              title="Demo.tsx"
               sectionKey="custom-colors"
             />
           </div>
@@ -391,11 +450,15 @@ export default function ColorPickerPage() {
 
         {/* Configuration Options Section */}
         <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Configuration Options</h2>
-          
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+            Configuration Options
+          </h2>
+
           <div className="space-y-8">
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Only Predefined Colors</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                Only Predefined Colors
+              </h3>
               <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
                 <ColorPicker
                   label="Predefined Colors Only"
@@ -408,7 +471,9 @@ export default function ColorPickerPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Only Custom Picker</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                Only Custom Picker
+              </h3>
               <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
                 <ColorPicker
                   label="Custom Picker Only"
@@ -421,7 +486,9 @@ export default function ColorPickerPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Custom Grid Layout</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                Custom Grid Layout
+              </h3>
               <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
                 <ColorPicker
                   label="3-Column Grid"
@@ -434,11 +501,11 @@ export default function ColorPickerPage() {
           </div>
 
           <div className="mt-6">
-            <CodeSection 
+            <CodeSection
               code={`<ColorPicker showCustomPicker={false} showPredefinedColors={true} />
 <ColorPicker showCustomPicker={true} showPredefinedColors={false} />
 <ColorPicker colorGridColumns={3} />`}
-              title="Demo.tsx" 
+              title="Demo.tsx"
               sectionKey="configuration"
             />
           </div>
@@ -446,11 +513,15 @@ export default function ColorPickerPage() {
 
         {/* Custom Trigger Section */}
         <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Custom Trigger</h2>
-          
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+            Custom Trigger
+          </h2>
+
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-3">Icon Trigger</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-3">
+                Icon Trigger
+              </h3>
               <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
                 <ColorPicker
                   label="Icon Trigger"
@@ -459,10 +530,12 @@ export default function ColorPickerPage() {
                   trigger={
                     <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:border-gray-400 transition-colors cursor-pointer">
                       <Paintbrush className="w-4 h-4 text-gray-600" />
-                      <span className="text-sm font-medium text-gray-700">Choose Color</span>
-                      <div 
+                      <span className="text-sm font-medium text-gray-700">
+                        Choose Color
+                      </span>
+                      <div
                         className="w-4 h-4 rounded border border-gray-300 ml-2"
-                        style={{ backgroundColor: '#F97316' }}
+                        style={{ backgroundColor: "#F97316" }}
                       />
                     </div>
                   }
@@ -471,7 +544,9 @@ export default function ColorPickerPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-3">Button Trigger</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-3">
+                Button Trigger
+              </h3>
               <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
                 <ColorPicker
                   label="Button Trigger"
@@ -488,7 +563,9 @@ export default function ColorPickerPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-3">Card Trigger</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-3">
+                Card Trigger
+              </h3>
               <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
                 <ColorPicker
                   label="Card Trigger"
@@ -497,12 +574,14 @@ export default function ColorPickerPage() {
                   trigger={
                     <div className="p-4 bg-white border border-gray-200 rounded-xl hover:shadow-md transition-all cursor-pointer">
                       <div className="flex items-center gap-3">
-                        <div 
+                        <div
                           className="w-12 h-12 rounded-lg border-2 border-gray-200"
-                          style={{ backgroundColor: '#84CC16' }}
+                          style={{ backgroundColor: "#84CC16" }}
                         />
                         <div>
-                          <p className="font-medium text-gray-900">Theme Color</p>
+                          <p className="font-medium text-gray-900">
+                            Theme Color
+                          </p>
                           <p className="text-sm text-gray-500">#84CC16</p>
                         </div>
                       </div>
@@ -514,7 +593,7 @@ export default function ColorPickerPage() {
           </div>
 
           <div className="mt-6">
-            <CodeSection 
+            <CodeSection
               code={`<ColorPicker
   trigger={
     <div className="flex items-center gap-2 px-4 py-2 bg-white border rounded-lg cursor-pointer">
@@ -526,7 +605,7 @@ export default function ColorPickerPage() {
   value={color}
   onChange={setColor}
 />`}
-              title="Demo.tsx" 
+              title="Demo.tsx"
               sectionKey="custom-trigger"
             />
           </div>
@@ -534,11 +613,15 @@ export default function ColorPickerPage() {
 
         {/* Use Cases Section */}
         <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Common Use Cases</h2>
-          
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+            Common Use Cases
+          </h2>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Theme Customization</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                Theme Customization
+              </h3>
               <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
                 <div className="space-y-4">
                   <ColorPicker
@@ -564,7 +647,9 @@ export default function ColorPickerPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Design Tools</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                Design Tools
+              </h3>
               <div className="bg-gray-50 rounded-lg border border-gray-200 p-6">
                 <div className="space-y-4">
                   <ColorPicker
@@ -573,7 +658,14 @@ export default function ColorPickerPage() {
                     onChange={() => {}}
                     size="sm"
                     showCustomPicker={false}
-                    predefinedColors={['#FFFFFF', '#F9FAFB', '#F3F4F6', '#E5E7EB', '#D1D5DB', '#9CA3AF']}
+                    predefinedColors={[
+                      "#FFFFFF",
+                      "#F9FAFB",
+                      "#F3F4F6",
+                      "#E5E7EB",
+                      "#D1D5DB",
+                      "#9CA3AF",
+                    ]}
                   />
                   <ColorPicker
                     label="Text Color"
@@ -581,7 +673,14 @@ export default function ColorPickerPage() {
                     onChange={() => {}}
                     size="sm"
                     showCustomPicker={false}
-                    predefinedColors={['#000000', '#1F2937', '#374151', '#4B5563', '#6B7280', '#9CA3AF']}
+                    predefinedColors={[
+                      "#000000",
+                      "#1F2937",
+                      "#374151",
+                      "#4B5563",
+                      "#6B7280",
+                      "#9CA3AF",
+                    ]}
                   />
                   <ColorPicker
                     label="Border Color"
@@ -589,7 +688,14 @@ export default function ColorPickerPage() {
                     onChange={() => {}}
                     size="sm"
                     showCustomPicker={false}
-                    predefinedColors={['#E5E7EB', '#D1D5DB', '#9CA3AF', '#6B7280', '#4B5563', '#374151']}
+                    predefinedColors={[
+                      "#E5E7EB",
+                      "#D1D5DB",
+                      "#9CA3AF",
+                      "#6B7280",
+                      "#4B5563",
+                      "#374151",
+                    ]}
                   />
                 </div>
               </div>
@@ -597,7 +703,7 @@ export default function ColorPickerPage() {
           </div>
 
           <div className="mt-6">
-            <CodeSection 
+            <CodeSection
               code={`// Theme Customization
 <ColorPicker label="Primary Color" value={primaryColor} onChange={setPrimaryColor} />
 <ColorPicker label="Secondary Color" value={secondaryColor} onChange={setSecondaryColor} />
@@ -611,7 +717,7 @@ export default function ColorPickerPage() {
   showCustomPicker={false}
   predefinedColors={grayScale}
 />`}
-              title="Demo.tsx" 
+              title="Demo.tsx"
               sectionKey="use-cases"
             />
           </div>
@@ -619,18 +725,23 @@ export default function ColorPickerPage() {
 
         {/* Features Section */}
         <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Key Features</h2>
-          
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+            Key Features
+          </h2>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="bg-white rounded-lg border border-gray-200 p-6">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
                   <Palette className="w-5 h-5 text-purple-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">Rich Color Picker</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Rich Color Picker
+                </h3>
               </div>
               <p className="text-gray-600 text-sm">
-                Full-featured color picker with hue, saturation, and lightness controls for precise color selection.
+                Full-featured color picker with hue, saturation, and lightness
+                controls for precise color selection.
               </p>
             </div>
 
@@ -639,10 +750,13 @@ export default function ColorPickerPage() {
                 <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
                   <Droplets className="w-5 h-5 text-blue-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">Predefined Colors</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Predefined Colors
+                </h3>
               </div>
               <p className="text-gray-600 text-sm">
-                Customizable grid of predefined colors with flexible column layouts and color sets.
+                Customizable grid of predefined colors with flexible column
+                layouts and color sets.
               </p>
             </div>
 
@@ -651,10 +765,13 @@ export default function ColorPickerPage() {
                 <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                   <Eye className="w-5 h-5 text-green-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">Visual Feedback</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Visual Feedback
+                </h3>
               </div>
               <p className="text-gray-600 text-sm">
-                Real-time color preview with hex input field and visual color representation.
+                Real-time color preview with hex input field and visual color
+                representation.
               </p>
             </div>
 
@@ -663,10 +780,13 @@ export default function ColorPickerPage() {
                 <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
                   <Zap className="w-5 h-5 text-orange-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">Flexible Triggers</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Flexible Triggers
+                </h3>
               </div>
               <p className="text-gray-600 text-sm">
-                Custom trigger elements or default color swatch trigger with hover effects.
+                Custom trigger elements or default color swatch trigger with
+                hover effects.
               </p>
             </div>
 
@@ -675,10 +795,13 @@ export default function ColorPickerPage() {
                 <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
                   <Star className="w-5 h-5 text-red-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">Multiple Sizes</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Multiple Sizes
+                </h3>
               </div>
               <p className="text-gray-600 text-sm">
-                Four different sizes (sm, md, lg, xl) to fit various design contexts and layouts.
+                Four different sizes (sm, md, lg, xl) to fit various design
+                contexts and layouts.
               </p>
             </div>
 
@@ -687,10 +810,13 @@ export default function ColorPickerPage() {
                 <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center">
                   <Shield className="w-5 h-5 text-teal-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">Accessibility</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Accessibility
+                </h3>
               </div>
               <p className="text-gray-600 text-sm">
-                Full keyboard navigation, ARIA labels, and screen reader support for inclusive design.
+                Full keyboard navigation, ARIA labels, and screen reader support
+                for inclusive design.
               </p>
             </div>
           </div>
@@ -698,8 +824,10 @@ export default function ColorPickerPage() {
 
         {/* Disabled State Section */}
         <section>
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Disabled State</h2>
-          
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+            Disabled State
+          </h2>
+
           <div className="bg-gray-50 rounded-lg border border-gray-200 p-8 mb-6">
             <div className="space-y-4">
               <ColorPicker
@@ -723,14 +851,14 @@ export default function ColorPickerPage() {
             </div>
           </div>
 
-          <CodeSection 
+          <CodeSection
             code={`<ColorPicker
   label="Disabled Color Picker"
   value={color}
   onChange={setColor}
   disabled
 />`}
-            title="Demo.tsx" 
+            title="Demo.tsx"
             sectionKey="disabled"
           />
         </section>
