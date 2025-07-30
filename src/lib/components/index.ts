@@ -86,3 +86,6 @@ export type { SwitchProps } from "./Switch";
 
 export { Card } from "./Card";
 export type { CardProps, CardAction, CardBadge, CardImage } from "./Card";
+
+export { Textarea } from "./Textarea";
+export type { TextareaProps } from "./Textarea";
