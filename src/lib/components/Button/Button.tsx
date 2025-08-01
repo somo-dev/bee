@@ -1,3 +1,5 @@
+"use client";
+
 import React, { forwardRef } from 'react';
 import { Loader2 } from 'lucide-react';
 import { ButtonProps } from './Button.types';
@@ -92,7 +94,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       const hoverColor = darkenColor(color, 20);
       const focusRingColor = addOpacity(color, 0.2);
       
-      const baseCustomStyles: React.CSSProperties = {
+      const baseCustomStyles: any = {
         '--tw-ring-color': focusRingColor,
       };
       
@@ -143,7 +145,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     // Generate hover styles
-    const getHoverStyles = (): React.CSSProperties => {
+    const getHoverStyles = (): any => {
       if (!color) return {};
       
       const hoverColor = darkenColor(color, 20);
@@ -198,7 +200,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const iconSizeClass = iconSizes[size];
 
     // Combine all styles
-    const combinedStyles: React.CSSProperties = {
+    const combinedStyles: any = {
       ...getCustomStyles(),
       ...getHoverStyles(),
       ...style,

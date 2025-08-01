@@ -45,14 +45,14 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
                 <Image
-                  src="/bee.png"
-                  alt="Bee UI Logo"
+                  src="/images/bee.png"
+                  alt="BUI Logo"
                   width={28}
                   height={28}
                   className="object-contain"
                 />
               </div>
-              <span className="text-xl font-bold text-white">Bee UI</span>
+              <span className="text-xl font-bold text-white">BUI</span>
             </div>
             <p className="text-sm leading-6 text-gray-300">
               Building better UIs, faster.
@@ -133,7 +133,7 @@ export function Footer() {
         </div>
         <div className="mt-16 border-t border-white/10 pt-8 sm:mt-20 lg:mt-24">
           <p className="text-xs leading-5 text-gray-400">
-            &copy; 2024 Bee UI. All rights reserved.
+            &copy; 2024 BUI. All rights reserved.
           </p>
         </div>
       </div>

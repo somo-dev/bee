@@ -438,8 +438,8 @@ export default function ComponentsPage() {
             <div className="flex justify-center mb-6">
               <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
                 <Image
-                  src="/bee.png"
-                  alt="Bee UI Logo"
+                  src="/images/bee.png"
+                  alt="BUI Logo"
                   width={40}
                   height={40}
                   className="object-contain"

@@ -34,21 +34,13 @@ const navigationSections = [
     title: "Inputs",
     icon: Type,
     items: [
-      "Autocomplete",
       "Checkbox",
-      "Chip",
-      "ColorInput",
       "ColorPicker",
       "FileInput",
       "Input",
       "JsonInput",
-      "MultiSelect",
-      "NativeSelect",
-      "NumberInput",
       "PasswordInput",
-      "PinInput",
       "Radio",
-      "Rating",
       "SegmentedControl",
       "Select",
       "Slider",
@@ -61,25 +53,15 @@ const navigationSections = [
     title: "Buttons",
     icon: MousePointer,
     items: [
-      "ActionIcon",
       "Button",
-      "CloseButton",
-      "CopyButton",
-      "FileButton",
-      "UnstyledButton",
     ],
   },
   {
     title: "Navigation",
     icon: Navigation,
     items: [
-      "Anchor",
       "Breadcrumbs",
-      "Burger",
-      "NavLink",
       "Pagination",
-      "Stepper",
-      "Tabs",
       "TableOfContents"
     ],
   },
@@ -88,14 +70,8 @@ const navigationSections = [
     icon: Grid3X3,
     items: [
       "Accordion",
-      "Avatar",
-      "Badge",
       "Card",
-      "ColorSwatch",
       "Image",
-      "Indicator",
-      "Kbd",
-      "List",
       "Table",
       "Timeline",
     ],
@@ -104,41 +80,16 @@ const navigationSections = [
     title: "Feedback",
     icon: Grid3X3,
     items: [
-      "Alert",
-      "Loader",
-      "Notification",
       "Progress",
-      "RingProgress",
       "Skeleton",
+      "Toaster",
     ],
   },
   {
     title: "Overlay",
     icon: Bell,
     items: [
-      "Affix",
-      "Dialog",
       "Drawer",
-      "HoverCard",
-      "LoadingOverlay",
-      "Menu",
-      "Modal",
-      "Overlay",
-      "Popover",
-      "Tooltip",
-      "Toaster",
-    ],
-  },
-  {
-    title: "Feedback",
-    icon: Bell,
-    items: [
-      "Alert",
-      "Loader",
-      "Notification",
-      "Progress",
-      "RingProgress",
-      "Skeleton",
       "Toaster",
     ],
   },
@@ -176,6 +127,17 @@ export function ComponentsNav() {
     if (item === "Progress") return "/components/progress-bar";
     if (item === "FileInput") return "/components/file-input";
     if (item === "SegmentedControl") return "/components/segmented-control";
+    if (item === "Radio") return "/components/radio";
+    if (item === "Switch") return "/components/switch";
+    if (item === "Slider") return "/components/slider";
+    if (item === "Textarea") return "/components/textarea";
+    if (item === "Input") return "/components/input";
+    if (item === "PasswordInput") return "/components/password-input";
+    if (item === "Image") return "/components/image";
+    if (item === "Card") return "/components/card";
+    if (item === "Accordion") return "/components/accordion";
+    if (item === "Drawer") return "/components/drawer";
+    if (item === "Table") return "/components/table";
 
     // Default conversion for other items
     return `/components/${item
