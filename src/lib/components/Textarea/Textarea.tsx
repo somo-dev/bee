@@ -112,24 +112,67 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       if (autosize && textareaRef.current) {
         const textarea = textareaRef.current;
 
-        // Reset height to auto to get the correct scrollHeight
-        textarea.style.height = "auto";
+        // Use requestAnimationFrame to ensure DOM is ready
+        requestAnimationFrame(() => {
+          // Temporarily remove overflow hidden to get accurate scrollHeight
+          textarea.style.overflow = "auto";
+          textarea.style.height = "auto";
 
-        // Calculate new height
-        const scrollHeight = textarea.scrollHeight;
+          // Calculate new height
+          const scrollHeight = textarea.scrollHeight;
+          const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
+          const minHeight = lineHeight * minRows;
+          
+          // For autosize, respect maxRows if set, otherwise unlimited growth
+          const maxHeight = maxRows ? lineHeight * maxRows : scrollHeight;
+          const newHeight = Math.min(Math.max(scrollHeight, minHeight), maxHeight);
+
+          // Apply new height and hide scroll bar
+          textarea.style.height = `${newHeight}px`;
+          textarea.style.overflow = "hidden";
+        });
+      } else if (!autosize && textareaRef.current) {
+        // When autosize is OFF, respect maxRows and set fixed height
+        const textarea = textareaRef.current;
         const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
-        const minHeight = lineHeight * minRows;
-        const maxHeight = maxRows ? lineHeight * maxRows : Infinity;
-
-        const newHeight = Math.min(
-          Math.max(scrollHeight, minHeight),
-          maxHeight
-        );
-
-        // Apply new height with animation
-        textarea.style.height = `${newHeight}px`;
+        const maxHeight = maxRows ? lineHeight * maxRows : undefined;
+        
+        if (maxHeight) {
+          textarea.style.height = `${maxHeight}px`;
+          textarea.style.overflow = "auto";
+        } else {
+          // Reset to default behavior when no maxRows
+          textarea.style.height = "";
+          textarea.style.overflow = "";
+        }
       }
     }, [currentValue, autosize, minRows, maxRows]);
+    
+    // Additional effect to handle autosize toggle
+    useEffect(() => {
+      if (textareaRef.current) {
+        const textarea = textareaRef.current;
+        
+        if (!autosize) {
+          // When autosize is turned OFF, immediately apply maxRows constraint
+          const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
+          const maxHeight = maxRows ? lineHeight * maxRows : undefined;
+          
+          if (maxHeight) {
+            textarea.style.height = `${maxHeight}px`;
+            textarea.style.overflow = "auto";
+          } else {
+            // Reset to default behavior
+            textarea.style.height = "";
+            textarea.style.overflow = "";
+          }
+        } else {
+          // When autosize is turned ON, reset to auto height
+          textarea.style.height = "auto";
+          textarea.style.overflow = "hidden";
+        }
+      }
+    }, [autosize, maxRows]);
 
     // Validation function
     const performValidation = useCallback(
@@ -195,16 +238,19 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       [onEnterPress]
     );
 
+
+
     const styles_variant = textareaVariants[variant];
     const sizeStyles = textareaSizes[size];
-    const resizeClass = textareaResize[resize];
+    const resizeClass = autosize ? textareaResize.auto : textareaResize[resize];
 
     // Build textarea classes
     const textareaClasses = cn(
       styles_variant.textarea,
       sizeStyles.textarea,
       sizeStyles.padding,
-      sizeStyles.minHeight,
+      // Apply minHeight when autosize is disabled
+      !autosize && sizeStyles.minHeight,
       resizeClass,
       {
         "border-red-500 ring-2 ring-red-500 ring-opacity-20":
@@ -212,6 +258,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         "border-green-500 ring-2 ring-green-500 ring-opacity-20":
           !displayError && currentValue && hasBeenBlurred && !disabled,
         [shakeAnimation]: displayError && hasBeenBlurred,
+        "overflow-hidden": autosize,
+        // When autosize is OFF, allow scrolling if content exceeds maxRows
+        "overflow-y-auto": !autosize && maxRows,
+
       },
       styles?.textarea
     );
@@ -234,6 +284,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             ? `${height}px`
             : height
           : undefined,
+      overflow: autosize ? "hidden" : undefined,
     };
 
     // Character count
@@ -270,47 +321,51 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         )}
 
         {/* Textarea */}
-        <textarea
-          ref={(node) => {
-            textareaRef.current = node;
-            if (typeof ref === "function") {
-              ref(node);
-            } else if (ref) {
-              ref.current = node;
+        <div className="relative">
+          <textarea
+            ref={(node) => {
+              textareaRef.current = node;
+              if (typeof ref === "function") {
+                ref(node);
+              } else if (ref) {
+                ref.current = node;
+              }
+            }}
+            value={currentValue}
+            onChange={handleChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyPress}
+            disabled={disabled}
+            required={required}
+            readOnly={readOnly}
+            placeholder={placeholder}
+            minLength={minLength}
+            maxLength={maxLength}
+            rows={minRows}
+            className={textareaClasses}
+            style={textareaStyle}
+            aria-invalid={!!displayError}
+            aria-describedby={
+              [
+                description ? "description" : "",
+                displayError ? "error" : "",
+                showCharacterCount ? "character-count" : "",
+              ]
+                .filter(Boolean)
+                .join(" ") || undefined
             }
-          }}
-          value={currentValue}
-          onChange={handleChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          onKeyDown={handleKeyPress}
-          disabled={disabled}
-          required={required}
-          readOnly={readOnly}
-          placeholder={placeholder}
-          minLength={minLength}
-          maxLength={maxLength}
-          rows={minRows}
-          className={textareaClasses}
-          style={textareaStyle}
-          aria-invalid={!!displayError}
-          aria-describedby={
-            [
-              description ? "description" : "",
-              displayError ? "error" : "",
-              showCharacterCount ? "character-count" : "",
-            ]
-              .filter(Boolean)
-              .join(" ") || undefined
-          }
-          spellCheck={spellCheck}
-          autoComplete={autoComplete}
-          autoCorrect={autoCorrect}
-          autoCapitalize={autoCapitalize}
-          inputMode={inputMode}
-          wrap={wrap}
-          {...props}
-        />
+            spellCheck={spellCheck}
+            autoComplete={autoComplete}
+            autoCorrect={autoCorrect}
+            autoCapitalize={autoCapitalize}
+            inputMode={inputMode}
+            wrap={wrap}
+            {...props}
+          />
+          
+
+        </div>
 
         {/* Error with Character Count */}
         {(displayError || (showCharacterCount && maxLength)) && (

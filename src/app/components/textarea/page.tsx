@@ -363,6 +363,7 @@ export default function TextareaPage() {
                         label="Auto resize"
                         size="sm"
                       />
+
                       <Checkbox
                         checked={showCharacterCount}
                         onChange={setShowCharacterCount}
@@ -635,6 +636,8 @@ export default function TextareaPage() {
             />
           </div>
         </section>
+
+
 
         {/* Disabled State Section */}
         <section>

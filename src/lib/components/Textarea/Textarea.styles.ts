@@ -111,7 +111,7 @@ export const textareaResize: Record<TextareaResize, string> = {
   both: "resize",
   horizontal: "resize-x",
   vertical: "resize-y",
-  auto: "resize-none", // Will be handled by autosize
+  auto: "resize-none overflow-hidden", // Will be handled by autosize
 };
 
 export const requiredIndicatorStyles = `
