@@ -89,3 +89,16 @@ export type { CardProps, CardAction, CardBadge, CardImage } from "./Card";
 
 export { Textarea } from "./Textarea";
 export type { TextareaProps } from "./Textarea";
+
+export { Table } from "./Table";
+export type {
+  TableProps,
+  TableColumn,
+  TablePagination,
+  TableSort,
+  TableSelection,
+  SortDirection,
+  SelectionMode,
+  TableVariant,
+  TableDensity,
+} from "./Table";
