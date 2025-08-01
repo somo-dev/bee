@@ -467,6 +467,13 @@ export const Table = <T extends Record<string, any>>({
                     currentSelection.length === displayData.length &&
                     displayData.length > 0
                   }
+                  ref={(input) => {
+                    if (input) {
+                      input.indeterminate =
+                        currentSelection.length > 0 &&
+                        currentSelection.length < displayData.length;
+                    }
+                  }}
                   onChange={(e) => handleSelectAll(e.target.checked)}
                   className={cn(sizeStyles.checkbox, "rounded border-gray-300")}
                   aria-label="Select all rows"
