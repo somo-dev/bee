@@ -1,0 +1,11 @@
+{
+  "name": "button",
+  "type": "components:ui",
+  "dependencies": ["lucide-react", "clsx"],
+  "files": [
+    {
+      "name": "button.tsx",
+      "content": "import React, { forwardRef } from 'react';\nimport { Loader2 } from 'lucide-react';\nimport { cn } from '@/lib/utils';\n\ninterface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {\n  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';\n  size?: 'sm' | 'md' | 'lg' | 'xl';\n  loading?: boolean;\n  leftIcon?: React.ReactElement;\n  rightIcon?: React.ReactElement;\n}\n\nconst Button = forwardRef<HTMLButtonElement, ButtonProps>(\n  ({ className, variant = 'primary', size = 'md', loading, leftIcon, rightIcon, children, disabled, ...props }, ref) => {\n    return (\n      <button\n        className={cn(\n          'inline-flex items-center justify-center rounded-md font-medium transition-colors',\n          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',\n          'disabled:pointer-events-none disabled:opacity-50',\n          {\n            'bg-primary text-primary-foreground hover:bg-primary/90': variant === 'primary',\n            'bg-secondary text-secondary-foreground hover:bg-secondary/80': variant === 'secondary',\n            'border border-input bg-background hover:bg-accent hover:text-accent-foreground': variant === 'outline',\n            'hover:bg-accent hover:text-accent-foreground': variant === 'ghost',\n            'bg-destructive text-destructive-foreground hover:bg-destructive/90': variant === 'danger',\n          },\n          {\n            'h-9 px-3 text-sm': size === 'sm',\n            'h-10 px-4 py-2': size === 'md',\n            'h-11 px-8': size === 'lg',\n            'h-12 px-10': size === 'xl',\n          },\n          className\n        )}\n        ref={ref}\n        disabled={disabled || loading}\n        {...props}\n      >\n        {loading && <Loader2 className=\"mr-2 h-4 w-4 animate-spin\" />}\n        {!loading && leftIcon && <span className=\"mr-2\">{leftIcon}</span>}\n        {children}\n        {!loading && rightIcon && <span className=\"ml-2\">{rightIcon}</span>}\n      </button>\n    );\n  }\n);\n\nButton.displayName = 'Button';\n\nexport { Button };"
+    }
+  ]
+}

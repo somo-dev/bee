@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Input } from "@/lib/components/Input";
 import { Select } from "@/lib/components/Select";
 import { Checkbox } from "@/lib/components/Checkbox";
+import { InstallationSection } from "@/components/playground/InstallationSection";
 import {
   Copy,
   Check,
@@ -858,6 +859,9 @@ export default function InputPage() {
             />
           </div>
         </section>
+
+        {/* Installation Section */}
+        <InstallationSection componentName="Input" />
       </div>
 
       <style jsx>{`

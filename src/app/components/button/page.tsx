@@ -5,6 +5,7 @@ import { Button } from "@/lib/components/Button";
 import { Select } from "@/lib/components/Select";
 import { Checkbox } from "@/lib/components/Checkbox";
 import { ColorPicker } from "@/lib/components/ColorPicker";
+import { InstallationSection } from "@/components/playground/InstallationSection";
 import {
   Download,
   Settings,
@@ -540,6 +541,9 @@ import { Settings } from 'lucide-react';
             sectionKey="disabled"
           />
         </section>
+
+        {/* Installation Section */}
+        <InstallationSection componentName="Button" />
       </div>
 
       <style jsx>{`
