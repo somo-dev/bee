@@ -27,7 +27,7 @@ import {
   Package,
   CheckSquare,
 } from "lucide-react";
-import { cn } from "@/lib/utils/cn";
+import { cn } from "@bee-ui/core";
 
 const navigationSections = [
   {

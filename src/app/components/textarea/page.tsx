@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Textarea } from "@/lib/components/Textarea";
-import { Select } from "@/lib/components/Select";
-import { Checkbox } from "@/lib/components/Checkbox";
-import { ColorPicker } from "@/lib/components/ColorPicker";
+import { Textarea } from "@bee-ui/core";
+import { Select } from "@bee-ui/core";
+import { Checkbox } from "@bee-ui/core";
+import { ColorPicker } from "@bee-ui/core";
 import {
   Copy,
   Check,

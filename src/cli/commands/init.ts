@@ -9,6 +9,7 @@ import prompts from "prompts";
 import {
   getConfig,
   rawConfigSchema,
+  resolveConfigPaths,
   type Config,
 } from "../utils/get-config.js";
 import { getPackageManager } from "../utils/get-package-manager.js";
@@ -45,7 +46,8 @@ export const init = new Command()
 
       // Read config.
       const existingConfig = await getConfig(cwd);
-      const config = await promptForConfig(cwd, existingConfig, opts.defaults);
+      const rawConfig = await promptForConfig(cwd, existingConfig, opts.defaults);
+      const config = await resolveConfigPaths(cwd, rawConfig);
 
       await runInit(cwd, config);
 
@@ -147,7 +149,6 @@ export async function promptForConfig(
   ]);
 
   const config = rawConfigSchema.parse({
-    $schema: "https://ui.shadcn.com/schema.json",
     style: options.style,
     rsc: true,
     typescript: options.typescript,
@@ -196,16 +197,16 @@ export async function runInit(cwd: string, config: Config) {
   for (const [key, resolvedPath] of Object.entries(config.resolvedPaths)) {
     // Determine if the path is a file or directory.
     // TODO: is there a better way to do this?
-    let dirname = path.extname(resolvedPath as string)
-      ? path.dirname(resolvedPath as string)
-      : resolvedPath as string;
+    let dirname = path.extname(resolvedPath)
+      ? path.dirname(resolvedPath)
+      : resolvedPath;
 
     // If the utils alias is set to something like "@/lib/utils",
     // assume this is a file and remove the "utils" file name.
     // TODO: In future releases we should add support for individual utils.
-    if (key === "utils" && (resolvedPath as string).endsWith("/utils")) {
+    if (key === "utils" && resolvedPath.endsWith("/utils")) {
       // Remove /utils at the end.
-      dirname = (dirname as string).replace(/\/utils$/, "");
+      dirname = dirname.replace(/\/utils$/, "");
     }
 
     if (!existsSync(dirname)) {
@@ -221,7 +222,7 @@ export async function runInit(cwd: string, config: Config) {
     getTailwindConfig({
       typescript: config.typescript,
       tailwindCssVariables: config.tailwind.cssVariables,
-      tailwindPrefix: config.tailwind.prefix,
+      tailwindPrefix: config.tailwind.prefix || "",
     }),
     "utf8"
   );

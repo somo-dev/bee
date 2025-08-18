@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ProgressBar } from '@/lib/components/ProgressBar';
-import { Select } from '@/lib/components/Select';
-import { Checkbox } from '@/lib/components/Checkbox';
-import { ColorPicker } from '@/lib/components/ColorPicker';
-import { Button } from '@/lib/components/Button';
+import { ProgressBar } from '@bee-ui/core';
+import { Select } from '@bee-ui/core';
+import { Checkbox } from '@bee-ui/core';
+import { ColorPicker } from '@bee-ui/core';
+import { Button } from '@bee-ui/core';
 import { 
   Copy, 
   Check, 

@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Breadcrumbs } from "@/lib/components/Breadcrumbs";
-import { Select } from "@/lib/components/Select";
+import { Breadcrumbs } from "@bee-ui/core";
+import { Select } from "@bee-ui/core";
 import { Home, Folder, FileText, Copy, Check, Settings } from "lucide-react";
-import { Checkbox } from "@/lib/components/Checkbox";
+import { Checkbox } from "@bee-ui/core";
 
 export default function BreadcrumbsPage() {
   // Interactive controls state

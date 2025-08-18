@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { PasswordInput, OTPInput } from "@/lib/components/PasswordInput";
-import { Select } from "@/lib/components/Select";
-import { Checkbox } from "@/lib/components/Checkbox";
-import { ColorPicker } from "@/lib/components/ColorPicker";
+import { PasswordInput, OTPInput } from "@bee-ui/core";
+import { Select } from "@bee-ui/core";
+import { Checkbox } from "@bee-ui/core";
+import { ColorPicker } from "@bee-ui/core";
 import {
   Copy,
   Check,

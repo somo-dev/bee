@@ -1,152 +1,106 @@
 [
   {
-    "name": "button",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["button.tsx"]
-  },
-  {
-    "name": "input", 
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["input.tsx"]
-  },
-  {
-    "name": "textarea",
-    "type": "components:ui", 
-    "dependencies": ["clsx"],
-    "files": ["textarea.tsx"]
-  },
-  {
-    "name": "select",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["select.tsx"]
-  },
-  {
-    "name": "checkbox",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["checkbox.tsx"]
-  },
-  {
-    "name": "radio",
-    "type": "components:ui",
-    "dependencies": ["clsx"],
-    "files": ["radio.tsx", "radio-group.tsx"]
-  },
-  {
-    "name": "slider",
-    "type": "components:ui",
-    "dependencies": ["clsx"],
-    "files": ["slider.tsx"]
-  },
-  {
-    "name": "switch",
-    "type": "components:ui",
-    "dependencies": ["clsx"],
-    "files": ["switch.tsx"]
-  },
-  {
-    "name": "card",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["card.tsx"]
-  },
-  {
-    "name": "table",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["table.tsx"]
-  },
-  {
-    "name": "file-input",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["file-input.tsx"]
-  },
-  {
-    "name": "json-input",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["json-input.tsx"]
-  },
-  {
-    "name": "color-picker",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx", "react-colorful"],
-    "files": ["color-picker.tsx"]
-  },
-  {
-    "name": "progress-bar",
-    "type": "components:ui",
-    "dependencies": ["clsx"],
-    "files": ["progress-bar.tsx"]
-  },
-  {
-    "name": "skeleton",
-    "type": "components:ui",
-    "dependencies": ["clsx"],
-    "files": ["skeleton.tsx", "skeleton-group.tsx"]
-  },
-  {
-    "name": "toaster",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["toaster.tsx", "toast-provider.tsx"]
-  },
-  {
-    "name": "drawer",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["drawer.tsx"]
+    "name": "accordion",
+    "type": "components:ui"
   },
   {
     "name": "breadcrumbs",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["breadcrumbs.tsx"]
+    "type": "components:ui"
   },
   {
-    "name": "pagination",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["pagination.tsx"]
+    "name": "button",
+    "type": "components:ui"
   },
   {
-    "name": "accordion",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["accordion.tsx"]
+    "name": "card",
+    "type": "components:ui"
   },
   {
-    "name": "timeline",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["timeline.tsx"]
+    "name": "checkbox",
+    "type": "components:ui"
   },
   {
-    "name": "transfer-list",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["transfer-list.tsx"]
+    "name": "colorpicker",
+    "type": "components:ui"
   },
   {
-    "name": "segmented-control",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["segmented-control.tsx"]
+    "name": "drawer",
+    "type": "components:ui"
   },
   {
-    "name": "table-of-contents",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["table-of-contents.tsx"]
+    "name": "fileinput",
+    "type": "components:ui"
   },
   {
     "name": "image",
-    "type": "components:ui",
-    "dependencies": ["lucide-react", "clsx"],
-    "files": ["image.tsx"]
+    "type": "components:ui"
+  },
+  {
+    "name": "input",
+    "type": "components:ui"
+  },
+  {
+    "name": "jsoninput",
+    "type": "components:ui"
+  },
+  {
+    "name": "pagination",
+    "type": "components:ui"
+  },
+  {
+    "name": "passwordinput",
+    "type": "components:ui"
+  },
+  {
+    "name": "progressbar",
+    "type": "components:ui"
+  },
+  {
+    "name": "radio",
+    "type": "components:ui"
+  },
+  {
+    "name": "segmentedcontrol",
+    "type": "components:ui"
+  },
+  {
+    "name": "select",
+    "type": "components:ui"
+  },
+  {
+    "name": "skeleton",
+    "type": "components:ui"
+  },
+  {
+    "name": "slider",
+    "type": "components:ui"
+  },
+  {
+    "name": "switch",
+    "type": "components:ui"
+  },
+  {
+    "name": "table",
+    "type": "components:ui"
+  },
+  {
+    "name": "tableofcontents",
+    "type": "components:ui"
+  },
+  {
+    "name": "textarea",
+    "type": "components:ui"
+  },
+  {
+    "name": "timeline",
+    "type": "components:ui"
+  },
+  {
+    "name": "toaster",
+    "type": "components:ui"
+  },
+  {
+    "name": "transferlist",
+    "type": "components:ui"
   }
 ]

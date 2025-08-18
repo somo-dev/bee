@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Pagination } from "@/lib/components/Pagination";
-import { Select } from "@/lib/components/Select";
+import { Pagination } from "@bee-ui/core";
+import { Select } from "@bee-ui/core";
 import { Copy, Check, Settings } from "lucide-react";
-import { Checkbox } from "@/lib/components/Checkbox";
+import { Checkbox } from "@bee-ui/core";
 
 export default function PaginationPage() {
   // Interactive controls state

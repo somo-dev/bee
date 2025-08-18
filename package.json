@@ -1,19 +1,28 @@
 {
-  "name": "ui-library-nextjs",
+  "name": "bee-ui",
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "build:registry": "tsx scripts/build-registry.ts",
-    "build:cli": "tsup src/cli/index.ts --format esm,cjs --dts --out-dir dist/cli",
-    "prepublishOnly": "npm run build:registry && npm run build:cli"
+    "build:cli": "npm run build --workspace=@bee-ui/cli",
+    "build:components": "npm run build --workspace=@bee-ui/core",
+    "build:all": "npm run build:registry && npm run build:cli && npm run build:components",
+    "prepublishOnly": "npm run build:all",
+    "publish:components": "node scripts/publish-components.js",
+    "publish:patch": "npm run publish:components && npm version patch --workspace=@bee-ui/core",
+    "publish:minor": "npm run publish:components && npm version minor --workspace=@bee-ui/core",
+    "publish:major": "npm run publish:components && npm version major --workspace=@bee-ui/core"
   },
   "bin": {
-    "beeui": "./dist/cli/index.js"
+    "beeui": "./packages/cli/dist/index.js"
   },
   "files": [
     "dist",
@@ -21,6 +30,7 @@
   ],
   "dependencies": {
     "@antfu/ni": "^25.0.0",
+    "@bee-ui/core": "workspace:*",
     "chalk": "^5.4.1",
     "clsx": "^2.0.0",
     "commander": "^11.1.0",

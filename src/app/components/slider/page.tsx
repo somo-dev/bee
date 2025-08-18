@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Slider } from "@/lib/components/Slider";
-import { Select } from "@/lib/components/Select";
-import { Checkbox } from "@/lib/components/Checkbox";
-import { ColorPicker } from "@/lib/components/ColorPicker";
+import { Slider } from "@bee-ui/core";
+import { Select } from "@bee-ui/core";
+import { Checkbox } from "@bee-ui/core";
+import { ColorPicker } from "@bee-ui/core";
 import {
   Copy,
   Check,

@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 async function buildRegistry() {
-  const srcDir = path.join(__dirname, '../src/lib/components');
+  const srcDir = path.join(__dirname, '../packages/components/src');
   const registryDir = path.join(__dirname, '../registry');
   const stylesDir = path.join(registryDir, 'styles/default');
 
@@ -37,14 +37,18 @@ async function buildRegistry() {
     const filePath = path.join(componentDir, mainFile);
     const content = await fs.readFile(filePath, 'utf-8');
 
+    // Extract dependencies from the component file
+    const dependencies = extractDependencies(content);
+    
     // Create registry entry
     const registryEntry = {
-      name: componentName.toLowerCase(),
+      name: componentName.toLowerCase().replace(/([A-Z])/g, '-$1').toLowerCase(),
       type: 'components:ui',
-      dependencies: extractDependencies(content),
+      dependencies: dependencies,
+      devDependencies: [],
       files: [
         {
-          name: `${componentName.toLowerCase()}.tsx`,
+          name: `${componentName.toLowerCase().replace(/([A-Z])/g, '-$1').toLowerCase()}.tsx`,
           content: transformContent(content, componentName)
         }
       ]
@@ -52,13 +56,13 @@ async function buildRegistry() {
 
     // Write component registry file
     await fs.writeFile(
-      path.join(stylesDir, `${componentName.toLowerCase()}.json`),
+      path.join(stylesDir, `${componentName.toLowerCase().replace(/([A-Z])/g, '-$1').toLowerCase()}.json`),
       JSON.stringify(registryEntry, null, 2)
     );
 
     registryIndex.push({
-      name: componentName.toLowerCase(),
-      type: 'components:ui'
+      name: registryEntry.name,
+      type: registryEntry.type
     });
   }
 
@@ -68,37 +72,26 @@ async function buildRegistry() {
     JSON.stringify(registryIndex, null, 2)
   );
 
-  console.log(`✅ Built registry with ${registryIndex.length} components`);
+  console.log(`Registry built successfully with ${registryIndex.length} components`);
 }
 
 function extractDependencies(content: string): string[] {
-  const deps = new Set<string>();
+  const dependencies = [];
   
-  // Extract lucide-react imports
-  if (content.includes('from \'lucide-react\'')) {
-    deps.add('lucide-react');
-  }
+  // Check for common dependencies
+  if (content.includes('lucide-react')) dependencies.push('lucide-react');
+  if (content.includes('clsx')) dependencies.push('clsx');
+  if (content.includes('react-colorful')) dependencies.push('react-colorful');
+  if (content.includes('@radix-ui/react-slot')) dependencies.push('@radix-ui/react-slot');
+  if (content.includes('class-variance-authority')) dependencies.push('class-variance-authority');
   
-  // Extract other common dependencies
-  if (content.includes('react-colorful')) {
-    deps.add('react-colorful');
-  }
-  
-  // Always include clsx for className utilities
-  deps.add('clsx');
-  
-  return Array.from(deps);
+  return dependencies;
 }
 
 function transformContent(content: string, componentName: string): string {
-  // Transform imports to use relative paths
-  let transformed = content
-    .replace(/from '\.\.\/\.\.\/utils\/cn'/g, "from '@/lib/utils'")
-    .replace(/from '\.\.\/\.\.\/types\/common'/g, "from '@/lib/types'")
-    .replace(/from '\.\/.*\.types'/g, `from './${componentName.toLowerCase()}.types'`)
-    .replace(/from '\.\/.*\.styles'/g, `from './${componentName.toLowerCase()}.styles'`);
-
-  return transformed;
+  // Transform the content to work in the target project
+  // This could include updating import paths, etc.
+  return content;
 }
 
 buildRegistry().catch(console.error);

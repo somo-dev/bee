@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Button } from "@/lib/components/Button";
-import { Select } from "@/lib/components/Select";
-import { Checkbox } from "@/lib/components/Checkbox";
-import { ColorPicker } from "@/lib/components/ColorPicker";
+import { Button } from "@bee-ui/core";
+import { Select } from "@bee-ui/core";
+import { Checkbox } from "@bee-ui/core";
+import { ColorPicker } from "@bee-ui/core";
 import { InstallationSection } from "@/components/playground/InstallationSection";
 import {
   Download,
@@ -309,6 +309,10 @@ export default function ButtonPage() {
             />
           </div>
         </section>
+        {/* Installation Section */}
+        <div className="my-5">
+          <InstallationSection componentName="Button" />
+        </div>
 
         {/* Variants Section */}
         <section className="mb-12">
@@ -541,9 +545,6 @@ import { Settings } from 'lucide-react';
             sectionKey="disabled"
           />
         </section>
-
-        {/* Installation Section */}
-        <InstallationSection componentName="Button" />
       </div>
 
       <style jsx>{`

@@ -5,9 +5,9 @@ import {
   Checkbox,
   CheckboxGroup,
   CheckboxCard,
-} from "@/lib/components/Checkbox";
-import { Select } from "@/lib/components/Select";
-import { ColorPicker } from "@/lib/components/ColorPicker";
+} from "@bee-ui/core";
+import { Select } from "@bee-ui/core";
+import { ColorPicker } from "@bee-ui/core";
 import {
   Copy,
   Check,

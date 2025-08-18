@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { FileInput } from "@/lib/components/FileInput";
-import { Select } from "@/lib/components/Select";
-import { Checkbox } from "@/lib/components/Checkbox";
-import { FILE_ACCEPT_PRESETS } from "@/lib/components/FileInput/FileInput.types";
+import { FileInput } from "@bee-ui/core";
+import { Select } from "@bee-ui/core";
+import { Checkbox } from "@bee-ui/core";
+import { FILE_ACCEPT_PRESETS } from "@bee-ui/core";
 import {
   Copy,
   Check,

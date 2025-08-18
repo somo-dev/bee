@@ -1,72 +1,42 @@
 # Bee UI
 
-A modern, highly optimized React component library built with TypeScript and Tailwind CSS.
+A modern, highly optimized React component library built with TypeScript and Tailwind CSS, following the shadcn/ui pattern.
+
+## 🚀 Features
+
+- **Modern Design**: Built with modern design principles and beautiful aesthetics
+- **Accessible**: WCAG 2.1 compliant components with full keyboard navigation
+- **Fast Performance**: Optimized for speed with minimal bundle size
+- **Customizable**: Highly customizable with theming support and CSS variables
+- **TypeScript**: Full TypeScript support with comprehensive type definitions
+- **Open Source**: MIT licensed and open source
 
 ## Installation
 
-### CLI Installation (Recommended - shadcn/ui style)
-
-Install components directly into your project:
-
 ```bash
-# Install the CLI
-npm install -g beeui
-
-# Initialize your project
-npx beeui init
-
-# Add components
-npx beeui add button
-npx beeui add input textarea
-npx beeui add --all
-```
-
-### Package Installation
-
-```bash
-npm install beeui
+npm install @bee-ui/core
 # or
-yarn add beeui
+yarn add @bee-ui/core
 # or
-pnpm add beeui
+pnpm add @bee-ui/core
 ```
 
 ## Usage
 
-### CLI Usage (Copy Components)
-
-After running `beeui init`, components will be copied directly to your project:
-
 ```tsx
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Button, Input } from '@bee-ui/core'
 
-export default function MyComponent() {
+function App() {
   return (
     <div>
-      <Input placeholder="Enter text..." />
-      <Button>Click me</Button>
+      <Input placeholder="Enter your name" />
+      <Button>Submit</Button>
     </div>
   )
 }
 ```
 
-### Package Usage
-
-```tsx
-import { Button, Input } from 'beeui'
-
-export default function MyComponent() {
-  return (
-    <div>
-      <Input placeholder="Enter text..." />
-      <Button>Click me</Button>
-    </div>
-  )
-}
-```
-
-## Components
+## 🧩 Available Components
 
 ### Form Components
 - **Button** - Interactive button with variants and loading states
@@ -105,7 +75,7 @@ export default function MyComponent() {
 - **TransferList** - Move items between lists
 - **JSONInput** - JSON editor with syntax highlighting
 
-## CLI Commands
+## 🛠️ CLI Commands
 
 ```bash
 # Initialize project
@@ -124,7 +94,7 @@ beeui diff
 beeui --help
 ```
 
-## Configuration
+## ⚙️ Configuration
 
 The CLI creates a `components.json` file in your project root:
 
@@ -146,18 +116,97 @@ The CLI creates a `components.json` file in your project root:
 }
 ```
 
-## Features
+## 🏗️ Project Structure
 
-- 🎨 **Beautiful Design** - Modern, clean components
-- ⚡ **High Performance** - Optimized for speed and bundle size
-- 🔧 **Highly Customizable** - Extensive prop APIs
-- 📱 **Responsive** - Mobile-first design
-- ♿ **Accessible** - ARIA compliant with keyboard navigation
-- 🎭 **Smooth Animations** - Delightful micro-interactions
-- 🌙 **Dark Mode** - Built-in dark mode support
-- 📦 **Tree Shakeable** - Import only what you need
-- 🔒 **Type Safe** - Full TypeScript support
+```
+bee-ui/
+├── packages/
+│   ├── components/          # React components package
+│   │   ├── src/
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   └── cli/                # CLI tool package
+│       ├── src/
+│       ├── package.json
+│       └── tsconfig.json
+├── registry/               # Component registry
+│   ├── index.json
+│   └── styles/
+│       └── default/
+├── src/                    # Demo app
+├── scripts/                # Build scripts
+└── package.json
+```
 
-## License
+## 🔧 Development
 
-MIT
+### Prerequisites
+
+- Node.js 18+
+- npm, yarn, or pnpm
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/your-username/bee-ui.git
+cd bee-ui
+
+# Install dependencies
+npm install
+
+# Build all packages
+npm run build:all
+
+# Start development server
+npm run dev
+```
+
+### Build Commands
+
+```bash
+# Build registry
+npm run build:registry
+
+# Build CLI
+npm run build:cli
+
+# Build components
+npm run build:components
+
+# Build all
+npm run build:all
+```
+
+### Publishing
+
+```bash
+# Build all packages
+npm run build:all
+
+# Publish components package
+cd packages/components
+npm publish
+
+# Publish CLI package
+cd ../cli
+npm publish
+```
+
+## 📚 Documentation
+
+Visit [docs.bee-ui.com](https://docs.bee-ui.com) for comprehensive documentation.
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Inspired by [shadcn/ui](https://ui.shadcn.com)
+- Built with [Radix UI](https://www.radix-ui.com)
+- Styled with [Tailwind CSS](https://tailwindcss.com)

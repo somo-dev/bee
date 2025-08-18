@@ -1,21 +1,20 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-import { z } from 'zod';
-import { loadConfig } from 'tsconfig-paths';
-import { resolveImport } from './resolve-import.js';
+import { promises as fs } from "fs";
+import path from "path";
+import { z } from "zod";
+import { loadConfig } from "tsconfig-paths";
+import { resolveImport } from "./resolve-import.js";
 
-export const DEFAULT_STYLE = 'default';
-export const DEFAULT_COMPONENTS = '@/components';
-export const DEFAULT_UTILS = '@/lib/utils';
-export const DEFAULT_TAILWIND_CSS = './src/app/globals.css';
-export const DEFAULT_TAILWIND_CONFIG = './tailwind.config.js';
-export const DEFAULT_TAILWIND_BASE_COLOR = 'slate';
+export const DEFAULT_STYLE = "default";
+export const DEFAULT_COMPONENTS = "@/components";
+export const DEFAULT_UTILS = "@/lib/utils";
+export const DEFAULT_TAILWIND_CSS = "./src/app/globals.css";
+export const DEFAULT_TAILWIND_CONFIG = "./tailwind.config.js";
+export const DEFAULT_TAILWIND_BASE_COLOR = "slate";
 
 // TODO: Figure out if we want to support all cosmiconfig formats.
 // A simple components.json file would be nice.
 export const rawConfigSchema = z
   .object({
-    $schema: z.string().optional(),
     style: z.string(),
     typescript: z.coerce.boolean().default(true),
     rsc: z.coerce.boolean().default(false),
@@ -25,7 +24,7 @@ export const rawConfigSchema = z
       css: z.string(),
       baseColor: z.string().default(DEFAULT_TAILWIND_BASE_COLOR),
       cssVariables: z.boolean().default(true),
-      prefix: z.string().default('').optional(),
+      prefix: z.string().default("").optional(),
     }),
     aliases: z.object({
       components: z.string(),
@@ -64,9 +63,9 @@ export async function resolveConfigPaths(
   // Read tsconfig.json.
   const tsConfig = loadConfig(cwd);
 
-  if (tsConfig.resultType === 'failed') {
+  if (tsConfig.resultType === "failed") {
     throw new Error(
-      `Failed to load tsconfig.json. ${tsConfig.message ?? ''}`.trim()
+      `Failed to load tsconfig.json. ${tsConfig.message ?? ""}`.trim()
     );
   }
 
@@ -75,21 +74,21 @@ export async function resolveConfigPaths(
     resolvedPaths: {
       tailwindConfig: path.resolve(cwd, config.tailwind.config),
       tailwindCss: path.resolve(cwd, config.tailwind.css),
-      utils: await resolveImport(config.aliases['utils'], tsConfig),
-      components: await resolveImport(config.aliases['components'], tsConfig),
+      utils: await resolveImport(config.aliases["utils"], tsConfig),
+      components: await resolveImport(config.aliases["components"], tsConfig),
     },
   });
 }
 
 export async function getRawConfig(cwd: string): Promise<RawConfig | null> {
   try {
-    const configPath = path.resolve(cwd, 'components.json');
+    const configPath = path.resolve(cwd, "components.json");
 
     if (!existsSync(configPath)) {
       return null;
     }
 
-    const configContent = await fs.readFile(configPath, 'utf8');
+    const configContent = await fs.readFile(configPath, "utf8");
     const config = JSON.parse(configContent);
 
     return rawConfigSchema.parse(config);
@@ -100,7 +99,7 @@ export async function getRawConfig(cwd: string): Promise<RawConfig | null> {
 
 function existsSync(filePath: string): boolean {
   try {
-    return require('fs').existsSync(filePath);
+    return require("fs").existsSync(filePath);
   } catch {
     return false;
   }

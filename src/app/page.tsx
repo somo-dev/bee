@@ -52,11 +52,11 @@ import {
   Circle,
   Sidebar,
 } from "lucide-react";
-import { Button } from "@/lib/components/Button";
-import { Select } from "@/lib/components/Select";
-import { SegmentedControl } from "@/lib/components/SegmentedControl";
-import { Image } from "@/lib/components/Image";
-import { JSONInput } from "@/lib/components/JSONInput";
+import { Button } from "@bee-ui/core";
+import { Select } from "@bee-ui/core";
+import { SegmentedControl } from "@bee-ui/core";
+import { Image } from "@bee-ui/core";
+import { JSONInput } from "@bee-ui/core";
 
 const components = [
   {

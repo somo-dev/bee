@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { TableOfContents } from "@/lib/components/TableOfContents";
-import { Select } from "@/lib/components/Select";
-import { Checkbox } from "@/lib/components/Checkbox";
+import { TableOfContents } from "@bee-ui/core";
+import { Select } from "@bee-ui/core";
+import { Checkbox } from "@bee-ui/core";
 import {
   Copy,
   Check,
