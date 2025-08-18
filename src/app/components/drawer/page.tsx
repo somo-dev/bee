@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Drawer } from "@/lib/components/Drawer";
-import { Select } from "@/lib/components/Select";
-import { Checkbox } from "@/lib/components/Checkbox";
-import { Button } from "@/lib/components/Button";
+import { Drawer } from "@bee-ui/core";
+import { Select } from "@bee-ui/core";
+import { Checkbox } from "@bee-ui/core";
+import { Button } from "@bee-ui/core";
 import {
   Copy,
   Check,
@@ -22,8 +22,7 @@ import {
   X,
   ChevronDown,
 } from "lucide-react";
-import { drawerSizes } from "@/lib/components/Drawer/Drawer.styles";
-import { cn } from "@/lib/utils/cn";
+import { drawerSizes, cn } from "@bee-ui/core";
 
 export default function DrawerPage() {
   // Interactive controls state

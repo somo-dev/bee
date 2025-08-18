@@ -1,0 +1,12 @@
+{
+  "name": "radio",
+  "type": "components:ui",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "radio.tsx",
+      "content": "export { Radio } from \"./Radio\";\r\nexport { RadioGroup, useRadioGroup } from \"./RadioGroup\";\r\nexport type { RadioProps, RadioGroupProps } from \"./Radio.types\";\r\n"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+[
+  {
+    "name": "accordion",
+    "type": "components:ui"
+  },
+  {
+    "name": "breadcrumbs",
+    "type": "components:ui"
+  },
+  {
+    "name": "button",
+    "type": "components:ui"
+  },
+  {
+    "name": "card",
+    "type": "components:ui"
+  },
+  {
+    "name": "checkbox",
+    "type": "components:ui"
+  },
+  {
+    "name": "colorpicker",
+    "type": "components:ui"
+  },
+  {
+    "name": "drawer",
+    "type": "components:ui"
+  },
+  {
+    "name": "fileinput",
+    "type": "components:ui"
+  },
+  {
+    "name": "image",
+    "type": "components:ui"
+  },
+  {
+    "name": "input",
+    "type": "components:ui"
+  },
+  {
+    "name": "jsoninput",
+    "type": "components:ui"
+  },
+  {
+    "name": "pagination",
+    "type": "components:ui"
+  },
+  {
+    "name": "passwordinput",
+    "type": "components:ui"
+  },
+  {
+    "name": "progressbar",
+    "type": "components:ui"
+  },
+  {
+    "name": "radio",
+    "type": "components:ui"
+  },
+  {
+    "name": "segmentedcontrol",
+    "type": "components:ui"
+  },
+  {
+    "name": "select",
+    "type": "components:ui"
+  },
+  {
+    "name": "skeleton",
+    "type": "components:ui"
+  },
+  {
+    "name": "slider",
+    "type": "components:ui"
+  },
+  {
+    "name": "switch",
+    "type": "components:ui"
+  },
+  {
+    "name": "table",
+    "type": "components:ui"
+  },
+  {
+    "name": "tableofcontents",
+    "type": "components:ui"
+  },
+  {
+    "name": "textarea",
+    "type": "components:ui"
+  },
+  {
+    "name": "timeline",
+    "type": "components:ui"
+  },
+  {
+    "name": "toaster",
+    "type": "components:ui"
+  },
+  {
+    "name": "transferlist",
+    "type": "components:ui"
+  }
+]

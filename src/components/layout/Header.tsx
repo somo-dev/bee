@@ -27,13 +27,13 @@ export function Header() {
             <div className="w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br  flex items-center justify-center shadow-lg">
               <Image
                 src="/images/bee.png"
-                alt="Bee UI Logo"
+                alt="BUI Logo"
                 width={28}
                 height={28}
                 className="object-contain"
               />
             </div>
-            <span className="text-xl font-bold text-gray-900">Bee UI</span>
+            <span className="text-xl font-bold text-gray-900">BUI</span>
           </Link>
         </div>
 
@@ -60,9 +60,6 @@ export function Header() {
         </div>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
-          <Button variant="ghost" size="sm">
-            Log in
-          </Button>
           <Button size="sm">Get Started</Button>
         </div>
       </nav>
@@ -76,14 +73,14 @@ export function Header() {
               <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
                   <Image
-                    src="/bee.png"
-                    alt="Bee UI Logo"
+                    src="/images/bee.png"
+                    alt="BUI Logo"
                     width={28}
                     height={28}
                     className="object-contain"
                   />
                 </div>
-                <span className="text-xl font-bold text-gray-900">Bee UI</span>
+                <span className="text-xl font-bold text-gray-900">BUI</span>
               </Link>
               <button
                 type="button"
@@ -108,9 +105,6 @@ export function Header() {
                   ))}
                 </div>
                 <div className="py-6 space-y-2">
-                  <Button variant="ghost" fullWidth>
-                    Log in
-                  </Button>
                   <Button fullWidth>Get Started</Button>
                 </div>
               </div>

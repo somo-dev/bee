@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Select } from "@/lib/components/Select";
+import { Select } from "@bee-ui/core";
+import { InstallationSection } from "@/components/playground/InstallationSection";
 import {
   Copy,
   Check,
@@ -614,6 +615,9 @@ const data = [
             sectionKey="disabled"
           />
         </section>
+
+        {/* Installation Section */}
+        <InstallationSection componentName="Select" />
       </div>
 
       <style jsx>{`
