@@ -685,38 +685,6 @@ function ResponsiveExample() {
 }
 ```
 
-## 🚀 Publishing to NPM
-
-### 1. Create npm Organization
-
-- Go to [npmjs.com](https://npmjs.com)
-- Log in to your account
-- Click profile → **Organizations**
-- **Create Organization** named `bee-ui`
-- Make it **Public**
-- Add yourself as member with publish permissions
-
-### 2. Login to npm
-
-```bash
-npm login
-```
-
-### 3. Publish Package
-
-```bash
-npm run publish:components
-```
-
-### 4. Automated Publishing
-
-Push a tag to trigger automatic publishing:
-
-```bash
-git tag v1.0.0
-git push origin v1.0.0
-```
-
 ## 🤝 Contributing
 
 We welcome contributions! Please see our [contributing guide](CONTRIBUTING.md) for details.
