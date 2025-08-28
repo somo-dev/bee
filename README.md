@@ -556,6 +556,14 @@ Shows all available components:
 - drawer, table, pagination, breadcrumbs, skeleton
 - toaster, timeline, image, file-input, color-picker
 
+## 📚 Documentation
+
+- **📖 [Package Documentation](./packages/components/README.md)** - Complete guide with copy buttons for all code snippets
+- **🎯 [CLI Documentation](./packages/cli/README.md)** - CLI tool usage and examples
+- **🚀 [Quick Start Guide](./packages/components/README.md#quick-start)** - Get started in minutes
+
+> 💡 **Pro Tip**: The package README includes interactive copy buttons on all code snippets! Hover over any code block to copy code instantly.
+
 ## 📚 Advanced Usage
 
 ### Form Integration

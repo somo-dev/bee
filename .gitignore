@@ -3,6 +3,9 @@ node_modules/
 .pnp
 .pnp.js
 
+# Project-specific components
+bee_components/
+
 # Production builds
 dist/
 build/

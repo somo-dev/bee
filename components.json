@@ -1,6 +1,8 @@
 {
+  "$schema": "https://bee-ui.com/schema.json",
   "style": "default",
-  "rsc": true,
+  "rsc": false,
+  "tsx": false,
   "typescript": true,
   "tailwind": {
     "config": "./tailwind.config.js",

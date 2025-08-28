@@ -2,7 +2,7 @@ import { existsSync, promises as fs } from "fs";
 import path from "path";
 import { z } from "zod";
 
-const rawConfigSchema = z.object({
+export const rawConfigSchema = z.object({
   $schema: z.string().optional(),
   style: z.string().default("default"),
   rsc: z.boolean().default(false),

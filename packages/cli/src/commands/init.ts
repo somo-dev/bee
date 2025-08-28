@@ -2,7 +2,7 @@ import { existsSync, promises as fs } from "fs";
 import path from "path";
 import chalk from "chalk";
 import { Command } from "commander";
-import { execa } from "execa";
+import execa from "execa";
 import ora from "ora";
 import prompts from "prompts";
 
