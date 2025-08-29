@@ -69,7 +69,9 @@ export const add = new Command()
       console.log(chalk.blue('\nNext steps:'));
       console.log(chalk.gray('1. Your components are now in the bee_components folder'));
       console.log(chalk.gray('2. Import and use them in your project:'));
-      console.log(chalk.cyan(`   import { ${components.map(c => c.charAt(0).toUpperCase() + c.slice(1)).join(', ')} } from './bee_components/${components[0]}'`));
+      if (components.length > 0) {
+        console.log(chalk.cyan(`   import { ${components.map(c => c.charAt(0).toUpperCase() + c.slice(1)).join(', ')} } from './bee_components/${components[0]}'`));
+      }
       console.log(chalk.gray('3. Make sure Tailwind CSS is configured in your project'));
 
     } catch (error) {
@@ -98,188 +100,428 @@ async function addComponent(
   // Create component directory
   await fs.ensureDir(componentPath);
 
-  // Copy component files from the source package
-  const sourceComponentPath = path.join(process.cwd(), 'packages', 'components', 'src', componentName.charAt(0).toUpperCase() + componentName.slice(1));
+  // Generate component files
+  const componentFiles = generateComponentFiles(componentName);
   
-  if (await fs.pathExists(sourceComponentPath)) {
-    // Process and copy component files
-    await processAndCopyComponent(componentName, sourceComponentPath, componentPath);
-  } else {
-    // Fallback: generate basic component files if source doesn't exist
-    const componentFiles = generateFallbackComponentFiles(componentName);
-    
-    for (const [filename, content] of Object.entries(componentFiles)) {
-      const filePath = path.join(componentPath, filename);
-      await fs.writeFile(filePath, content, 'utf8');
-    }
+  for (const [filename, content] of Object.entries(componentFiles)) {
+    const filePath = path.join(componentPath, filename);
+    await fs.writeFile(filePath, content, 'utf8');
   }
 
-  // Update package.json to include @bee-ui/core
+  // Update package.json to include necessary dependencies
   await updatePackageJson();
 }
 
-async function processAndCopyComponent(
-  componentName: string,
-  sourcePath: string,
-  targetPath: string
-) {
+function generateComponentFiles(componentName: string) {
   const pascalCase = componentName.charAt(0).toUpperCase() + componentName.slice(1);
-  
-  // Get all files in the source component directory
-  const files = await fs.readdir(sourcePath);
-  
-  for (const file of files) {
-    const sourceFilePath = path.join(sourcePath, file);
-    const targetFilePath = path.join(targetPath, file);
-    
-    // Skip demo files and other unnecessary files
-    if (file.includes('demo') || file.includes('page') || file.includes('example')) {
-      continue;
-    }
-    
-    const stats = await fs.stat(sourceFilePath);
-    
-    if (stats.isFile()) {
-      // Process file content before copying
-      let content = await fs.readFile(sourceFilePath, 'utf8');
-      
-      // Process the content based on file type
-      if (file.endsWith('.tsx') || file.endsWith('.ts')) {
-        content = processComponentCode(content, componentName);
-        
-        // Special processing for styles files to fix type issues
-        if (file.endsWith('.styles.ts')) {
-          content = processStylesFile(content);
-        }
-      }
-      
-      await fs.writeFile(targetFilePath, content, 'utf8');
-    }
+  const kebabCase = componentName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+
+  // Generate component files based on component name
+  switch (componentName) {
+    case 'button':
+      return generateButtonFiles(pascalCase);
+    case 'input':
+      return generateInputFiles(pascalCase);
+    case 'card':
+      return generateCardFiles(pascalCase);
+    case 'checkbox':
+      return generateCheckboxFiles(pascalCase);
+    default:
+      return generateGenericComponentFiles(pascalCase);
   }
-  
-  // Create a types file with common type definitions
-  const typesContent = `// Common type definitions for ${pascalCase} component
+}
+
+function generateButtonFiles(pascalCase: string) {
+  return {
+    'Button.tsx': `import React from 'react';
+import clsx from 'clsx';
+import { ButtonProps } from './Button.types';
+
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant = 'default', size = 'md', loading = false, disabled = false, fullWidth = false, leftIcon, rightIcon, children, ...props }, ref) => {
+    return (
+      <button
+        className={clsx(
+          'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background',
+          {
+            'w-full': fullWidth,
+            'bg-primary text-primary-foreground hover:bg-primary/90': variant === 'primary',
+            'bg-secondary text-secondary-foreground hover:bg-secondary/80': variant === 'secondary',
+            'border border-input bg-background hover:bg-accent hover:text-accent-foreground': variant === 'outline',
+            'hover:bg-accent hover:text-accent-foreground': variant === 'ghost',
+            'bg-destructive text-destructive-foreground hover:bg-destructive/90': variant === 'danger',
+            'h-9 px-3': size === 'sm',
+            'h-10 px-4 py-2': size === 'md',
+            'h-11 px-8': size === 'lg',
+            'h-12 px-10': size === 'xl',
+          },
+          className
+        )}
+        ref={ref}
+        disabled={disabled || loading}
+        {...props}
+      >
+        {loading && (
+          <svg className="mr-2 h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+          </svg>
+        )}
+        {leftIcon && <span className="mr-2">{leftIcon}</span>}
+        {children}
+        {rightIcon && <span className="ml-2">{rightIcon}</span>}
+      </button>
+    );
+  }
+);
+
+Button.displayName = 'Button';
+`,
+
+    'Button.types.ts': `import React from 'react';
+
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  loading?: boolean;
+  fullWidth?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+}
+`,
+
+    'Button.styles.ts': `import clsx from 'clsx';
+
+export const buttonVariants = {
+  variant: {
+    primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
+    secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+    outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+    ghost: 'hover:bg-accent hover:text-accent-foreground',
+    danger: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+  },
+  size: {
+    sm: 'h-9 px-3',
+    md: 'h-10 px-4 py-2',
+    lg: 'h-11 px-8',
+    xl: 'h-12 px-10',
+  },
+};
+
+export const getButtonClasses = (variant: keyof typeof buttonVariants.variant = 'primary', size: keyof typeof buttonVariants.size = 'md') => {
+  return clsx(
+    'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background',
+    buttonVariants.variant[variant],
+    buttonVariants.size[size]
+  );
+};
+`,
+
+    'types.ts': `// Common type definitions for Button component
 export type Size = 'sm' | 'md' | 'lg' | 'xl';
-export type Variant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'link' | 'default' | 'filled' | 'unstyled' | 'danger';
+export type Variant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
 export interface BaseComponentProps {
   className?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
 }
+`,
 
-// Use Partial<Record> for component variants to avoid type errors
-export type ComponentVariants<T extends string> = Partial<Record<T, string>>;
-`;
-  
-  await fs.writeFile(path.join(targetPath, 'types.ts'), typesContent, 'utf8');
-  
-  // Create an optimized index.ts file
-  const indexContent = `export { ${pascalCase} } from './${pascalCase}';
+    'index.ts': `export { Button } from './Button';
+export type { ButtonProps } from './Button.types';
+export * from './types';
+`,
+
+    'README.md': `# Button Component
+
+A versatile button component with multiple variants, sizes, and states.
+
+## Usage
+
+\`\`\`tsx
+import { Button } from './index';
+
+function App() {
+  return (
+    <div className="space-y-4">
+      <Button variant="primary">Primary Button</Button>
+      <Button variant="secondary" size="lg">Large Secondary</Button>
+      <Button variant="outline" loading>Loading...</Button>
+    </div>
+  );
+}
+\`\`\`
+
+## Props
+
+- \`variant\`: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
+- \`size\`: 'sm' | 'md' | 'lg' | 'xl'
+- \`loading\`: boolean - Shows loading spinner
+- \`fullWidth\`: boolean - Makes button full width
+- \`leftIcon\`: ReactNode - Icon before text
+- \`rightIcon\`: ReactNode - Icon after text
+- \`disabled\`: boolean - Disables the button
+`
+  };
+}
+
+function generateInputFiles(pascalCase: string) {
+  return {
+    'Input.tsx': `import React from 'react';
+import clsx from 'clsx';
+import { InputProps } from './Input.types';
+
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type = 'text', variant = 'default', size = 'md', ...props }, ref) => {
+    return (
+      <input
+        type={type}
+        className={clsx(
+          'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+          {
+            'h-8 px-2 text-xs': size === 'sm',
+            'h-10 px-3 py-2 text-sm': size === 'md',
+            'h-12 px-4 py-3 text-base': size === 'lg',
+            'h-14 px-6 py-4 text-lg': size === 'xl',
+          },
+          className
+        )}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
+);
+
+Input.displayName = 'Input';
+`,
+
+    'Input.types.ts': `import React from 'react';
+
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  variant?: 'default' | 'filled' | 'outline' | 'unstyled';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+}
+`,
+
+    'Input.styles.ts': `import clsx from 'clsx';
+
+export const inputVariants = {
+  variant: {
+    default: 'border border-input bg-background',
+    filled: 'border border-input bg-muted',
+    outline: 'border-2 border-input bg-transparent',
+    unstyled: 'border-0 bg-transparent',
+  },
+  size: {
+    sm: 'h-8 px-2 text-xs',
+    md: 'h-10 px-3 py-2 text-sm',
+    lg: 'h-12 px-4 py-3 text-base',
+    xl: 'h-14 px-6 py-4 text-lg',
+  },
+};
+`,
+
+    'types.ts': `// Common type definitions for Input component
+export type Size = 'sm' | 'md' | 'lg' | 'xl';
+export type Variant = 'default' | 'filled' | 'outline' | 'unstyled';
+export interface BaseComponentProps {
+  className?: string;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+}
+`,
+
+    'index.ts': `export { Input } from './Input';
+export type { InputProps } from './Input.types';
+export * from './types';
+`,
+
+    'README.md': `# Input Component
+
+A flexible input component with multiple variants and sizes.
+
+## Usage
+
+\`\`\`tsx
+import { Input } from './index';
+
+function App() {
+  return (
+    <div className="space-y-4">
+      <Input placeholder="Enter text..." />
+      <Input type="email" placeholder="Email address" />
+      <Input size="lg" placeholder="Large input" />
+    </div>
+  );
+}
+\`\`\`
+
+## Props
+
+- \`variant\`: 'default' | 'filled' | 'outline' | 'unstyled'
+- \`size\`: 'sm' | 'md' | 'lg' | 'xl'
+- All standard HTML input attributes
+`
+  };
+}
+
+function generateCardFiles(pascalCase: string) {
+  return {
+    'Card.tsx': `import React from 'react';
+import clsx from 'clsx';
+import { CardProps } from './Card.types';
+
+export const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={clsx(
+          'rounded-lg border bg-card text-card-foreground shadow-sm',
+          className
+        )}
+        {...props}
+      />
+    );
+  }
+);
+
+Card.displayName = 'Card';
+`,
+
+    'Card.types.ts': `import React from 'react';
+
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
+`,
+
+    'Card.styles.ts': `import clsx from 'clsx';
+
+export const cardClasses = 'rounded-lg border bg-card text-card-foreground shadow-sm';
+`,
+
+    'types.ts': `// Common type definitions for Card component
+export interface BaseComponentProps {
+  className?: string;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+}
+`,
+
+    'index.ts': `export { Card } from './Card';
+export type { CardProps } from './Card.types';
+export * from './types';
+`,
+
+    'README.md': `# Card Component
+
+A simple card container component.
+
+## Usage
+
+\`\`\`tsx
+import { Card } from './index';
+
+function App() {
+  return (
+    <Card className="p-6">
+      <h2 className="text-2xl font-bold">Card Title</h2>
+      <p className="text-gray-600">Card content goes here.</p>
+    </Card>
+  );
+}
+\`\`\`
+
+## Props
+
+All standard HTML div attributes
+`
+  };
+}
+
+function generateCheckboxFiles(pascalCase: string) {
+  return {
+    'Checkbox.tsx': `import React from 'react';
+import clsx from 'clsx';
+import { CheckboxProps } from './Checkbox.types';
+
+export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <input
+        type="checkbox"
+        className={clsx(
+          'h-4 w-4 rounded border border-primary text-primary focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+          className
+        )}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
+);
+
+Checkbox.displayName = 'Checkbox';
+`,
+
+    'Checkbox.types.ts': `import React from 'react';
+
+export interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+`,
+
+    'Checkbox.styles.ts': `import clsx from 'clsx';
+
+export const checkboxClasses = 'h-4 w-4 rounded border border-primary text-primary focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
+`,
+
+    'types.ts': `// Common type definitions for Checkbox component
+export interface BaseComponentProps {
+  className?: string;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+}
+`,
+
+    'index.ts': `export { Checkbox } from './Checkbox';
+export type { CheckboxProps } from './Checkbox.types';
+export * from './types';
+`,
+
+    'README.md': `# Checkbox Component
+
+A simple checkbox input component.
+
+## Usage
+
+\`\`\`tsx
+import { Checkbox } from './index';
+
+function App() {
+  return (
+    <div className="flex items-center space-x-2">
+      <Checkbox id="terms" />
+      <label htmlFor="terms">Accept terms and conditions</label>
+    </div>
+  );
+}
+\`\`\`
+
+## Props
+
+All standard HTML checkbox attributes
+`
+  };
+}
+
+function generateGenericComponentFiles(pascalCase: string) {
+  return {
+    'index.ts': `export { ${pascalCase} } from './${pascalCase}';
 export type { ${pascalCase}Props } from './${pascalCase}.types';
 export * from './types';
-`;
-  
-  await fs.writeFile(path.join(targetPath, 'index.ts'), indexContent, 'utf8');
-}
-
-function processComponentCode(content: string, componentName: string): string {
-  let processedContent = content;
-  
-  // Remove "use client" directive (not needed for regular React projects)
-  processedContent = processedContent.replace(/"use client";?\s*\n?/g, '');
-  
-  // Fix import paths - replace cn import with clsx
-  processedContent = processedContent.replace(
-    /import\s+\{\s*cn\s*\}\s+from\s+['"]clsx['"];?\s*\n?/g,
-    "import clsx from 'clsx';\n"
-  );
-  
-  processedContent = processedContent.replace(
-    /import\s+\{\s*cn\s*\}\s+from\s+['"]\.\.\/utils\/cn['"];?\s*\n?/g,
-    "import clsx from 'clsx';\n"
-  );
-  
-  processedContent = processedContent.replace(
-    /import\s+\{\s*cn\s*\}\s+from\s+['"]\.\.\/utils['"];?\s*\n?/g,
-    "import clsx from 'clsx';\n"
-  );
-  
-  processedContent = processedContent.replace(
-    /from ['"]\.\.\/types\/common['"]/g,
-    "from './types'"
-  );
-  
-  // Fix relative imports within the same component
-  processedContent = processedContent.replace(
-    /from ['"]\.\.\/index['"]/g,
-    "from './index'"
-  );
-  
-  // Fix type imports from index to types
-  processedContent = processedContent.replace(
-    /from ['"]\.\/index['"]/g,
-    "from './types'"
-  );
-  
-  // Replace all cn( function calls with clsx(
-  processedContent = processedContent.replace(/cn\(/g, 'clsx(');
-  
-  // Optimize imports - remove unused imports
-  processedContent = processedContent.replace(
-    /import\s+\{[^}]*\}\s+from\s+['"]\.\.\/[^'"]*['"];?\s*\n?/g,
-      ''
-  );
-  
-  return processedContent;
-}
-
-function processStylesFile(content: string): string {
-  let processedContent = content;
-
-  // Remove "use client" directive (not needed for regular React projects)
-  processedContent = processedContent.replace(/"use client";?\s*\n?/g, '');
-
-  // Fix import paths - replace cn import with clsx
-  processedContent = processedContent.replace(
-    /import\s+\{\s*cn\s*\}\s+from\s+['"]clsx['"];?\s*\n?/g,
-    "import clsx from 'clsx';\n"
-  );
-
-  processedContent = processedContent.replace(
-    /import\s+\{\s*cn\s*\}\s+from\s+['"]\.\.\/utils\/cn['"];?\s*\n?/g,
-    "import clsx from 'clsx';\n"
-  );
-
-  processedContent = processedContent.replace(
-    /import\s+\{\s*cn\s*\}\s+from\s+['"]\.\.\/utils['"];?\s*\n?/g,
-    "import clsx from 'clsx';\n"
-  );
-
-  // Fix type issues - convert Record<Variant, string> to Partial<Record<Variant, string>>
-  processedContent = processedContent.replace(
-    /Record\s*<\s*(\w+)\s*,\s*([^>]+)>/g,
-    'Partial<Record<$1, $2>>'
-  );
-
-  // Optimize imports - remove unused imports
-  processedContent = processedContent.replace(
-    /import\s+\{[^}]*\}\s+from\s+['"]\.\.\/[^'"]*['"];?\s*\n?/g,
-      ''
-  );
-
-  return processedContent;
-}
-
-function generateFallbackComponentFiles(componentName: string) {
-  const pascalCase = componentName.charAt(0).toUpperCase() + componentName.slice(1);
-
-  return {
-    'index.ts': `export { ${pascalCase} } from '@bee-ui/core';
-export type { ${pascalCase}Props } from '@bee-ui/core';
 `,
     'README.md': `# ${pascalCase}
 
-This is the ${pascalCase} component from @bee-ui/core.
+This is the ${pascalCase} component.
 
 ## Usage
 
@@ -293,7 +535,7 @@ function App() {
 
 ## Props
 
-See the [${pascalCase} documentation](https://github.com/your-username/bee-ui) for available props.
+See the component types for available props.
 `
   };
 }

@@ -161,26 +161,18 @@ export async function promptForConfig(
 export async function runInit(cwd: string, config: Config) {
   const spinner = ora(`Initializing project...`)?.start();
 
-  // Ensure all directories exist.
-  for (const [key, resolvedPath] of Object.entries(config.resolvedPaths)) {
-    // Determine if the path is a file or directory.
-    let dirname = path.extname(resolvedPath)
-      ? path.dirname(resolvedPath)
-      : resolvedPath;
+  // Create necessary directories
+  const dirsToCreate = [
+    path.dirname(config.tailwind.config),
+    path.dirname(config.tailwind.css),
+    path.dirname(config.aliases.utils)
+  ];
 
-    // If the utils alias is set to something like "@/lib/utils",
-    // assume this is a file and remove the "utils" file name.
-    if (key === "utils" && resolvedPath.endsWith("/utils")) {
-      // Remove /utils at the end.
-      dirname = dirname.replace(/\/utils$/, "");
-    }
-
-    if (!existsSync(dirname)) {
-      await fs.mkdir(dirname, { recursive: true });
+  for (const dir of dirsToCreate) {
+    if (!existsSync(dir)) {
+      await fs.mkdir(dir, { recursive: true });
     }
   }
-
-  const extension = config.typescript ? "ts" : "js";
 
   // Write components.json
   await fs.writeFile(
@@ -207,16 +199,22 @@ export async function runInit(cwd: string, config: Config) {
   const dependenciesSpinner = ora(`Installing dependencies...`)?.start();
   const packageManager = await getPackageManager(cwd);
 
-  await execa(
-    packageManager,
-    [
-      packageManager === "npm" ? "install" : "add",
-      ...PROJECT_DEPENDENCIES,
-    ],
-    {
-      cwd,
-    }
-  );
-
-  dependenciesSpinner?.succeed();
+  try {
+    await execa(
+      packageManager,
+      [
+        packageManager === "npm" ? "install" : "add",
+        ...PROJECT_DEPENDENCIES,
+      ],
+      {
+        cwd,
+        stdio: 'inherit'
+      }
+    );
+    dependenciesSpinner?.succeed();
+  } catch (error) {
+    dependenciesSpinner?.fail('Failed to install dependencies');
+    console.error('Error installing dependencies:', error);
+    // Continue anyway as the user can install manually
+  }
 }

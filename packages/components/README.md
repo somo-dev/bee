@@ -7,22 +7,11 @@
 [![license](https://img.shields.io/npm/l/@bee-ui/core.svg)](https://github.com/your-username/bee-ui/blob/main/LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3+-blue.svg)](https://www.typescriptlang.org/)
 
-> 💡 **Pro Tip**: All code snippets in this README have copy buttons! Hover over any code block to see the copy button in the top-right corner.
-
-## ✨ Features
-
-- 🎨 **30+ Beautiful Components** - Button, Input, Card, Table, and more
-- 🎯 **TypeScript First** - Full type safety and IntelliSense support
-- 🎨 **Tailwind CSS** - Modern, utility-first styling
-- ♿ **Accessible** - Built with accessibility in mind
-- 📱 **Responsive** - Mobile-first design approach
-- 🚀 **Tree Shakeable** - Only import what you need
-- 🔧 **Customizable** - Easy to customize and extend
-- 📦 **Zero Config** - Works out of the box
-
-## 🚀 Quick Start
+## 🚀 Two Ways to Use the Library
 
 ### Method 1: NPM Install (Recommended for Production)
+
+Install the package directly from npm and import components:
 
 ```bash
 npm install @bee-ui/core
@@ -30,33 +19,22 @@ npm install @bee-ui/core
 
 ```tsx
 import '@bee-ui/core/styles.css';
-import { Button, Input, Card } from '@bee-ui/core';
+import { Button } from '@bee-ui/core';
 
 function App() {
   return (
-    <div className="p-6 space-y-4">
+    <div className="p-6">
       <Button variant="primary" size="lg">
         Get Started
       </Button>
-      
-      <Input 
-        placeholder="Enter your name" 
-        size="md"
-        variant="outline"
-      />
-      
-      <Card className="p-6">
-        <h2 className="text-2xl font-bold mb-2">Welcome!</h2>
-        <p className="text-gray-600">
-          This is imported directly from @bee-ui/core
-        </p>
-      </Card>
     </div>
   );
 }
 ```
 
 ### Method 2: CLI Tool (For Customization)
+
+Use the CLI tool to add components to your project for full customization:
 
 ```bash
 # Install CLI globally
@@ -65,9 +43,20 @@ npm install -g @bee-ui/cli
 # Initialize your project
 beeui init
 
-# Add components to your project
-beeui add button input card
+# Add Button component to your project
+beeui add button
 ```
+
+## ✨ Features
+
+- 🎨 **Beautiful Components** - Modern, accessible UI components
+- 🎯 **TypeScript First** - Full type safety and IntelliSense support
+- 🎨 **Tailwind CSS** - Modern, utility-first styling
+- ♿ **Accessible** - Built with accessibility in mind
+- 📱 **Responsive** - Mobile-first design approach
+- 🚀 **Tree Shakeable** - Only import what you need
+- 🔧 **Customizable** - Easy to customize and extend
+- 📦 **Zero Config** - Works out of the box
 
 ## 📚 Installation & Setup
 
@@ -99,22 +88,22 @@ Or in your CSS file:
 ### Step 3: Import and Use Components
 
 ```tsx
-import { Button, Input, Card } from '@bee-ui/core';
+import { Button } from '@bee-ui/core';
 
 function MyComponent() {
   return (
     <div>
       <Button>Click me</Button>
-      <Input placeholder="Type here..." />
-      <Card>Content</Card>
     </div>
   );
 }
 ```
 
-## 🎨 Component Examples
+## 🎨 Button Component
 
-### Button Component
+The Button component is a versatile, accessible button with multiple variants, sizes, and states.
+
+### Basic Usage
 
 ```tsx
 import { Button } from '@bee-ui/core';
@@ -150,92 +139,60 @@ function ButtonExamples() {
 }
 ```
 
-### Input Component
+### Button Props
 
 ```tsx
-import { Input } from '@bee-ui/core';
-
-function InputExamples() {
-  return (
-    <div className="space-y-4">
-      {/* Basic Input */}
-      <Input placeholder="Enter text..." />
-      
-      {/* Variants */}
-      <Input variant="default" placeholder="Default" />
-      <Input variant="filled" placeholder="Filled" />
-      <Input variant="outline" placeholder="Outline" />
-      <Input variant="unstyled" placeholder="Unstyled" />
-      
-      {/* Sizes */}
-      <Input size="sm" placeholder="Small" />
-      <Input size="md" placeholder="Medium" />
-      <Input size="lg" placeholder="Large" />
-      <Input size="xl" placeholder="Extra Large" />
-      
-      {/* With Labels */}
-      <Input 
-        label="Email Address"
-        placeholder="Enter your email"
-        type="email"
-        required
-      />
-      
-      {/* With Validation */}
-      <Input 
-        label="Password"
-        type="password"
-        error="Password is required"
-        showValidationIcon
-      />
-      
-      {/* With Icons */}
-      <Input 
-        placeholder="Search..."
-        leftSection={<SearchIcon />}
-        rightSection={<FilterIcon />}
-      />
-    </div>
-  );
+interface ButtonProps {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  loading?: boolean;
+  disabled?: boolean;
+  fullWidth?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
 }
 ```
 
-### Card Component
+### Advanced Button Examples
 
 ```tsx
-import { Card } from '@bee-ui/core';
+import { Button } from '@bee-ui/core';
 
-function CardExamples() {
+function AdvancedButtonExamples() {
   return (
     <div className="space-y-4">
-      {/* Basic Card */}
-      <Card>
-        <p>Simple card content</p>
-      </Card>
+      {/* Full Width Button */}
+      <Button variant="primary" fullWidth>
+        Full Width Button
+      </Button>
       
-      {/* Card with Header */}
-      <Card>
-        <div className="p-6">
-          <h3 className="text-lg font-semibold mb-2">Card Title</h3>
-          <p className="text-gray-600">
-            This is a card with a header and content.
-          </p>
-        </div>
-      </Card>
+      {/* Loading State */}
+      <Button variant="primary" loading>
+        Processing...
+      </Button>
       
-      {/* Card with Actions */}
-      <Card>
-        <div className="p-6">
-          <h3 className="text-lg font-semibold mb-2">Card with Actions</h3>
-          <p className="text-gray-600 mb-4">
-            This card has action buttons at the bottom.
-          </p>
-          <div className="flex space-x-2">
-            <Button size="sm">Cancel</Button>
-            <Button size="sm" variant="primary">Save</Button>
-          </div>
-        </div>
-      </Card>
+      {/* With Custom Styling */}
+      <Button 
+        variant="outline" 
+        size="lg"
+        className="border-2 border-blue-500 text-blue-600 hover:bg-blue-50"
+      >
+        Custom Styled Button
+      </Button>
+      
+      {/* Form Submit Button */}
+      <Button type="submit" variant="primary" size="lg">
+        Submit Form
+      </Button>
+      
+      {/* Disabled State */}
+      <Button variant="primary" disabled>
+        Cannot Click
+      </Button>
     </div>
   );
 }
@@ -260,19 +217,13 @@ This will:
 - Install necessary dependencies
 - Set up Tailwind CSS configuration
 
-### Add Components
+### Add Button Component
 
 ```bash
-# Add single component
+# Add Button component
 beeui add button
 
-# Add multiple components
-beeui add button input card
-
-# Add all components
-beeui add --all
-
-# Overwrite existing components
+# Overwrite existing component
 beeui add button --overwrite
 ```
 
@@ -281,70 +232,29 @@ beeui add button --overwrite
 ```
 your-project/
 ├── bee_components/
-│   ├── button/
-│   │   ├── Button.tsx
-│   │   ├── Button.styles.ts
-│   │   ├── Button.types.ts
-│   │   ├── types.ts
-│   │   └── index.ts
-│   ├── input/
-│   │   ├── Input.tsx
-│   │   ├── Input.styles.ts
-│   │   ├── Input.types.ts
-│   │   ├── types.ts
-│   │   └── index.ts
-│   └── ...
+│   └── button/
+│       ├── Button.tsx
+│       ├── Button.styles.ts
+│       ├── Button.types.ts
+│       ├── types.ts
+│       └── index.ts
 ├── components.json
 └── package.json
 ```
 
-### Using CLI Components
+### Using CLI Button Component
 
 ```tsx
 import { Button } from './bee_components/button';
-import { Input } from './bee_components/input';
 
 function App() {
   return (
     <div>
       <Button variant="primary">CLI Button</Button>
-      <Input placeholder="CLI Input" />
     </div>
   );
 }
 ```
-
-## 🎯 Available Components
-
-| Component | Description | Status |
-|-----------|-------------|---------|
-| **Button** | Versatile button with multiple variants | ✅ Ready |
-| **Input** | Form input with validation | ✅ Ready |
-| **Card** | Content container component | ✅ Ready |
-| **Table** | Data table with sorting | ✅ Ready |
-| **Select** | Dropdown selection | ✅ Ready |
-| **Checkbox** | Checkbox input | ✅ Ready |
-| **Radio** | Radio button group | ✅ Ready |
-| **Switch** | Toggle switch | ✅ Ready |
-| **Slider** | Range slider | ✅ Ready |
-| **ProgressBar** | Progress indicator | ✅ Ready |
-| **Accordion** | Collapsible content | ✅ Ready |
-| **Drawer** | Slide-out panel | ✅ Ready |
-| **Modal** | Overlay dialog | ✅ Ready |
-| **Toast** | Notification system | ✅ Ready |
-| **Pagination** | Page navigation | ✅ Ready |
-| **Breadcrumbs** | Navigation breadcrumbs | ✅ Ready |
-| **Skeleton** | Loading placeholders | ✅ Ready |
-| **Timeline** | Event timeline | ✅ Ready |
-| **Image** | Image component | ✅ Ready |
-| **FileInput** | File upload | ✅ Ready |
-| **ColorPicker** | Color selection | ✅ Ready |
-| **Textarea** | Multi-line input | ✅ Ready |
-| **JSONInput** | JSON editor | ✅ Ready |
-| **PasswordInput** | Password field | ✅ Ready |
-| **TransferList** | List transfer | ✅ Ready |
-| **SegmentedControl** | Tab-like control | ✅ Ready |
-| **TableOfContents** | Content navigation | ✅ Ready |
 
 ## 🎨 Customization
 
@@ -391,10 +301,8 @@ module.exports = {
 <Button 
   variant="primary"
   size="lg"
-  color="#ff6b6b"
   fullWidth
   loading
-  loadingText="Processing..."
   leftIcon={<Icon />}
   rightIcon={<Arrow />}
   className="custom-class"
@@ -402,20 +310,6 @@ module.exports = {
 >
   Custom Button
 </Button>
-
-// Input customization
-<Input 
-  variant="outline"
-  size="lg"
-  label="Custom Label"
-  description="Help text"
-  error="Error message"
-  showValidationIcon
-  showCharacterCount
-  maxLength={100}
-  leftSection={<Icon />}
-  rightSection={<Button>Action</Button>}
-/>
 ```
 
 ## 🔧 Advanced Usage
@@ -424,7 +318,7 @@ module.exports = {
 
 ```tsx
 import { useForm } from 'react-hook-form';
-import { Button, Input, Card } from '@bee-ui/core';
+import { Button } from '@bee-ui/core';
 
 function ContactForm() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -434,34 +328,17 @@ function ContactForm() {
   };
 
   return (
-    <Card className="p-6">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <Input
-          label="Name"
-          {...register('name', { required: 'Name is required' })}
-          error={errors.name?.message}
-          showValidationIcon
-        />
-        
-        <Input
-          label="Email"
-          type="email"
-          {...register('email', { 
-            required: 'Email is required',
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: 'Invalid email address'
-            }
-          })}
-          error={errors.email?.message}
-          showValidationIcon
-        />
-        
-        <Button type="submit" variant="primary" fullWidth>
-          Submit
-        </Button>
-      </form>
-    </Card>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <input
+        {...register('name', { required: 'Name is required' })}
+        placeholder="Name"
+        className="w-full p-2 border rounded"
+      />
+      
+      <Button type="submit" variant="primary" fullWidth>
+        Submit
+      </Button>
+    </form>
   );
 }
 ```
@@ -470,60 +347,54 @@ function ContactForm() {
 
 ```tsx
 import { useState } from 'react';
-import { Button, Input, Card, ToastProvider, useToast } from '@bee-ui/core';
+import { Button } from '@bee-ui/core';
 
 function TodoApp() {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState('');
-  const { showToast } = useToast();
 
   const addTodo = () => {
     if (input.trim()) {
       setTodos([...todos, { id: Date.now(), text: input, completed: false }]);
       setInput('');
-      showToast('Todo added successfully!', 'success');
     }
   };
 
   return (
-    <ToastProvider>
-      <div className="max-w-md mx-auto p-6">
-        <Card className="p-6">
-          <h2 className="text-2xl font-bold mb-4">Todo List</h2>
-          
-          <div className="flex space-x-2 mb-4">
-            <Input
-              value={input}
-              onChange={setInput}
-              placeholder="Add a todo..."
-              onEnterPress={addTodo}
-            />
-            <Button onClick={addTodo} variant="primary">
-              Add
-            </Button>
-          </div>
-          
-          <div className="space-y-2">
-            {todos.map(todo => (
-              <div key={todo.id} className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={todo.completed}
-                  onChange={() => {
-                    setTodos(todos.map(t => 
-                      t.id === todo.id ? { ...t, completed: !t.completed } : t
-                    ));
-                  }}
-                />
-                <span className={todo.completed ? 'line-through text-gray-500' : ''}>
-                  {todo.text}
-                </span>
-              </div>
-            ))}
-          </div>
-        </Card>
+    <div className="max-w-md mx-auto p-6">
+      <h2 className="text-2xl font-bold mb-4">Todo List</h2>
+      
+      <div className="flex space-x-2 mb-4">
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Add a todo..."
+          className="flex-1 p-2 border rounded"
+        />
+        <Button onClick={addTodo} variant="primary">
+          Add
+        </Button>
       </div>
-    </ToastProvider>
+      
+      <div className="space-y-2">
+        {todos.map(todo => (
+          <div key={todo.id} className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => {
+                setTodos(todos.map(t => 
+                  t.id === todo.id ? { ...t, completed: !t.completed } : t
+                ));
+              }}
+            />
+            <span className={todo.completed ? 'line-through text-gray-500' : ''}>
+              {todo.text}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 ```
@@ -551,20 +422,16 @@ function TodoApp() {
 
 - **Tree Shaking**: Only import the components you use
 - **Code Splitting**: Components are bundled separately
-- **Lazy Loading**: Support for dynamic imports
 - **Bundle Size**: Optimized for minimal bundle impact
 
 ```tsx
 // Only Button will be included in your bundle
 import { Button } from '@bee-ui/core';
-
-// Lazy load components when needed
-const LazyModal = lazy(() => import('@bee-ui/core').then(m => ({ default: m.Modal })));
 ```
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+We welcome contributions! Please see our [Contributing Guide](../../CONTRIBUTING.md) for details.
 
 ### Development Setup
 
@@ -586,7 +453,7 @@ npm run build:cli
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](../../LICENSE) file for details.
 
 ## 🆘 Support
 
@@ -594,16 +461,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - 🐛 [Report Issues](https://github.com/your-username/bee-ui/issues)
 - 💬 [Discussions](https://github.com/your-username/bee-ui/discussions)
 - 📧 [Email Support](mailto:support@bee-ui.com)
-
-## 📋 Copy Buttons for Code Snippets
-
-Want to add copy buttons to your own documentation? Include this JavaScript file in your HTML:
-
-```html
-<script src="copy-buttons.js"></script>
-```
-
-Or copy the code from [`copy-buttons.js`](./copy-buttons.js) and integrate it into your project.
 
 ## 🙏 Acknowledgments
 

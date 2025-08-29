@@ -1,10 +1,11 @@
 {
   "name": "@bee-ui/cli",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "CLI tool for adding Bee UI components to your project",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "type": "commonjs",
   "bin": {
     "beeui": "./dist/index.js"
   },
@@ -40,5 +41,16 @@
     "generator"
   ],
   "author": "Bee UI Team",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/bee-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/bee-ui/issues"
+  },
+  "homepage": "https://github.com/your-username/bee-ui#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }

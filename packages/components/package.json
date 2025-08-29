@@ -1,6 +1,6 @@
 {
   "name": "@bee-ui/core",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "Modern React components built with TypeScript and Tailwind CSS",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
